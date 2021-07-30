@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ink.kangaroo</groupId>
+	<artifactId>kangaroo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>kangaroo</name>
+	<description>kangaroo微服务系统</description>
+	<modules>
+		<module>kangaroo-common</module>
+	</modules>
+
+	<properties>
+		<kangaroo.version>0.0.1-SNAPSHOT</kangaroo.version>
+		<spring-boot.version>2.5.1</spring-boot.version>
+		<spring-cloud.version>2020.0.3</spring-cloud.version>
+		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+		<lombok.version>1.18.20</lombok.version>
+		<fastjson.version>1.2.76</fastjson.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- SpringCloud 微服务 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- SpringCloud Alibaba 微服务 -->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- SpringBoot 依赖配置 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- lombok -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- 核心模块 -->
+			<dependency>
+				<groupId>ink.kangaroo</groupId>
+				<artifactId>kangaroo-common-core</artifactId>
+				<version>${kangaroo.version}</version>
+			</dependency>
+			
+            <!-- 缓存服务 -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-redis</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
+
+			<!-- JSON 解析器和生成器 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+</project>

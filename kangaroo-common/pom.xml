@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>ink.kangaroo</groupId>
+		<artifactId>kangaroo</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>kangaroo-common</artifactId>
+	<packaging>pom</packaging>
+	<name>kangaroo-common通用模块</name>
+	<description>kangaroo-common通用模块</description>
+
+	<modules>
+		<module>kangaroo-common-core</module>
+		<module>kangaroo-common-redis</module>
+	</modules>
+
+</project>
