@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ink.kangaroo.common.swagger.config.SwaggerAutoConfiguration,\
+  ink.kangaroo.common.swagger.config.SwaggerWebConfiguration

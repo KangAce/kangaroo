@@ -12,13 +12,23 @@
 	<description>kangaroo微服务系统</description>
 	<modules>
 		<module>kangaroo-common</module>
+		<module>kangaroo-modules</module>
 	</modules>
-
 	<properties>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
 		<kangaroo.version>0.0.1-SNAPSHOT</kangaroo.version>
 		<spring-boot.version>2.5.1</spring-boot.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+		<alibaba.nacos.version>2.0.3</alibaba.nacos.version>
+		<spring-boot-admin.version>2.4.3</spring-boot-admin.version>
+		<spring-boot.mybatis>2.2.0</spring-boot.mybatis>
+
+		<swagger.fox.version>3.0.0</swagger.fox.version>
+		<swagger.core.version>1.6.2</swagger.core.version>
+
 		<lombok.version>1.18.20</lombok.version>
 		<fastjson.version>1.2.76</fastjson.version>
 	</properties>
@@ -44,6 +54,12 @@
 				<scope>import</scope>
 			</dependency>
 
+			<!-- Alibaba Nacos 配置 -->
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${alibaba.nacos.version}</version>
+			</dependency>
 			<!-- SpringBoot 依赖配置 -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -51,6 +67,39 @@
 				<version>${spring-boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<!--  SpringBoot 监控客户端 -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+
+			<!-- Mybatis 依赖配置 -->
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${spring-boot.mybatis}</version>
+			</dependency>
+
+			<!-- Swagger 依赖配置 -->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-models</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+
+			<!-- JSON 解析器和生成器 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
 			</dependency>
 
 			<!-- lombok -->
@@ -67,21 +116,30 @@
 				<artifactId>kangaroo-common-core</artifactId>
 				<version>${kangaroo.version}</version>
 			</dependency>
-			
-            <!-- 缓存服务 -->
-            <dependency>
-                <groupId>ink.kangaroo</groupId>
-                <artifactId>kangaroo-common-redis</artifactId>
-                <version>${kangaroo.version}</version>
-            </dependency>
 
-			<!-- JSON 解析器和生成器 -->
+			<!-- 接口模块 -->
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson.version}</version>
+				<groupId>ink.kangaroo</groupId>
+				<artifactId>kangaroo-common-swagger</artifactId>
+				<version>${kangaroo.version}</version>
 			</dependency>
+			
+			<!-- 缓存服务 -->
+			<dependency>
+				<groupId>ink.kangaroo</groupId>
+				<artifactId>kangaroo-common-redis</artifactId>
+				<version>${kangaroo.version}</version>
+			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<!-- bootstrap 启动器 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
+	</dependencies>
 </project>
