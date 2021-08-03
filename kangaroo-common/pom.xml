@@ -11,12 +11,14 @@
 
 	<artifactId>kangaroo-common</artifactId>
 	<packaging>pom</packaging>
-	<name>kangaroo-common通用模块</name>
+	<name>kangaroo-common</name>
 	<description>kangaroo-common通用模块</description>
 
 	<modules>
 		<module>kangaroo-common-core</module>
 		<module>kangaroo-common-redis</module>
+		<module>kangaroo-common-swagger</module>
+		<module>kangaroo-common-security</module>
 	</modules>
 
 </project>

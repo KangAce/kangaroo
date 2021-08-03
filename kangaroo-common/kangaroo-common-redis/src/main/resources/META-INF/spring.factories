@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ruoyi.common.redis.configure.RedisConfig,\
-  com.ruoyi.common.redis.service.RedisService
+  ink.kangaroo.common.redis.configure.RedisConfig,\
+  ink.kangaroo.common.redis.service.RedisService
 
   
