@@ -17,10 +17,15 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 <dependencies>
-    <!-- 核心模块 -->
+    <!-- Kangaroo Api System -->
     <dependency>
         <groupId>ink.kangaroo</groupId>
-        <artifactId>kangaroo-common-core</artifactId>
+        <artifactId>kangaroo-api-system</artifactId>
+    </dependency>
+    <!-- Redis缓存模块 -->
+    <dependency>
+        <groupId>ink.kangaroo</groupId>
+        <artifactId>kangaroo-common-redis</artifactId>
     </dependency>
     <!-- Spring Security -->
     <dependency>
