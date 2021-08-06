@@ -67,7 +67,7 @@ services:
       - kangaroo-gateway
     links:
       - kangaroo-gateway
-  kangaroo-gatewat:
+  kangaroo-gateway:
     container_name: kangaroo-gateway
     build:
       context: ./kangaroo/gateway
@@ -78,3 +78,14 @@ services:
       - kangaroo-redis
     links:
       - kangaroo-redis
+  kangaroo-modules-job:
+    container_name: kangaroo-modules-job
+    build:
+      context: ./kangaroo/modules/job
+      dockerfile: dockerfile
+    ports:
+    - "9300:9300"
+    depends_on:
+      - kangaroo-mysql
+    links:
+      - kangaroo-mysql

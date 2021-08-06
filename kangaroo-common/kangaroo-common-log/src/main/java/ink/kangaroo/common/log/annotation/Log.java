@@ -1,7 +1,7 @@
-package com.ruoyi.common.log.annotation;
+package ink.kangaroo.common.log.annotation;
 
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.log.enums.OperatorType;
+import ink.kangaroo.common.log.enums.BusinessType;
+import ink.kangaroo.common.log.enums.OperatorType;
 
 /**
  * @author kbw

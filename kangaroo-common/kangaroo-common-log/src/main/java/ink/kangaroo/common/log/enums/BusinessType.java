@@ -1,4 +1,4 @@
-package com.ruoyi.common.log.enums;
+package ink.kangaroo.common.log.enums;
 
 /**
  * @author kbw
