@@ -12,6 +12,11 @@
 
     <artifactId>kangaroo-common-security</artifactId>
 
+
+    <description>
+        kangaroo-common-security安全模块
+    </description>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -27,10 +32,10 @@
         <groupId>ink.kangaroo</groupId>
         <artifactId>kangaroo-common-redis</artifactId>
     </dependency>
-    <!-- Spring Security -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+<!--    &lt;!&ndash; Spring Security &ndash;&gt;-->
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-security</artifactId>-->
+<!--    </dependency>-->
 </dependencies>
 </project>

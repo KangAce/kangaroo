@@ -1,4 +1,4 @@
-package com.ruoyi.common.log.service;
+package ink.kangaroo.common.log.service;
 
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.domain.SysOperLog;

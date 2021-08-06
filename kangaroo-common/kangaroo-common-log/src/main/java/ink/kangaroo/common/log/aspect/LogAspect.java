@@ -1,9 +1,9 @@
-package com.ruoyi.common.log.aspect;
+package ink.kangaroo.common.log.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessStatus;
-import com.ruoyi.common.log.service.AsyncLogService;
+import ink.kangaroo.common.log.annotation.Log;
+import ink.kangaroo.common.log.enums.BusinessStatus;
+import ink.kangaroo.common.log.service.AsyncLogService;
 import com.ruoyi.system.api.domain.SysOperLog;
 import ink.kangaroo.common.core.utils.SecurityUtils;
 import ink.kangaroo.common.core.utils.ServletUtils;
@@ -45,7 +45,7 @@ public class LogAspect {
     private AsyncLogService asyncLogService;
 
     // 配置织入点
-    @Pointcut("@annotation(com.ruoyi.common.log.annotation.Log)")
+    @Pointcut("@annotation(ink.kangaroo.common.log.annotation.Log)")
     public void logPointCut() {
     }
 

@@ -17,6 +17,7 @@
     </modules>
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <kangaroo.version>0.0.1-SNAPSHOT</kangaroo.version>
@@ -184,10 +185,22 @@
                 <artifactId>kangaroo-api-system</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
-            <!-- Kangaroo Api System -->
+            <!-- Kangaroo Common Security -->
             <dependency>
                 <groupId>ink.kangaroo</groupId>
                 <artifactId>kangaroo-common-security</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
+            <!-- Kangaroo Common Log -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-log</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
+            <!-- Kangaroo Modules Job -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-modules-job</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
 
@@ -201,4 +214,18 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
