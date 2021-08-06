@@ -1,4 +1,4 @@
-package com.ruoyi.system.api.domain;
+package ink.kangaroo.system.api.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

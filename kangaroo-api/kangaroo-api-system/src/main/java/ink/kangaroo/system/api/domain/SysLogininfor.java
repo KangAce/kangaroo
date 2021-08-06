@@ -1,4 +1,4 @@
-package com.ruoyi.system.api.domain;
+package ink.kangaroo.system.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import ink.kangaroo.common.core.annotation.Excel;

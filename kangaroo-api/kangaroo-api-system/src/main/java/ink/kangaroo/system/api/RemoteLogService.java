@@ -1,8 +1,8 @@
-package com.ruoyi.system.api;
+package ink.kangaroo.system.api;
 
-import com.ruoyi.system.api.domain.SysLogininfor;
-import com.ruoyi.system.api.domain.SysOperLog;
-import com.ruoyi.system.api.factory.RemoteLogFallbackFactory;
+import ink.kangaroo.system.api.domain.SysLogininfor;
+import ink.kangaroo.system.api.domain.SysOperLog;
+import ink.kangaroo.system.api.factory.RemoteLogFallbackFactory;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
 import ink.kangaroo.common.core.domain.R;
