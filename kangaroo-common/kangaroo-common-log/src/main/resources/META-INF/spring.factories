@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ink.kangaroo.common.log.service.AsyncLogService,\
+  ink.kangaroo.common.log.aspect.LogAspect

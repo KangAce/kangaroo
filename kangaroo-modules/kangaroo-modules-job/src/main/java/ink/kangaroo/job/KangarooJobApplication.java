@@ -1,8 +1,9 @@
 package ink.kangaroo.job;
 
 import ink.kangaroo.common.security.annotation.EnableCustomConfig;
-import ink.kangaroo.common.security.annotation.EnableRyFeignClients;
+import ink.kangaroo.common.security.annotation.EnableKangarooFeignClients;
 import ink.kangaroo.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -14,7 +15,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableCustomConfig
 @EnableCustomSwagger2
-@EnableRyFeignClients
+@EnableKangarooFeignClients
 @SpringBootApplication
 public class KangarooJobApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(KangarooJobApplication.class, args);
+    }
+
 }

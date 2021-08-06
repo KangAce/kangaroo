@@ -19,6 +19,7 @@
 		<module>kangaroo-common-redis</module>
 		<module>kangaroo-common-swagger</module>
 		<module>kangaroo-common-security</module>
-	</modules>
+        <module>kangaroo-common-log</module>
+    </modules>
 
 </project>
