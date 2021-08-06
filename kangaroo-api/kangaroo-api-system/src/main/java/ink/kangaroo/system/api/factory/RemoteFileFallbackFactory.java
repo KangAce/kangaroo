@@ -1,7 +1,7 @@
-package com.ruoyi.system.api.factory;
+package ink.kangaroo.system.api.factory;
 
-import com.ruoyi.system.api.RemoteFileService;
-import com.ruoyi.system.api.domain.SysFile;
+import ink.kangaroo.system.api.RemoteFileService;
+import ink.kangaroo.system.api.domain.SysFile;
 import ink.kangaroo.common.core.domain.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

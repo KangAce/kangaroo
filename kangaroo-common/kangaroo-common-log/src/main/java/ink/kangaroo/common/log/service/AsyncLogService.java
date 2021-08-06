@@ -1,7 +1,7 @@
 package ink.kangaroo.common.log.service;
 
-import com.ruoyi.system.api.RemoteLogService;
-import com.ruoyi.system.api.domain.SysOperLog;
+import ink.kangaroo.system.api.RemoteLogService;
+import ink.kangaroo.system.api.domain.SysOperLog;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;

@@ -1,4 +1,4 @@
-package com.ruoyi.system.api.factory;
+package ink.kangaroo.system.api.factory;
 
 /**
  * 用户服务降级处理

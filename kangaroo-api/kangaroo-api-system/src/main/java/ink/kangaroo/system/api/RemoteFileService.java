@@ -1,7 +1,7 @@
-package com.ruoyi.system.api;
+package ink.kangaroo.system.api;
 
-import com.ruoyi.system.api.domain.SysFile;
-import com.ruoyi.system.api.factory.RemoteFileFallbackFactory;
+import ink.kangaroo.system.api.domain.SysFile;
+import ink.kangaroo.system.api.factory.RemoteFileFallbackFactory;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
 import ink.kangaroo.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;

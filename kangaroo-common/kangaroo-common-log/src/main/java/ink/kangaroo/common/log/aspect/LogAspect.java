@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import ink.kangaroo.common.log.annotation.Log;
 import ink.kangaroo.common.log.enums.BusinessStatus;
 import ink.kangaroo.common.log.service.AsyncLogService;
-import com.ruoyi.system.api.domain.SysOperLog;
+import ink.kangaroo.system.api.domain.SysOperLog;
 import ink.kangaroo.common.core.utils.SecurityUtils;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
