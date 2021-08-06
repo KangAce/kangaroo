@@ -13,11 +13,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableFeignClients
-public @interface EnableRyFeignClients
+public @interface EnableKangarooFeignClients
 {
     String[] value() default {};
 
-    String[] basePackages() default { "com.ruoyi" };
+    String[] basePackages() default { "ink.kangaroo" };
 
     Class<?>[] basePackageClasses() default {};
 
