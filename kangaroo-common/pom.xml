@@ -20,6 +20,7 @@
 		<module>kangaroo-common-swagger</module>
 		<module>kangaroo-common-security</module>
         <module>kangaroo-common-log</module>
+        <module>kangaroo-common-datasource</module>
     </modules>
 
 </project>

@@ -14,11 +14,15 @@
 
     <modules>
         <module>kangaroo-modules-job</module>
+        <module>kangaroo-modules-file</module>
+        <module>kangaroo-modules-mail</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+    <dependencies>
 
+    </dependencies>
 </project>

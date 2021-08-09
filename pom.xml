@@ -14,6 +14,7 @@
         <module>kangaroo-common</module>
         <module>kangaroo-modules</module>
         <module>kangaroo-api</module>
+        <module>kangaroo-gateway</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -21,7 +22,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <kangaroo.version>0.0.1-SNAPSHOT</kangaroo.version>
-        <spring-boot.version>2.5.1</spring-boot.version>
+        <spring-boot.version>2.5.3</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
@@ -36,15 +37,39 @@
         <commons.io.version>2.11.0</commons.io.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
+        <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <druid.version>1.2.6</druid.version>
+        <dynamic-ds.version>3.4.1</dynamic-ds.version>
         <lombok.version>1.18.20</lombok.version>
         <fastjson.version>1.2.76</fastjson.version>
+        <jakarta.version>2.0.2</jakarta.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.version}</version>
+            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.sun.mail</groupId>-->
+            <!--                <artifactId>jakarta.mail</artifactId>-->
+            <!--                <version>1.6.5</version>-->
+            <!--            </dependency>-->
             <!-- SpringCloud 微服务 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -204,6 +229,12 @@
                 <version>${kangaroo.version}</version>
             </dependency>
 
+            <!-- Kangaroo Common DataSource -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-datasource</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
