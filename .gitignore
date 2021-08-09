@@ -1,0 +1,10 @@
+**/**/**/.project
+**/**/**/.settings/
+**/**/**/.classpath
+/.idea/
+**/**/**/*.iml
+/**/**/target/
+/docker/nacos/logs/
+/docker/mysql/data/
+/logs/
+/**/**/**/**/**/*.jar
