@@ -49,6 +49,10 @@ public class BaseException extends RuntimeException {
 		this(null, code, args, null);
 	}
 
+	public BaseException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 	public BaseException(String defaultMessage) {
 		this(null, null, null, defaultMessage);
 	}
@@ -68,5 +72,4 @@ public class BaseException extends RuntimeException {
 	public String getDefaultMessage() {
 		return defaultMessage;
 	}
-
 }

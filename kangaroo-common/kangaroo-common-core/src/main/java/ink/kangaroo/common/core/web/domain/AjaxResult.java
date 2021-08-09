@@ -1,5 +1,7 @@
 package ink.kangaroo.common.core.web.domain;
 
+import ink.kangaroo.common.core.exception.BaseException;
+
 import java.util.HashMap;
 
 /**
@@ -15,14 +17,26 @@ public class AjaxResult extends HashMap<String, Object> {
 
     private static final String SUCCESS = "success";
 
+    private static final String CODE = "code";
+
+    private static final String MODULES = "modules";
+
     private static final String DATA = "data";
 
     private static final String REDIRECT = "redirect";
 
     private static final String EMPTY = "";
 
+    public static AjaxResult fail(BaseException e) {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.putData(CODE, e.getCode());
+        ajaxResult.putData(MODULES, e.getModule());
+        ajaxResult.putData(MESSAGE, e.getDefaultMessage());
+        return ajaxResult;
+    }
+
     public boolean isSuccess() {
-        return get(SUCCESS) != null && (Boolean) get(SUCCESS);
+        return get(CODE) != null && "00000".equals(get(CODE));
     }
 
     public String getMessage() {
@@ -34,7 +48,6 @@ public class AjaxResult extends HashMap<String, Object> {
 
     private AjaxResult() {
         super();
-        this.put(SUCCESS, false);
     }
 
     public AjaxResult success() {
