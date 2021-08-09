@@ -1,7 +1,7 @@
 package ink.kangaroo.mail.controller;
 
 import ink.kangaroo.common.core.web.domain.AjaxResult;
-import ink.kangaroo.mail.model.param.MailParam;
+import ink.kangaroo.mail.api.model.param.MailParam;
 import ink.kangaroo.mail.service.MailService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ public class MailController {
     @Operation(summary = "Tests the SMTP service")
     public AjaxResult testMail(@Valid @RequestBody MailParam mailParam) {
         mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
-        return AjaxResult.createAjaxResult().success("已发送，请查收。若确认没有收到邮件，请检查服务器日志");
+        return AjaxResult.success("已发送，请查收。若确认没有收到邮件，请检查服务器日志");
     }
 
     @PostMapping("test/connection")
@@ -39,7 +39,7 @@ public class MailController {
 //    @DisableOnCondition
     public AjaxResult testConnection() {
         mailService.testConnection();
-        return AjaxResult.createAjaxResult().success("您和邮箱服务器的连接通畅");
+        return AjaxResult.success("您和邮箱服务器的连接通畅");
     }
 
 }

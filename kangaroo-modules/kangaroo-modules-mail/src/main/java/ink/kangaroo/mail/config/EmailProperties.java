@@ -12,7 +12,7 @@ public enum EmailProperties implements PropertyEnum{
     /**
      * Email sender host
      */
-    HOST("email_host", String.class, ""),
+    HOST("email_host", String.class, "smtp.126.com"),
 
     /**
      * Email sender protocol
@@ -27,17 +27,17 @@ public enum EmailProperties implements PropertyEnum{
     /**
      * Email Sender username
      */
-    USERNAME("email_username", String.class, ""),
+    USERNAME("email_username", String.class, "moretribes@126.com"),
 
     /**
      * Email Sender password
      */
-    PASSWORD("email_password", String.class, ""),
+    PASSWORD("email_password", String.class, "KLKCRTLICOVGQMTC"),
 
     /**
      * Email Sender name
      */
-    FROM_NAME("email_from_name", String.class, ""),
+    FROM_NAME("email_from_name", String.class, "Kangaroo"),
 
     /**
      * Is enabled email sender

@@ -1,6 +1,8 @@
 package ink.kangaroo.gateway.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import ink.kangaroo.common.core.enums.ResultEnums;
+import ink.kangaroo.common.core.web.domain.AjaxResult;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,7 @@ public class DefaultAccessDeniedHandler implements ServerAccessDeniedHandler {
                     response.setStatusCode(HttpStatus.OK);
                     response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                     DataBufferFactory dataBufferFactory = response.bufferFactory();
-                    String result = JSONObject.toJSONString(ResultVoUtil.failed(UserStatusCodeEnum.PERMISSION_DENIED));
+                    String result = JSONObject.toJSONString(AjaxResult.of(ResultEnums.PERMISSION_DENIED));
                     DataBuffer buffer = dataBufferFactory.wrap(result.getBytes(
                             Charset.defaultCharset()));
                     return response.writeWith(Mono.just(buffer));

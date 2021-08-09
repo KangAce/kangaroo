@@ -1,6 +1,8 @@
 package ink.kangaroo.gateway.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import ink.kangaroo.common.core.enums.ResultEnums;
+import ink.kangaroo.common.core.web.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.access.AccessDeniedException;
@@ -54,7 +56,7 @@ public class DefaultAuthorizationManager implements ReactiveAuthorizationManager
         return check(authentication, object)
                 .filter(AuthorizationDecision::isGranted)
                 .switchIfEmpty(Mono.defer(() -> {
-                    String body = JSONObject.toJSONString(ResultVoUtil.failed(UserStatusCodeEnum.PERMISSION_DENIED));
+                    String body = JSONObject.toJSONString(AjaxResult.of(ResultEnums.PERMISSION_DENIED));
                     return Mono.error(new AccessDeniedException(body));
                 })).flatMap(d -> Mono.empty());
     }

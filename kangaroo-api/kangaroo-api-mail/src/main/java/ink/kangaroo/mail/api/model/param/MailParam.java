@@ -1,4 +1,4 @@
-package ink.kangaroo.mail.model.param;
+package ink.kangaroo.mail.api.model.param;
 
 import lombok.Data;
 

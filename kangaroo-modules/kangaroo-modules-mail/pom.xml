@@ -63,6 +63,11 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-log</artifactId>
         </dependency>
+        <!-- kangaroo Api Mail -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-api-mail</artifactId>
+        </dependency>
         <!-- kangaroo Common Swagger -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
