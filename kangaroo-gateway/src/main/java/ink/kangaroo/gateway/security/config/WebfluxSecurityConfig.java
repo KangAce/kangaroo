@@ -1,7 +1,8 @@
-package ink.kangaroo.gateway.config;
+package ink.kangaroo.gateway.security.config;
 
 import ink.kangaroo.gateway.security.handler.*;
 import ink.kangaroo.gateway.security.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -27,28 +28,28 @@ import java.util.List;
  */
 @EnableWebFluxSecurity
 public class WebfluxSecurityConfig {
-    @Resource
+    @Autowired
     private DefaultAuthorizationManager defaultAuthorizationManager;
 
-    @Resource
+    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Resource
+    @Autowired
     private DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
 
-    @Resource
+    @Autowired
     private DefaultAuthenticationFailureHandler defaultAuthenticationFailureHandler;
 
-    @Resource
+    @Autowired
     private TokenAuthenticationManager tokenAuthenticationManager;
 
-    @Resource
+    @Autowired
     private DefaultSecurityContextRepository defaultSecurityContextRepository;
 
-    @Resource
+    @Autowired
     private DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint;
 
-    @Resource
+    @Autowired
     private DefaultAccessDeniedHandler defaultAccessDeniedHandler;
 
     /**

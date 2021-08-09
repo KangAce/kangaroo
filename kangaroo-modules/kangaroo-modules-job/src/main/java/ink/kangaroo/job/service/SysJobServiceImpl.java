@@ -11,6 +11,7 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/8/6 9:13
  */
+@Service
 public class SysJobServiceImpl implements ISysJobService {
     @Autowired
     private Scheduler scheduler;

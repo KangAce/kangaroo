@@ -45,6 +45,7 @@
         <fastjson.version>1.2.76</fastjson.version>
         <jakarta.version>2.0.2</jakarta.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <wxjava.version>4.1.0</wxjava.version>
     </properties>
 
     <dependencyManagement>
@@ -210,6 +211,11 @@
                 <artifactId>kangaroo-api-system</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-api-mail</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
             <!-- Kangaroo Common Security -->
             <dependency>
                 <groupId>ink.kangaroo</groupId>
@@ -234,6 +240,36 @@
                 <groupId>ink.kangaroo</groupId>
                 <artifactId>kangaroo-common-datasource</artifactId>
                 <version>${kangaroo.version}</version>
+            </dependency>
+            <!--        WxJava 小程序-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-miniapp</artifactId>
+                <version>${wxjava.version}</version>
+            </dependency>
+            <!--        WxJava 支付-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${wxjava.version}</version>
+            </dependency>
+            <!--        WxJava 开放平台-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-open</artifactId>
+                <version>${wxjava.version}</version>
+            </dependency>
+            <!--        WxJava 公众号-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-mp</artifactId>
+                <version>${wxjava.version}</version>
+            </dependency>
+            <!--        WxJava 企业号/企业微信-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-cp</artifactId>
+                <version>${wxjava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

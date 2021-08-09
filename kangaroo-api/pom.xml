@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>kangaroo-api-system</module>
+        <module>kangaroo-api-mail</module>
     </modules>
 
     <properties>

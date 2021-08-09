@@ -1,6 +1,7 @@
 package ink.kangaroo.gateway.security.handler;
 
 import ink.kangaroo.common.core.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,8 +29,11 @@ public class DefaultSecurityContextRepository implements ServerSecurityContextRe
 
     public final static String BEARER = "Bearer ";
 
-    @Resource
-    private TokenAuthenticationManager tokenAuthenticationManager;
+    private final TokenAuthenticationManager tokenAuthenticationManager;
+
+    public DefaultSecurityContextRepository(TokenAuthenticationManager tokenAuthenticationManager) {
+        this.tokenAuthenticationManager = tokenAuthenticationManager;
+    }
 
     @Override
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {

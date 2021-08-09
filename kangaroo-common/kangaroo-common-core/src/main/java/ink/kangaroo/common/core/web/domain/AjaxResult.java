@@ -1,5 +1,6 @@
 package ink.kangaroo.common.core.web.domain;
 
+import ink.kangaroo.common.core.enums.ResultEnums;
 import ink.kangaroo.common.core.exception.BaseException;
 
 import java.util.HashMap;
@@ -35,6 +36,13 @@ public class AjaxResult extends HashMap<String, Object> {
         return ajaxResult;
     }
 
+    public static AjaxResult of(ResultEnums resultEnums) {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.putData(CODE, resultEnums.getCode());
+        ajaxResult.putData(MESSAGE, resultEnums.getMessage());
+        return ajaxResult;
+    }
+
     public boolean isSuccess() {
         return get(CODE) != null && "00000".equals(get(CODE));
     }
@@ -50,26 +58,30 @@ public class AjaxResult extends HashMap<String, Object> {
         super();
     }
 
-    public AjaxResult success() {
-        this.put(SUCCESS, true);
-        return this;
+    public static AjaxResult success() {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.put(SUCCESS, true);
+        return ajaxResult;
     }
 
-    public AjaxResult success(String message) {
-        this.put(SUCCESS, true);
-        this.put(MESSAGE, message);
-        return this;
+    public static AjaxResult success(String message) {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.put(SUCCESS, true);
+        ajaxResult.put(MESSAGE, message);
+        return ajaxResult;
     }
 
-    public AjaxResult fail(String message) {
-        this.put(SUCCESS, false);
-        this.put(MESSAGE, message);
-        return this;
+    public static AjaxResult fail(String message) {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.put(SUCCESS, false);
+        ajaxResult.put(MESSAGE, message);
+        return ajaxResult;
     }
 
-    public AjaxResult redirect(String url) {
-        this.put(REDIRECT, url);
-        return this;
+    public static AjaxResult redirect(String url) {
+        AjaxResult ajaxResult = createAjaxResult();
+        ajaxResult.put(REDIRECT, url);
+        return ajaxResult;
     }
 
     public AjaxResult setData(Object data) {
@@ -83,13 +95,12 @@ public class AjaxResult extends HashMap<String, Object> {
 
     public static AjaxResult createAjaxResult() {
         AjaxResult ajaxResult = new AjaxResult();
-        ajaxResult.success();
+        ajaxResult.put(SUCCESS, true);
         return ajaxResult;
     }
 
     public static AjaxResult createAjaxResult(Object data) {
-        AjaxResult ajaxResult = new AjaxResult();
-        ajaxResult.success();
+        AjaxResult ajaxResult = createAjaxResult();
         ajaxResult.setData(data);
         return ajaxResult;
     }

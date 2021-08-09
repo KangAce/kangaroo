@@ -2,6 +2,7 @@ package ink.kangaroo.common.core.web.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2021/8/5 14:23
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

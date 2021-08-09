@@ -78,7 +78,7 @@ public abstract class AbstractMailService implements MailService {
 
         // get mail sender
         JavaMailSender mailSender = getMailSender();
-//        printMailConfig();
+        printMailConfig();
 
         // create mime message helper
         MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage());

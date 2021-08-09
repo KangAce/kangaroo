@@ -14,6 +14,9 @@
 
     <modules>
         <module>kangaroo-modules-job</module>
+        <module>kangaroo-modules-pixiv</module>
+        <module>kangaroo-modules-wx</module>
+        <module>kangaroo-modules-system</module>
         <module>kangaroo-modules-file</module>
         <module>kangaroo-modules-mail</module>
     </modules>

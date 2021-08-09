@@ -3,6 +3,7 @@ package ink.kangaroo.job.service;
 import ink.kangaroo.job.domain.SysJobLog;
 import ink.kangaroo.job.mapper.SysJobLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/8/6 9:12
  */
+@Service
 public class SysJobLogServiceImpl implements ISysJobLogService {
     @Autowired
     private SysJobLogMapper jobLogMapper;

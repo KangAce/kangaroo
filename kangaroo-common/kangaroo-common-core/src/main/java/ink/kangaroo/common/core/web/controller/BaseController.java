@@ -81,7 +81,7 @@ public class BaseController {
      */
     protected AjaxResult toAjax(int rows)
     {
-        return rows > 0 ? AjaxResult.createAjaxResult().success() : AjaxResult.createAjaxResult().fail("操作失败");
+        return rows > 0 ? AjaxResult.createAjaxResult() : AjaxResult.fail("操作失败");
     }
 
     /**
@@ -100,7 +100,7 @@ public class BaseController {
      */
     public AjaxResult success()
     {
-        return AjaxResult.createAjaxResult().success();
+        return AjaxResult.success();
     }
 
     /**
@@ -108,7 +108,7 @@ public class BaseController {
      */
     public AjaxResult error()
     {
-        return AjaxResult.createAjaxResult().fail("操作失败");
+        return AjaxResult.fail("操作失败");
     }
 
     /**
@@ -116,7 +116,7 @@ public class BaseController {
      */
     public AjaxResult success(String message)
     {
-        return AjaxResult.createAjaxResult().success(message);
+        return AjaxResult.success(message);
     }
 
     /**
@@ -124,6 +124,6 @@ public class BaseController {
      */
     public AjaxResult error(String message)
     {
-        return AjaxResult.createAjaxResult().fail(message);
+        return AjaxResult.fail(message);
     }
 }

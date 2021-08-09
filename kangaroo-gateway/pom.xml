@@ -70,6 +70,10 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-api-mail</artifactId>
+        </dependency>
 
         <!-- Swagger -->
         <dependency>
