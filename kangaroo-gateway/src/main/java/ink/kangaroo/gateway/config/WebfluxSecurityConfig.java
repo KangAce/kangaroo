@@ -4,7 +4,6 @@ import ink.kangaroo.gateway.security.handler.*;
 import ink.kangaroo.gateway.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.DelegatingReactiveAuthenticationManager;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -17,7 +16,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author kbw
@@ -54,7 +55,7 @@ public class WebfluxSecurityConfig {
      * 自定义过滤权限
      */
     @Value("${security.noFilter}")
-    private String noFilter;
+    private List<String> noFilter = new ArrayList<>();
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
@@ -64,7 +65,7 @@ public class WebfluxSecurityConfig {
                 .securityContextRepository(defaultSecurityContextRepository)
                 // 请求拦截处理
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers(noFilter).permitAll()
+                        .pathMatchers((String[]) noFilter.toArray()).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyExchange().access(defaultAuthorizationManager)
                 )

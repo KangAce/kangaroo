@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
  * @version 1.0
  * @date 2021/8/9 16:59
  */
-@EnableWebFluxSecurity
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class KangarooGatewayApplication {
     public static void main(String[] args) {

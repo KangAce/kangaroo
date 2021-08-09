@@ -17,6 +17,8 @@ import reactor.core.publisher.Mono;
 import java.util.Collection;
 
 /**
+ * 用户权限鉴权处理 自定义鉴权管理
+ *
  * @author kbw
  * @version 1.0
  * @date 2021/8/9 17:38
