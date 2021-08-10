@@ -37,10 +37,10 @@ public class JwtTokenUtil {
         try {
             // java key store 固定常量
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(INPUT_STREAM, "3d-mirror".toCharArray());
+            keyStore.load(INPUT_STREAM, "Kangaroo".toCharArray());
             // jwt 为 命令生成整数文件时的别名
-            privateKey = (PrivateKey) keyStore.getKey("mirror-privateKey", "3d-mirror".toCharArray());
-            publicKey = keyStore.getCertificate("mirror-privateKey").getPublicKey();
+            privateKey = (PrivateKey) keyStore.getKey("sun", "Kangaroo".toCharArray());
+            publicKey = keyStore.getCertificate("sun").getPublicKey();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class JwtTokenUtil {
      * @date 2021/3/9 17:36
      * @description 生成jwt token
      */
-    public static String generateToken(Map<String, Object> claims, String subject, int expiration) {
+    public static String generateToken(Map<String, Object> claims, String subject, Long expiration) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
         // 生成签名密钥
         final Date createdDate = CLOCK.now();
@@ -65,7 +65,7 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    private static Date calculateExpirationDate(Date createdDate, int expiration) {
+    private static Date calculateExpirationDate(Date createdDate, Long expiration) {
         return new Date(createdDate.getTime() + expiration);
     }
 

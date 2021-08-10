@@ -1,5 +1,7 @@
 package ink.kangaroo.common.core.exception;
 
+import ink.kangaroo.common.core.enums.ResultEnums;
+
 /**
  * 基础异常
  * 
@@ -55,6 +57,13 @@ public class BaseException extends RuntimeException {
 
 	public BaseException(String defaultMessage) {
 		this(null, null, null, defaultMessage);
+	}
+
+	public BaseException(ResultEnums resultEnums) {
+		this(null,resultEnums.getCode(),null, resultEnums.getMessage());
+	}
+	public BaseException(ResultEnums resultEnums,Object[] args) {
+		this(null,resultEnums.getCode(),args, resultEnums.getMessage());
 	}
 
 	public String getModule() {
