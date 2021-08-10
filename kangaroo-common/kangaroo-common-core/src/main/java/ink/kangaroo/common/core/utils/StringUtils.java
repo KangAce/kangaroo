@@ -2,9 +2,12 @@ package ink.kangaroo.common.core.utils;
 
 import ink.kangaroo.common.core.constant.Constants;
 import ink.kangaroo.common.core.text.StrFormatter;
+import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author kbw
@@ -28,28 +31,27 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @param value defaultValue 要判断的value
      * @return value 返回值
      */
-    public static <T> T nvl(T value, T defaultValue)
-    {
+    public static <T> T nvl(T value, T defaultValue) {
         return value != null ? value : defaultValue;
     }
+
     /**
      * * 判断一个Collection是否为空， 包含List，Set，Queue
      *
      * @param coll 要判断的Collection
      * @return true：为空 false：非空
      */
-    public static boolean isEmpty(Collection<?> coll)
-    {
+    public static boolean isEmpty(Collection<?> coll) {
         return isNull(coll) || coll.isEmpty();
     }
+
     /**
      * * 判断一个Collection是否非空，包含List，Set，Queue
      *
      * @param coll 要判断的Collection
      * @return true：非空 false：空
      */
-    public static boolean isNotEmpty(Collection<?> coll)
-    {
+    public static boolean isNotEmpty(Collection<?> coll) {
         return !isEmpty(coll);
     }
 
@@ -57,12 +59,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * * 判断一个对象数组是否为空
      *
      * @param objects 要判断的对象数组
-     ** @return true：为空 false：非空
+     *                * @return true：为空 false：非空
      */
-    public static boolean isEmpty(Object[] objects)
-    {
+    public static boolean isEmpty(Object[] objects) {
         return isNull(objects) || (objects.length == 0);
     }
+
     /**
      * * 判断一个对象是否为空
      *
@@ -72,6 +74,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static boolean isNull(Object object) {
         return object == null;
     }
+
     /**
      * * 判断一个对象是否非空
      *
@@ -160,7 +163,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
 
-
     /**
      * 格式化文本, {} 表示占位符<br>
      * 此方法只是简单将占位符 {} 按照顺序替换为参数<br>
@@ -171,13 +173,11 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 转义\： format("this is \\\\{} for {}", "a", "b") -> this is \a for b<br>
      *
      * @param template 文本模板，被替换的部分用 {} 表示
-     * @param params 参数值
+     * @param params   参数值
      * @return 格式化后的文本
      */
-    public static String format(String template, Object... params)
-    {
-        if (isEmpty(params) || isEmpty(template))
-        {
+    public static String format(String template, Object... params) {
+        if (isEmpty(params) || isEmpty(template)) {
             return template;
         }
         return StrFormatter.format(template, params);
@@ -192,5 +192,54 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static boolean ishttp(String link)
     {
         return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
+    }
+
+    /**
+     * 是否为http(s)://开头
+     *
+     * @param link 链接
+     * @return 结果
+     */
+    public static boolean ishttp(String link) {
+        return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
+    }
+
+    /**
+     * 查找指定字符串是否匹配指定字符串列表中的任意一个字符串
+     *
+     * @param str  指定字符串
+     * @param strs 需要检查的字符串数组
+     * @return 是否匹配
+     */
+    public static boolean matches(String str, List<String> strs) {
+        if (isEmpty(str) || isEmpty(strs)) {
+            return false;
+        }
+        for (String pattern : strs) {
+            if (isMatch(pattern, str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断url是否与规则配置:
+     * ? 表示单个字符;
+     * * 表示一层路径内的任意字符串，不可跨层级;
+     * ** 表示任意层路径;
+     *
+     * @param pattern 匹配规则
+     * @param url     需要匹配的url
+     * @return
+     */
+    public static boolean isMatch(String pattern, String url) {
+        AntPathMatcher matcher = new AntPathMatcher();
+        return matcher.match(pattern, url);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T cast(Object obj) {
+        return (T) obj;
     }
 }

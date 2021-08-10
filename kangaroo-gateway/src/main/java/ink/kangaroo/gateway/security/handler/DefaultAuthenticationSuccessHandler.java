@@ -29,21 +29,21 @@ public class DefaultAuthenticationSuccessHandler implements ServerAuthentication
     /**
      * token 过期时间
      */
-    @Value("${jwt.token.expired}")
-    private int jwtTokenExpired;
+    @Value("${security.jwt.token.expired}")
+    private Long jwtTokenExpired;
 
     /**
      * 刷新token 时间
      */
-    @Value("${jwt.token.refresh.expired}")
-    private int jwtTokenRefreshExpired;
+    @Value("${security.jwt.token.refresh.expired}")
+    private Long jwtTokenRefreshExpired;
 
     @Override
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         return Mono.defer(() -> Mono.just(webFilterExchange.getExchange().getResponse()).flatMap(response -> {
             DataBufferFactory dataBufferFactory = response.bufferFactory();
             // 生成JWT token
-            Map<String, Object> map = new HashMap<>(2);
+            Map<String, Object> map = new HashMap<>(3);
             SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
             map.put("userId", userDetails.getUserId());
             map.put("username", userDetails.getUsername());

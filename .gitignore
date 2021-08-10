@@ -2,3 +2,10 @@
 /logs/
 /.idea/
 /**/**/target/
+**/**/**/.settings
+/.settings/
+/.project
+/docker/nacos/logs/
+/docker/mysql/data/
+/logs/
+/**/**/**/**/**/*.jar

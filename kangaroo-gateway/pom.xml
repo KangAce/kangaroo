@@ -86,6 +86,10 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.fox.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-api-system</artifactId>
+        </dependency>
     </dependencies>
 
 

@@ -22,7 +22,7 @@ public class AjaxResult extends HashMap<String, Object> {
 
     private static final String MODULES = "modules";
 
-    private static final String DATA = "data";
+    public static final String DATA = "data";
 
     private static final String REDIRECT = "redirect";
 
