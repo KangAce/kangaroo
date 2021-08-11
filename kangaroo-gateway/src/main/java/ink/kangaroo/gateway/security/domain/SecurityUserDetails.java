@@ -25,6 +25,21 @@ public class SecurityUserDetails extends User implements Serializable {
         this.userId = userId;
     }
 
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return (Collection<GrantedAuthority>) authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    /**
+     * 拥有权限集合
+     */
+    private Collection<? extends GrantedAuthority> authorities;
+
+
     public Long getUserId() {
         return userId;
     }
