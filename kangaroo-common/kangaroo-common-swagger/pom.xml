@@ -10,7 +10,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>kangaroo-common-swagger</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>kangaroo-common-swagger</name>
     <description>kangaroo-common-swagger系统接口</description>
     <properties>

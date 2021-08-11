@@ -15,7 +15,7 @@ import ink.kangaroo.job.service.ISysJobService;
 import ink.kangaroo.job.uitl.CronUtils;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

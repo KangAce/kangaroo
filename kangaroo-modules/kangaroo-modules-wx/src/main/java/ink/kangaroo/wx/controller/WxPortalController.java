@@ -1,26 +1,25 @@
 package ink.kangaroo.wx.controller;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaMessage;
-import cn.binarywang.wx.miniapp.constant.WxMaConstants;
-import ink.kangaroo.wx.config.WxMaConfiguration;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
 /**
- * @author <a href="https://github.com/binarywang">Binary Wang</a>
+ * @author Binary Wang(https://github.com/binarywang)
  */
-@RestController
-@RequestMapping("/wx/portal/{appid}")
 @Slf4j
+@AllArgsConstructor
+@RestController
+@RequestMapping("/weixin/portal/{appid}")
 public class WxPortalController {
-@Autowired
-    private ApplicationEventPublisher eventPublisher;
+    private final WxMpService wxService;
+    private final WxMpMessageRouter messageRouter;
+
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String authGet(@PathVariable String appid,
                           @RequestParam(name = "signature", required = false) String signature,
@@ -34,7 +33,10 @@ public class WxPortalController {
             throw new IllegalArgumentException("请求参数非法，请核实!");
         }
 
-        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
+        if (!this.wxService.switchover(appid)) {
+            throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
+        }
+
         if (wxService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
         }
@@ -45,54 +47,59 @@ public class WxPortalController {
     @PostMapping(produces = "application/xml; charset=UTF-8")
     public String post(@PathVariable String appid,
                        @RequestBody String requestBody,
-                       @RequestParam(name = "msg_signature", required = false) String msgSignature,
-                       @RequestParam(name = "encrypt_type", required = false) String encryptType,
-                       @RequestParam(name = "signature", required = false) String signature,
+                       @RequestParam("signature") String signature,
                        @RequestParam("timestamp") String timestamp,
-                       @RequestParam("nonce") String nonce) {
-        log.info("\n接收微信请求：[msg_signature=[{}], encrypt_type=[{}], signature=[{}]," +
-                " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
-            msgSignature, encryptType, signature, timestamp, nonce, requestBody);
+                       @RequestParam("nonce") String nonce,
+                       @RequestParam("openid") String openid,
+                       @RequestParam(name = "encrypt_type", required = false) String encType,
+                       @RequestParam(name = "msg_signature", required = false) String msgSignature) {
+        log.info("\n接收微信请求：[openid=[{}], [signature=[{}], encType=[{}], msgSignature=[{}],"
+                        + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
+                openid, signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        final WxMaService wxService = WxMaConfiguration.getMaService(appid);
+        if (!this.wxService.switchover(appid)) {
+            throw new IllegalArgumentException(String.format("未找到对应appid=[%s]的配置，请核实！", appid));
+        }
 
-        final boolean isJson = Objects.equals(wxService.getWxMaConfig().getMsgDataFormat(),
-            WxMaConstants.MsgDataFormat.JSON);
-        WxMaMessage inMessage;
+        if (!wxService.checkSignature(timestamp, nonce, signature)) {
+            throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
+        }
 
-        if (StringUtils.isBlank(encryptType)) {
+        String out = null;
+        if (encType == null) {
             // 明文传输的消息
-            if (isJson) {
-                inMessage = WxMaMessage.fromJson(requestBody);
-            } else {//xml
-                inMessage = WxMaMessage.fromXml(requestBody);
+            WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(requestBody);
+            WxMpXmlOutMessage outMessage = this.route(inMessage);
+            if (outMessage == null) {
+                return "";
             }
-            this.route(inMessage, appid);
-            return "success";
-        }
 
-        if ("aes".equals(encryptType)) {
-            // 是aes加密的消息
-            if (isJson) {
-                inMessage = WxMaMessage.fromEncryptedJson(requestBody, wxService.getWxMaConfig());
-            } else {//xml
-                inMessage = WxMaMessage.fromEncryptedXml(requestBody, wxService.getWxMaConfig(),
+            out = outMessage.toXml();
+        } else if ("aes".equalsIgnoreCase(encType)) {
+            // aes加密的消息
+            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody, wxService.getWxMpConfigStorage(),
                     timestamp, nonce, msgSignature);
+            log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
+            WxMpXmlOutMessage outMessage = this.route(inMessage);
+            if (outMessage == null) {
+                return "";
             }
-            this.route(inMessage, appid);
-            return "success";
+
+            out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
         }
 
-        throw new RuntimeException("不可识别的加密类型：" + encryptType);
+        log.debug("\n组装回复信息：{}", out);
+        return out;
     }
 
-
-    private void route(WxMaMessage message, String appid) {
+    private WxMpXmlOutMessage route(WxMpXmlMessage message) {
         try {
-            WxMaConfiguration.getRouter(appid).route(message);
+            return this.messageRouter.route(message);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("路由消息时出现异常！", e);
         }
+
+        return null;
     }
 
 }
