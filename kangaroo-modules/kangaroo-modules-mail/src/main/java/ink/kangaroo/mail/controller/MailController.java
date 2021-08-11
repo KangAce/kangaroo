@@ -1,6 +1,7 @@
 package ink.kangaroo.mail.controller;
 
 import ink.kangaroo.common.core.web.domain.AjaxResult;
+import ink.kangaroo.common.security.annotation.InnerAuth;
 import ink.kangaroo.mail.api.model.param.MailParam;
 import ink.kangaroo.mail.service.MailService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ public class MailController {
 
     @PostMapping("test")
     @Operation(summary = "Tests the SMTP service")
+    @InnerAuth
     public AjaxResult testMail(@Valid @RequestBody MailParam mailParam) {
         mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
         return AjaxResult.success("已发送，请查收。若确认没有收到邮件，请检查服务器日志");

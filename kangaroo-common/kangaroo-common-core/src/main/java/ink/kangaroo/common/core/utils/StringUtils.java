@@ -195,16 +195,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 是否为http(s)://开头
-     *
-     * @param link 链接
-     * @return 结果
-     */
-    public static boolean ishttp(String link) {
-        return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
-    }
-
-    /**
      * 查找指定字符串是否匹配指定字符串列表中的任意一个字符串
      *
      * @param str  指定字符串
