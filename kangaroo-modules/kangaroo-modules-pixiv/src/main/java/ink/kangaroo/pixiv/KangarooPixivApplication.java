@@ -3,6 +3,7 @@ package ink.kangaroo.pixiv;
 import ink.kangaroo.common.security.annotation.EnableCustomConfig;
 import ink.kangaroo.common.security.annotation.EnableKangarooFeignClients;
 import ink.kangaroo.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -15,4 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableKangarooFeignClients
 @SpringBootApplication
 public class KangarooPixivApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(KangarooPixivApplication.class, args);
+    }
 }

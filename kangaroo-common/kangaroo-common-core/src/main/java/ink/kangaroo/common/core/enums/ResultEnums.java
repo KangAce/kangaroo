@@ -95,6 +95,7 @@ public enum ResultEnums {
      */
     ACCOUNT_NOT_EXIST("A0201", "用户账户不存在"),
     A0202("A0202", "用户账户被冻结"),
+    INVALID_USER_INPUT("A0202", "用户账户被冻结"),
     ACCOUNT_DISABLE("A0203", "用户账户已作废"),
     /**
      * 用户密码错误

@@ -1,6 +1,7 @@
 package ink.kangaroo.common.core.utils;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+
+import org.apache.xmlbeans.impl.util.Base64;
 
 import java.io.FileInputStream;
 import java.security.KeyStore;
