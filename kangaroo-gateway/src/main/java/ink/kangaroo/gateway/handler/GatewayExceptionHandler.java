@@ -7,9 +7,11 @@ import ink.kangaroo.mail.api.RemoteMailService;
 import ink.kangaroo.mail.api.model.param.MailParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +32,8 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
     private final RemoteMailService remoteMailService;
 
+    @Lazy
+    @Autowired
     public GatewayExceptionHandler(RemoteMailService remoteMailService) {
         this.remoteMailService = remoteMailService;
     }
@@ -37,7 +41,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
-
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }
