@@ -29,11 +29,6 @@ public class LoginUser implements Serializable {
     private String username;
 
     /**
-     * 加密后的密码
-     */
-    private String password;
-
-    /**
      * 登录时间
      */
     private Long loginTime;

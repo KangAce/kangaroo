@@ -1,5 +1,6 @@
 package ink.kangaroo.gateway.security.config;
 
+import ink.kangaroo.gateway.security.config.properties.IgnoreWhiteProperties;
 import ink.kangaroo.gateway.security.handler.*;
 import ink.kangaroo.gateway.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,20 +58,60 @@ public class WebfluxSecurityConfig {
     /**
      * 自定义过滤权限
      */
-    @Value("${security.noFilter}")
-    private List<String> noFilter = new ArrayList<>();
+    @Autowired
+    IgnoreWhiteProperties ignoreWhiteProperties;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
+
         httpSecurity
                 // 登录认证处理
                 .authenticationManager(reactiveAuthenticationManager())
+                //
                 .securityContextRepository(defaultSecurityContextRepository)
                 // 请求拦截处理
-                .authorizeExchange(exchange -> exchange
-                        .pathMatchers((String[]) noFilter.toArray()).permitAll()
-                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyExchange().access(defaultAuthorizationManager)
+                .authorizeExchange(exchange -> {
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPattern())) {
+                                String[] pattern = ignoreWhiteProperties.getPattern().toArray(new String[0]);
+                                exchange.pathMatchers(pattern).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getGet())) {
+                                String[] get = ignoreWhiteProperties.getGet().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.GET, get).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPost())) {
+                                String[] post = ignoreWhiteProperties.getPost().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.POST, post).permitAll();
+
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getDelete())) {
+                                String[] delete = ignoreWhiteProperties.getDelete().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.DELETE, delete).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPut())) {
+                                String[] put = ignoreWhiteProperties.getPut().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.PUT, put).permitAll();
+
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getHead())) {
+                                String[] head = ignoreWhiteProperties.getHead().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.HEAD, head).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPatch())) {
+                                String[] patch = ignoreWhiteProperties.getPatch().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.PATCH, patch).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getOptions())) {
+                                String[] options = ignoreWhiteProperties.getOptions().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.OPTIONS, options).permitAll();
+                            }
+                            if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getTrace())) {
+                                String[] trace = ignoreWhiteProperties.getTrace().toArray(new String[0]);
+                                exchange.pathMatchers(HttpMethod.TRACE, trace).permitAll();
+                            }
+                            exchange.pathMatchers(HttpMethod.OPTIONS).permitAll();
+                            exchange.anyExchange().access(defaultAuthorizationManager);
+                        }
                 )
                 .formLogin()
                 // 自定义处理
@@ -76,9 +119,11 @@ public class WebfluxSecurityConfig {
                 .authenticationFailureHandler(defaultAuthenticationFailureHandler)
                 .and()
                 .exceptionHandling()
+                // 未认证处理 自定义未认证Handler
                 .authenticationEntryPoint(defaultAuthenticationEntryPoint)
                 .and()
                 .exceptionHandling()
+                // 鉴权管理 自定义鉴权失败Handler
                 .accessDeniedHandler(defaultAccessDeniedHandler)
                 .and()
                 .csrf().disable()

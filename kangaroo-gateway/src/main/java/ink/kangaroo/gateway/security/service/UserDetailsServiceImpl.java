@@ -1,15 +1,12 @@
 package ink.kangaroo.gateway.security.service;
 
-import ink.kangaroo.common.core.constant.Constants;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.domain.R;
-import ink.kangaroo.common.core.utils.ServletUtils;
-import ink.kangaroo.common.core.utils.StringUtils;
-import ink.kangaroo.common.core.utils.ip.IpUtils;
+import ink.kangaroo.common.log.annotation.Log;
+import ink.kangaroo.common.log.enums.BusinessType;
+import ink.kangaroo.common.log.enums.OperatorType;
 import ink.kangaroo.gateway.security.domain.SecurityUserDetails;
-import ink.kangaroo.system.api.RemoteLogService;
 import ink.kangaroo.system.api.RemoteUserService;
-import ink.kangaroo.system.api.domain.SysLogininfor;
 import ink.kangaroo.system.api.domain.SysUser;
 import ink.kangaroo.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +15,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author kbw
@@ -35,18 +36,25 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     private final RemoteUserService remoteUserService;
-    private final RemoteLogService remoteLogService;
 
-    @Autowired
     @Lazy
-    public UserDetailsServiceImpl(RemoteUserService remoteUserService, RemoteLogService remoteLogService) {
+    @Autowired(required = false)
+    public UserDetailsServiceImpl(RemoteUserService remoteUserService) {
         this.remoteUserService = remoteUserService;
-        this.remoteLogService = remoteLogService;
     }
 
+    @Log(title = "gateway", businessType = BusinessType.GRANT, operatorType = OperatorType.MANAGE, isSaveRequestData = true)
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        R<LoginUser> userInfoR = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+        //因为Callable接口是函数式接口，可以使用Lambda表达式
+        FutureTask task = new FutureTask((Callable) () -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+        new Thread(task).start();
+        R<LoginUser> userInfoR = null;
+        try {
+            userInfoR = (R<LoginUser>) task.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         SecurityUserDetails securityUserDetails = null;
         if (R.isOk(userInfoR.getCode())) {
             LoginUser loginUser = userInfoR.getData();
@@ -62,15 +70,23 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
                     sysUser.getUserId()
             );
             Collection<GrantedAuthority> authorities = securityUserDetails.getAuthorities();
-            Set<String> permissions = loginUser.getPermissions();
-            for (String permission : permissions) {
-                authorities.add(new SimpleGrantedAuthority(permission));
+            if (CollectionUtils.isEmpty(authorities)) {
+                authorities = new ArrayList<>();
             }
-            securityUserDetails.setAuthorities(authorities);
+            Set<String> permissions = loginUser.getPermissions();
+            if (!CollectionUtils.isEmpty(permissions)) {
+                for (String permission : permissions) {
+                    authorities.add(new SimpleGrantedAuthority(permission));
+                    securityUserDetails.setAuthorities(authorities);
+                }
+            }
+            return Mono.just(securityUserDetails);
+        } else {
+            throw new UsernameNotFoundException("");
         }
 
-        assert securityUserDetails != null;
-        return Mono.just(securityUserDetails);
+//        assert securityUserDetails != null;
+//        return Mono.just(securityUserDetails);
     }
 
 }
