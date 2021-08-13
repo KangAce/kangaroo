@@ -9,3 +9,5 @@
 /docker/mysql/data/
 /logs/
 /**/**/**/**/**/*.jar
+/**/**/.classpath
+/**/**/.project

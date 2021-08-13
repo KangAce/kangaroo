@@ -75,6 +75,11 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-swagger</artifactId>
         </dependency>
+        <!-- Kangaroo Api Pixiv -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-api-pixiv</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
