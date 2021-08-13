@@ -27,4 +27,9 @@ public class ServiceNameConstants {
      */
     public static final String MAIL_SERVICE = "kangaroo-mail";
 
+    /**
+     * PIXIV爬取服务的serviceid
+     */
+    public static final String PIXIV_SERVICE = "kangaroo-pixiv";
+
 }

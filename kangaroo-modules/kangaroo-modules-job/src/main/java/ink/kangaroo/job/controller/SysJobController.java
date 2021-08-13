@@ -14,27 +14,8 @@ import ink.kangaroo.job.domain.SysJob;
 import ink.kangaroo.job.service.ISysJobService;
 import ink.kangaroo.job.uitl.CronUtils;
 import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import ink.kangaroo.common.core.web.domain.AjaxResult;
-import ink.kangaroo.common.core.web.page.TableDataInfo;
-import ink.kangaroo.common.log.annotation.Log;
-import ink.kangaroo.common.log.enums.BusinessType;
-import ink.kangaroo.job.domain.SysJob;
-import ink.kangaroo.job.service.ISysJobService;
-import ink.kangaroo.job.uitl.CronUtils;
-import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -48,8 +29,11 @@ import java.util.List;
 @RequestMapping("/job")
 public class SysJobController extends BaseController {
 
-    @Autowired
-    private ISysJobService jobService;
+    private final ISysJobService jobService;
+
+    public SysJobController(ISysJobService jobService) {
+        this.jobService = jobService;
+    }
 
     /**
      * 查询定时任务列表
@@ -70,7 +54,7 @@ public class SysJobController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysJob sysJob) throws IOException {
         List<SysJob> list = jobService.selectJobList(sysJob);
-        ExcelUtil<SysJob> util = new ExcelUtil<SysJob>(SysJob.class);
+        ExcelUtil<SysJob> util = new ExcelUtil<>(SysJob.class);
         util.exportExcel(response, list, "定时任务");
     }
 
@@ -148,7 +132,7 @@ public class SysJobController extends BaseController {
 //    @PreAuthorize(hasPermi = "monitor:job:remove")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
     @DeleteMapping("/{jobIds}")
-    public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException, TaskException {
+    public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException {
         jobService.deleteJobByIds(jobIds);
         return AjaxResult.success();
     }

@@ -1,6 +1,8 @@
 package ink.kangaroo.job.task;
 
+import ink.kangaroo.pixiv.api.RemotePixivService;
 import ink.kangaroo.common.core.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,6 +12,13 @@ import org.springframework.stereotype.Component;
  */
 @Component("pixivTask")
 public class PixivTask {
+
+    private final RemotePixivService remotePixivService;
+
+    public PixivTask(RemotePixivService remotePixivService) {
+        this.remotePixivService = remotePixivService;
+    }
+
     public void kangarooMultipleParams(String s, Boolean b, Long l, Double d, Integer i) {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
     }
@@ -18,7 +27,7 @@ public class PixivTask {
         System.out.println("执行有参方法：" + params);
     }
 
-    public void kangarooNoParams() {
-        System.out.println("执行无参方法");
+    public void PullPixivRank() {
+        remotePixivService.pullPixivRank();
     }
 }
