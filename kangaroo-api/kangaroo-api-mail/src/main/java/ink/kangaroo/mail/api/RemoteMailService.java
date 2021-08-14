@@ -1,5 +1,6 @@
 package ink.kangaroo.mail.api;
 
+import feign.Headers;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
@@ -18,5 +19,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(contextId = "remoteMailService", value = ServiceNameConstants.MAIL_SERVICE, fallbackFactory = RemoteMailFallbackFactory.class)
 public interface RemoteMailService {
     @PostMapping("/api/admin/mails/test")
+    @Headers({"acceptEncoding: gzip","contentType: application/json"})
     public AjaxResult testMail(@RequestBody MailParam mailParam, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

@@ -1,6 +1,7 @@
 package ink.kangaroo.gateway.handler;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
+import ink.kangaroo.common.core.utils.ExceptionUtil;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.mail.api.RemoteMailService;
@@ -58,7 +59,8 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         MailParam mailParam = new MailParam();
         mailParam.setTo("26599114@qq.com");
         mailParam.setSubject("gateway出现异常");
-        mailParam.setContent(StringUtils.format("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage()));
+        String exceptionMessage = ExceptionUtil.getExceptionMessage(ex);
+        mailParam.setContent(StringUtils.format("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), exceptionMessage));
         remoteMailService.testMail(mailParam, SecurityConstants.INNER);
         log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
 

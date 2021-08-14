@@ -14,21 +14,60 @@
 
     <artifactId>kangaroo-modules-pixiv</artifactId>
     <dependencies>
+        <!-- SpringCloud Alibaba Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Alibaba Nacos Config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Alibaba Sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <!-- SpringBoot Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Swagger UI -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.fox.version}</version>
+        </dependency>
+
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataSource -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-datasource</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>druid</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
+        <!-- RuoYi Common Log -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-log</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Swagger -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-swagger</artifactId>
+        </dependency>
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>
@@ -38,47 +77,6 @@
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-extension</artifactId>
             <version>0.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-scripts</artifactId>
-            <version>0.7.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-selenium</artifactId>
-            <version>0.7.5</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>okio</artifactId>
-                    <groupId>com.squareup.okio</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-saxon</artifactId>
-            <version>0.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>ink.kangaroo</groupId>
-            <artifactId>kangaroo-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ink.kangaroo</groupId>
-            <artifactId>kangaroo-common-swagger</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>classgraph</artifactId>
-                    <groupId>io.github.classgraph</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--query dsl-->
         <dependency>
