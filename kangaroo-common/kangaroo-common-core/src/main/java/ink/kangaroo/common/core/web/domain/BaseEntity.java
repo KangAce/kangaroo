@@ -1,6 +1,7 @@
 package ink.kangaroo.common.core.web.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import ink.kangaroo.common.core.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -109,5 +110,26 @@ public class BaseEntity implements Serializable {
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
+    }
+    @PrePersist
+    protected void prePersist() {
+        Date now = DateUtils.getNowDate();
+        if (createTime == null) {
+            createTime = now;
+        }
+
+        if (updateTime == null) {
+            updateTime = now;
+        }
+    }
+
+    @PreUpdate
+    protected void preUpdate() {
+        updateTime = new Date();
+    }
+
+    @PreRemove
+    protected void preRemove() {
+        updateTime = new Date();
     }
 }

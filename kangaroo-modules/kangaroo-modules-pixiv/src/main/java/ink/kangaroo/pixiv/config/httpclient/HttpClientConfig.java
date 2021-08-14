@@ -82,7 +82,7 @@ public class HttpClientConfig {
         CookieStore cookieStore = defauleCookieManager.getCookieStore();
 
 //        String pixiv_cookies = (String) optionService.getByKeyOfNonNull("pixiv_cookies");
-        String pixiv_cookies ="";
+        String pixiv_cookies ="63063042_Dj8QtEy9tAS3shSsDgCuWFTbUsPSC7uB";
 //        cookieStore.add(URI.create("pixiv.net"),new HttpCookie("PHPSESSID",pixiv_cookies));
         cookieStore.add(URI.create("https://www.pixiv.net"),new HttpCookie("PHPSESSID",pixiv_cookies));
         if (System.getProperty("os.name").equals("Windows 10")) {

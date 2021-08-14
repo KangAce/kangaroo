@@ -42,7 +42,6 @@ public class DefaultAuthenticationFailureHandler implements ServerAuthentication
             AjaxResult resultVO = AjaxResult.fail("");
             // 账号不存在
             if (exception instanceof UsernameNotFoundException) {
-
                 resultVO = AjaxResult.of(ResultEnums.ACCOUNT_NOT_EXIST);
                 // 用户名或密码错误
             } else if (exception instanceof BadCredentialsException) {
