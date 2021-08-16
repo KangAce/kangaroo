@@ -46,6 +46,7 @@
         <jakarta.version>2.0.2</jakarta.version>
         <jjwt.version>0.9.1</jjwt.version>
         <wxjava.version>4.1.0</wxjava.version>
+        <fluent-mybatis.version>1.6.14</fluent-mybatis.version>
     </properties>
 
     <dependencyManagement>
@@ -278,7 +279,20 @@
                 <artifactId>weixin-java-cp</artifactId>
                 <version>${wxjava.version}</version>
             </dependency>
-        </dependencies>
+                <!-- 引入fluent-mybatis 运行依赖包, scope为compile -->
+            <dependency>
+                <groupId>com.github.atool</groupId>
+                <artifactId>fluent-mybatis</artifactId>
+                <version>${fluent-mybatis.version}</version>
+            </dependency>
+            <!-- 引入fluent-mybatis-processor, scope设置为provider 编译需要，运行时不需要 -->
+            <dependency>
+                <groupId>com.github.atool</groupId>
+                <artifactId>fluent-mybatis-processor</artifactId>
+                <scope>provided</scope>
+                <version>${fluent-mybatis.version}</version>
+            </dependency>
+            </dependencies>
     </dependencyManagement>
 
     <dependencies>
