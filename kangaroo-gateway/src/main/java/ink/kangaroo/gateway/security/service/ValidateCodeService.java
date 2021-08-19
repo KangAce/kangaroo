@@ -1,7 +1,5 @@
 package ink.kangaroo.gateway.security.service;
 
-import com.ruoyi.common.core.exception.CaptchaException;
-import com.ruoyi.common.core.web.domain.AjaxResult;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 
 import java.io.IOException;
