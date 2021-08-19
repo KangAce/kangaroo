@@ -1,8 +1,9 @@
 package ink.kangaroo.pixiv.model.entity;
 
 import ink.kangaroo.common.core.web.domain.BaseEntity;
-import ink.kangaroo.pixiv.config.StringListConverter;
+import ink.kangaroo.pixiv.model.support.StringListConverter;
 import ink.kangaroo.pixiv.model.entity.artwords.ImageUrl;
+import ink.kangaroo.pixiv.model.result.PixivRankContentResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -26,7 +27,7 @@ import java.util.List;
 public class PixivArtword extends BaseEntity implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "fun.imore.tribe.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "ink.kangaroo.pixiv.model.support.CustomIdGenerator")
     protected Long id;
     @OneToMany(mappedBy = "pixivRankArtwordKey.artword", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<PixivRankArtword> pixivRanks;

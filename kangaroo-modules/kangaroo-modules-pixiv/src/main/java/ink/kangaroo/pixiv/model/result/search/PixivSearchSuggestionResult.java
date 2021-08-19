@@ -1,5 +1,6 @@
 package ink.kangaroo.pixiv.model.result.search;
 
+import ink.kangaroo.pixiv.model.vo.PixivArtwordVo;
 import lombok.Builder;
 
 @Builder

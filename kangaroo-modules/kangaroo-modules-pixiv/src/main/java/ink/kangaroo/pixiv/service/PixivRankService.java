@@ -2,10 +2,9 @@
 //
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import ink.kangaroo.common.core.utils.DateUtils;
-//import ink.kangaroo.pixiv.entity.PixivRank;
-//import ink.kangaroo.pixiv.entity.PixivRankArtword;
-//import ink.kangaroo.pixiv.entity.result.PixivRankContentResult;
-//import ink.kangaroo.pixiv.entity.result.PixivRankResult;
+//import ink.kangaroo.pixiv.model.entity.*;
+//import ink.kangaroo.pixiv.model.result.PixivRankContentResult;
+//import ink.kangaroo.pixiv.model.result.PixivRankResult;
 //import ink.kangaroo.pixiv.utils.RequestUtil;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
@@ -48,6 +47,7 @@
 //                content = s[1];
 //            }
 //            List<PixivRankArtword> rank = getArtwords(mode, content, date);
+//
 //            pixivRankArtwordRepository.saveAll(rank);
 //            log.info(date + ":" + mode + " 排行爬取完毕");
 //        }

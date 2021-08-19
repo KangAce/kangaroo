@@ -1,5 +1,6 @@
 package ink.kangaroo.gateway.security.handler;
 
+import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -25,10 +26,6 @@ import java.util.List;
 @Component
 public class DefaultSecurityContextRepository implements ServerSecurityContextRepository {
 
-    public final static String TOKEN_HEADER = "Authorization";
-
-    public final static String BEARER = "Bearer ";
-
     private final TokenAuthenticationManager tokenAuthenticationManager;
 
     public DefaultSecurityContextRepository(TokenAuthenticationManager tokenAuthenticationManager) {
@@ -43,11 +40,11 @@ public class DefaultSecurityContextRepository implements ServerSecurityContextRe
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
-        List<String> headers = request.getHeaders().get(TOKEN_HEADER);
+        List<String> headers = request.getHeaders().get(SecurityConstants.TOKEN_AUTHENTICATION);
         if (!CollectionUtils.isEmpty(headers)) {
             String authorization = headers.get(0);
             if (StringUtils.isNotEmpty(authorization)) {
-                String token = authorization.substring(BEARER.length());
+                String token = authorization.substring(SecurityConstants.TOKEN_PREFIX.length());
                 if (StringUtils.isNotEmpty(token)) {
                     return tokenAuthenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(token, null)

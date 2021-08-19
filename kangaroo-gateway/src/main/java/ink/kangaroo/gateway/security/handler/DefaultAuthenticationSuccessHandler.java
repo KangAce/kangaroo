@@ -1,6 +1,7 @@
 package ink.kangaroo.gateway.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.utils.JwtTokenUtil;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.gateway.security.domain.SecurityUserDetails;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -45,8 +47,11 @@ public class DefaultAuthenticationSuccessHandler implements ServerAuthentication
             // 生成JWT token
             Map<String, Object> map = new HashMap<>(3);
             SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
-            map.put("userId", userDetails.getUserId());
-            map.put("username", userDetails.getUsername());
+            map.put(SecurityConstants.DETAILS_USER_ID, userDetails.getUserId());
+            map.put(SecurityConstants.DETAILS_USERNAME, userDetails.getUsername());
+            //TODO
+            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/test"));
+            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/swagger-ui/index.html"));
             map.put("roles", userDetails.getAuthorities());
             String token = JwtTokenUtil.generateToken(map, userDetails.getUsername(), jwtTokenExpired);
             String refreshToken = JwtTokenUtil.generateToken(map, userDetails.getUsername(), jwtTokenRefreshExpired);

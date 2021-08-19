@@ -23,7 +23,7 @@ public class Artwork extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "fun.imore.tribe.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "ink.kangaroo.pixiv.model.support.CustomIdGenerator")
     private Integer id;
 
     /**

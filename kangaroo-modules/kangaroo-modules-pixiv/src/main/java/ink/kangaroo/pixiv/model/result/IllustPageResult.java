@@ -1,8 +1,8 @@
 package ink.kangaroo.pixiv.model.result;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
-import fun.imore.tribe.crawler.pixiv.Illustration.util.RequestUtil;
-import fun.imore.tribe.model.entity.pixiv.artwords.ImageUrl;
+import ink.kangaroo.pixiv.model.entity.artwords.ImageUrl;
+import ink.kangaroo.pixiv.utils.RequestUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

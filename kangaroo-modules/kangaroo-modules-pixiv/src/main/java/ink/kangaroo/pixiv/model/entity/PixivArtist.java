@@ -1,9 +1,8 @@
 package ink.kangaroo.pixiv.model.entity;
 
-import fun.imore.tribe.crawler.pixiv.Illustration.result.PixivRankContentResult;
-import fun.imore.tribe.model.entity.BaseEntity;
-import fun.imore.tribe.model.enums.Sex;
 import ink.kangaroo.common.core.enums.Sex;
+import ink.kangaroo.common.core.web.domain.BaseEntity;
+import ink.kangaroo.pixiv.model.result.PixivRankContentResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -29,7 +28,7 @@ import java.util.List;
 public class PixivArtist extends BaseEntity implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "fun.imore.tribe.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "ink.kangaroo.pixiv.model.support.CustomIdGenerator")
     protected Long id;
     @Column(name = "name")
     protected String name;

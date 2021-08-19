@@ -1,5 +1,6 @@
 package ink.kangaroo.pixiv.model.vo;
 
+import ink.kangaroo.pixiv.model.entity.PixivArtword;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

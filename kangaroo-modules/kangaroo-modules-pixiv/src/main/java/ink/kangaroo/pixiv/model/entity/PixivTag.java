@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class PixivTag extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "fun.imore.tribe.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "ink.kangaroo.pixiv.model.support.CustomIdGenerator")
     private Long id;
     protected String name;
     protected String translatedName;
