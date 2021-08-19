@@ -1,4 +1,4 @@
-package ink.kangaroo.pixiv.config;
+package ink.kangaroo.pixiv.model.support;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

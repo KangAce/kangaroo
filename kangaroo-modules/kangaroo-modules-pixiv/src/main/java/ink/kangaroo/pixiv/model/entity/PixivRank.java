@@ -24,7 +24,7 @@ import java.util.List;
 public class PixivRank extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "fun.imore.tribe.model.entity.support.CustomIdGenerator")
+    @GenericGenerator(name = "custom-id", strategy = "ink.kangaroo.pixiv.model.support.CustomIdGenerator")
     protected Long id;
     @Column(name = "mode")
     private String mode;

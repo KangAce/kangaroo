@@ -62,7 +62,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         String exceptionMessage = ExceptionUtil.getExceptionMessage(ex);
         mailParam.setContent(StringUtils.format("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), exceptionMessage));
         remoteMailService.testMail(mailParam, SecurityConstants.INNER);
-        log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
+        log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ExceptionUtil.getExceptionMessage(ex));
 
         return ServletUtils.webFluxResponseWriter(response, msg);
     }

@@ -2,6 +2,7 @@ package ink.kangaroo.common.core.utils;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.text.Convert;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,19 +13,22 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021/8/5 14:33
  */
 public class SecurityUtils {
+    public static Claims getClaims() {
+        return JwtTokenUtil.parseJwtRsa256(getToken());
+    }
+
     /**
      * 获取用户
      */
     public static String getUsername() {
-        String username = ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USERNAME);
-        return ServletUtils.urlDecode(username);
+        return SecurityUtils.getClaims().getSubject();
     }
 
     /**
      * 获取用户ID
      */
     public static Long getUserId() {
-        return Convert.toLong(ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USER_ID));
+        return Convert.toLong(SecurityUtils.getClaims().get(SecurityConstants.DETAILS_USER_ID));
     }
 
     /**

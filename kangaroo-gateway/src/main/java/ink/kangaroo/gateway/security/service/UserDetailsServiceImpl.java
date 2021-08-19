@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
@@ -45,6 +46,8 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
     @Log(title = "gateway", businessType = BusinessType.GRANT, operatorType = OperatorType.MANAGE, isSaveRequestData = true)
     @Override
     public Mono<UserDetails> findByUsername(String username) {
+        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
+        System.out.println(encode);
         //因为Callable接口是函数式接口，可以使用Lambda表达式
         FutureTask task = new FutureTask((Callable) () -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
         new Thread(task).start();

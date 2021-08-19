@@ -3,6 +3,9 @@ package ink.kangaroo.common.core.web.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import ink.kangaroo.common.core.utils.DateUtils;
 
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
