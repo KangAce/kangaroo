@@ -9,8 +9,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/8/6 9:11
  */
-public interface SysJobLogMapper
-{
+public interface SysJobLogMapper {
     /**
      * 获取quartz调度器日志的计划任务
      *

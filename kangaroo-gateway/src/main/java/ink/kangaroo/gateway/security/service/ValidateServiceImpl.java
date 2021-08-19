@@ -2,27 +2,22 @@ package ink.kangaroo.gateway.security.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.aliyun.openservices.ons.api.Message;
-import com.aliyun.openservices.ons.api.bean.ProducerBean;
-import com.shencaozuo.common.RpcResult;
-import com.shencaozuo.common.captcha.validate.VerifyImageUtil;
-import com.shencaozuo.common.enums.MobileCodeType;
-import com.shencaozuo.common.enums.RedisKeyEnum;
-import com.shencaozuo.common.enums.ResultEnum;
-import com.shencaozuo.common.enums.SliderVerificationCodeType;
 import com.shencaozuo.common.utils.ImageMergeInfo;
 import com.shencaozuo.common.utils.ImageMergeUtils;
 import com.shencaozuo.oauth2.config.MqConfig;
-import com.shencaozuo.oauth2.core.cache.CacheStorage;
-import com.shencaozuo.oauth2.service.ValidateService;
 import com.shencaozuo.oauth2.vo.SliderVerificationVo;
+import ink.kangaroo.common.core.web.domain.AjaxResult;
+import ink.kangaroo.common.redis.enums.RedisKeyEnum;
 import ink.kangaroo.common.redis.service.RedisService;
+import ink.kangaroo.gateway.security.MobileCodeType;
+import ink.kangaroo.gateway.security.SliderVerificationCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -41,26 +36,45 @@ public class ValidateServiceImpl implements ValidateService {
     ProducerBean producerBean;
 
     @Override
-    public RpcResult<Object> checkSlider(String uuid, String oriPercentageStr, SliderVerificationCodeType type) {
-        //校验滑块
-        log.info("checkSlider:key:{}",RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()),uuid));
-        String xPercent = redisService.getBeanForCache(RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()),uuid), String.class);
-        log.info("checkSlider:value:{}",xPercent);
-        redisService.clearCacheForCacheKey(RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()),uuid));
-        if (StringUtils.isEmpty(xPercent)) {
-            return RpcResult.fail("验证码错误");
+    public AjaxResult checkSlider(String uuid, int X, int Y, SliderVerificationCodeType type) {
+        JSONObject message = new JSONObject();
+        message.put("code", 2);
+        message.put("massage", "验证不通过，请重试！");
+        if (null == uuid || uuid.trim().length() < 1) {
+            message.put("code", 0);
+            message.put("massage", "请求参数错误:token为空！");
         }
-        Float percentage = Float.parseFloat(xPercent);
-        Float oriPercentage = Float.parseFloat(oriPercentageStr);
-        boolean flag = VerifyImageUtil.percentageContrast(percentage, oriPercentage);
-        if (!flag) {
-            return RpcResult.fail("验证失败");
+        Map<String, Object> tokenObj = redisService.getCacheMap(RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(type.getType().toString(), uuid));
+        redisService.deleteObject(RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()), uuid));
+
+        if (null == tokenObj) {
+            message.put("code", -1);
+            message.put("massage", "验证码超期，请重新请求！");
+        } else {
+            int sX = (Integer) tokenObj.get("X");
+            int sY = (Integer) tokenObj.get("Y");
+            if (sY != Y) {
+                message.put("code", 0);
+                message.put("massage", "请求参数错误:位置信息不正确！");
+            } else {
+                if (Math.abs(sX - X) <= 2) {
+                    message.put("code", 1);
+                    message.put("massage", "验证通过！");
+                } else {
+                    message.put("code", 2);
+                    message.put("massage", "验证不通过，请重试！");
+                }
+            }
         }
-        return RpcResult.ok("验证成功");
+        if (message.getInteger("code") == 1) {
+            return AjaxResult.success().setData(true);
+        } else {
+            return AjaxResult.success().setData(false);
+        }
     }
 
     @Override
-    public RpcResult<String> getMobileCode(String phone, MobileCodeType type) {
+    public AjaxResult getMobileCode(String phone, MobileCodeType type) {
         return getMobileCode(phone, 10 * 60 * 1000L, type);
     }
 
@@ -80,8 +94,8 @@ public class ValidateServiceImpl implements ValidateService {
         codeObject.put("code", code);
         codeObject.put("times", 0);
         codeObject.put("overtime", System.currentTimeMillis() + time);
-        log.info("getMobileCode:key:{},value:{}", RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()),uuid),codeObject.toJSONString());
-        redisService.cacheObject( RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()),uuid), codeObject.toJSONString(), time);
+        log.info("getMobileCode:key:{},value:{}", RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()), uuid), codeObject.toJSONString());
+        redisService.cacheObject(RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()), uuid), codeObject.toJSONString(), time);
         message.setKey(uuid);
         message.setTag(mqConfig.getTag());
         message.setTopic(mqConfig.getTopic());
@@ -102,7 +116,7 @@ public class ValidateServiceImpl implements ValidateService {
         try {
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
             SliderVerificationVo sliderVerificationVo = new SliderVerificationVo();
-            String key = RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()),uuid);
+            String key = RedisKeyEnum.SLIDER_VALIDATE_TOKEN.wrap2Key(String.valueOf(type.getType()), uuid);
             log.info("getSliderVerificationCode:key:{}", key);
             ImageMergeInfo slideImageInfo = ImageMergeUtils.getSlideImageInfo();
             String xPercent = String.valueOf(slideImageInfo.getXPercent());
@@ -125,16 +139,16 @@ public class ValidateServiceImpl implements ValidateService {
     public RpcResult<String> checkMobileCode(String phone, String uuid, String code, MobileCodeType type) {
         RpcResult<String> cacheMobileCode = this.getCacheMobileCode(phone, uuid, type);
         if (!cacheMobileCode.getCode().equals(ResultEnum.OK.getCode())) {
-            return RpcResult.of(11011,"验证码无效:" + cacheMobileCode.getMsg());
+            return RpcResult.of(11011, "验证码无效:" + cacheMobileCode.getMsg());
         }
         String cacheCode = cacheMobileCode.getData();
         if (StringUtils.isEmpty(cacheCode)) {
-            log.info("获取缓存验证码失败：phone：{}，uuid：{}，type：{}",phone,uuid,type.getType());
-            return RpcResult.of(11012,"验证码错误");
+            log.info("获取缓存验证码失败：phone：{}，uuid：{}，type：{}", phone, uuid, type.getType());
+            return RpcResult.of(11012, "验证码错误");
         }
         if (!cacheCode.equals(code)) {
-            log.info("验证码不相同：phone：{}，uuid：{}，type：{}",phone,uuid,type.getType());
-            return RpcResult.of(11012,"验证码失败");
+            log.info("验证码不相同：phone：{}，uuid：{}，type：{}", phone, uuid, type.getType());
+            return RpcResult.of(11012, "验证码失败");
         }
 
         return RpcResult.ok("验证成功");
@@ -142,7 +156,7 @@ public class ValidateServiceImpl implements ValidateService {
 
     @Override
     public RpcResult<String> getCacheMobileCode(String phone, String uuid, MobileCodeType type) {
-        String key =  RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()),uuid);
+        String key = RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()), uuid);
         log.info("getCacheMobileCode:key:{}", key);
         String cacheCodeJson = redisService.getBeanForCache(key, String.class);
         log.info("getCacheMobileCode:value:{}", cacheCodeJson);
@@ -157,7 +171,7 @@ public class ValidateServiceImpl implements ValidateService {
             redisService.clearCacheForCacheKey(key);
         }
         jsonObject.put("times", jsonObject.getInteger("times") + 1);
-        redisService.cacheObject( RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()),uuid), jsonObject.toJSONString(), 10 * 60 * 1000L);
+        redisService.cacheObject(RedisKeyEnum.SMS_VALIDATE_TOKEN.wrap3Key(phone, String.valueOf(type.getType()), uuid), jsonObject.toJSONString(), 10 * 60 * 1000L);
         return RpcResult.ok(jsonObject.getString("code"));
 
         //需要可以使用三次
