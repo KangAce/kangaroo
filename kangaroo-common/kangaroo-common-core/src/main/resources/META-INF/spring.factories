@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  ink.kangaroo.common.core.utils.SpringUtils
+  ink.kangaroo.common.core.utils.SpringUtils,\
+  ink.kangaroo.common.core.annotation.TrimmedAnnotationFormatterFactory
+
 
   
