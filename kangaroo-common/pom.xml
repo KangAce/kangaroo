@@ -21,6 +21,7 @@
 		<module>kangaroo-common-security</module>
         <module>kangaroo-common-log</module>
         <module>kangaroo-common-datasource</module>
+        <module>kangaroo-common-ekuaishou</module>
     </modules>
 
 </project>
