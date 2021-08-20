@@ -28,7 +28,6 @@
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
         <spring-boot-admin.version>2.4.3</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
-
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
@@ -47,8 +46,9 @@
         <jjwt.version>0.9.1</jjwt.version>
         <wxjava.version>4.1.0</wxjava.version>
         <querydsl.version>5.0.0</querydsl.version>
-        <fluent-mybatis.version>1.6.14</fluent-mybatis.version>
-·    </properties>
+        <fluent-mybatis.version>1.7.2</fluent-mybatis.version>
+        <justauth.version>1.16.3</justauth.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -280,7 +280,7 @@
                 <artifactId>weixin-java-cp</artifactId>
                 <version>${wxjava.version}</version>
             </dependency>
-                <!-- 引入fluent-mybatis 运行依赖包, scope为compile -->
+            <!-- 引入fluent-mybatis 运行依赖包, scope为compile -->
             <dependency>
                 <groupId>com.github.atool</groupId>
                 <artifactId>fluent-mybatis</artifactId>
@@ -293,7 +293,12 @@
                 <scope>provided</scope>
                 <version>${fluent-mybatis.version}</version>
             </dependency>
-            </dependencies>
+            <dependency>
+                <groupId>me.zhyd.oauth</groupId>
+                <artifactId>JustAuth</artifactId>
+                <version>${justauth.version}</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <dependencies>

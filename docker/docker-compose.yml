@@ -89,3 +89,125 @@ services:
       - kangaroo-mysql
     links:
       - kangaroo-mysql
+  es01:
+    build:
+      context: ./elasticsearch/
+      args:
+        ELK_VERSION: 7.5.1
+    container_name: es01
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: data01
+        target: /usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - node.master=true
+      - node.data=true
+      - http.port=9200
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
+  es02:
+    build:
+      context: ./elasticsearch/
+      args:
+        ELK_VERSION: 7.5.1
+    container_name: es02
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: data02
+        target: /usr/share/elasticsearch/data
+    ports:
+      - 9201:9201
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - node.master=true
+      - node.data=true
+      - http.port=9201
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
+  es03:
+    build:
+      context: ./elasticsearch/
+      args:
+        ELK_VERSION: 7.5.1
+    container_name: es03
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: data03
+        target: /usr/share/elasticsearch/data
+    ports:
+      - 9202:9202
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - node.master=true
+      - node.data=true
+      - http.port=9202
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./elasticsearch/data1
+
+  data02:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./elasticsearch/data2
+
+  data03:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./elasticsearch/data3
+
+networks:
+  elastic:
+    driver: bridge
