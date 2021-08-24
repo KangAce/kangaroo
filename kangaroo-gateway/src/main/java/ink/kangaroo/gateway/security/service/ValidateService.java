@@ -1,9 +1,9 @@
 package ink.kangaroo.gateway.security.service;
 
-import com.shencaozuo.common.RpcResult;
-import com.shencaozuo.common.enums.MobileCodeType;
-import com.shencaozuo.common.enums.SliderVerificationCodeType;
-import com.shencaozuo.oauth2.vo.SliderVerificationVo;
+import ink.kangaroo.common.core.domain.R;
+import ink.kangaroo.gateway.security.MobileCodeType;
+import ink.kangaroo.gateway.security.SliderVerificationCodeType;
+import ink.kangaroo.gateway.security.domain.SliderVerificationVo;
 
 /**
  * @author kbw
@@ -19,7 +19,9 @@ public interface ValidateService {
      * @param percentage
      * @return
      */
-    RpcResult<Object> checkSlider(String uuid, String percentage, SliderVerificationCodeType sliderVerificationCodeType);
+//    R<Object> checkSlider(String uuid, String percentage, SliderVerificationCodeType sliderVerificationCodeType);
+
+    R checkSlider(String uuid, int X, int Y, SliderVerificationCodeType type);
 
     /**
      * 获取手机验证码：根据手机验证码
@@ -28,7 +30,7 @@ public interface ValidateService {
      * @param type
      * @return
      */
-    RpcResult<String> getMobileCode(String phone, MobileCodeType type);
+//    R<String> getMobileCode(String phone, MobileCodeType type);
 
     /**
      * 获取手机验证码：根据手机验证码
@@ -38,14 +40,14 @@ public interface ValidateService {
      * @param type
      * @return
      */
-    RpcResult<String> getMobileCode(String phone, Long timeout, MobileCodeType type);
+//    R<String> getMobileCode(String phone, Long timeout, MobileCodeType type);
 
     /**
      * 获取滑块验证码 默认十分钟有效期
      *
      * @return
      */
-    RpcResult<SliderVerificationVo> getSliderVerificationCode(SliderVerificationCodeType type);
+    R<SliderVerificationVo> getSliderVerificationCode(SliderVerificationCodeType type);
 
     /**
      * 获取滑块验证码
@@ -54,7 +56,7 @@ public interface ValidateService {
      * @param timeout
      * @return
      */
-    RpcResult<SliderVerificationVo> getSliderVerificationCode(SliderVerificationCodeType type, Long timeout);
+    R<SliderVerificationVo> getSliderVerificationCode(SliderVerificationCodeType type, Long timeout);
 
     /**
      * 验证手机验证码：根据手机,号码
@@ -62,7 +64,7 @@ public interface ValidateService {
      * @param phone
      * @return
      */
-    RpcResult<String> checkMobileCode(String phone, String uuid, String code, MobileCodeType type);
+//    R<String> checkMobileCode(String phone, String uuid, String code, MobileCodeType type);
 
     /**
      * 获取缓存中的手机验证码
@@ -70,6 +72,6 @@ public interface ValidateService {
      * @param phone
      * @return
      */
-    RpcResult<String> getCacheMobileCode(String phone, String uuid, MobileCodeType type);
+//    R<String> getCacheMobileCode(String phone, String uuid, MobileCodeType type);
 
 }

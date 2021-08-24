@@ -1,43 +1,44 @@
 package ink.kangaroo.gateway.security.handler;
 
-import com.ruoyi.common.core.exception.CaptchaException;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.gateway.service.ValidateCodeService;
+import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
+import ink.kangaroo.gateway.security.SliderVerificationCodeType;
+import ink.kangaroo.gateway.security.domain.SliderVerificationVo;
 import ink.kangaroo.gateway.security.service.ValidateCodeService;
+import ink.kangaroo.gateway.security.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 验证码获取
- * 
+ *
  * @author ruoyi
  */
 @Component
-public class ValidateCodeHandler implements HandlerFunction<ServerResponse>
-{
+public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
+//    @Autowired
+//    private ValidateCodeService validateCodeService;
     @Autowired
-    private ValidateCodeService validateCodeService;
+    private ValidateService validateService;
 
     @Override
-    public Mono<ServerResponse> handle(ServerRequest serverRequest)
-    {
-        AjaxResult ajax;
-        try
-        {
-            ajax = validateCodeService.createCapcha();
-        }
-        catch (IOException e)
-        {
-            return Mono.error(e);
+    public Mono<ServerResponse> handle(ServerRequest serverRequest) {
+        AjaxResult ajax = AjaxResult.fail("");
+        MultiValueMap<String, String> queryParams = serverRequest.queryParams();
+        Integer type = Integer.valueOf(Objects.requireNonNull(queryParams.getFirst("type")));
+        R<SliderVerificationVo> sliderVerificationCode = validateService.getSliderVerificationCode(SliderVerificationCodeType.getByValue(type));
+        if (sliderVerificationCode.getCode() == R.SUCCESS) {
+            ajax = AjaxResult.createAjaxResult().setData(sliderVerificationCode.getData());
         }
         return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(ajax));
     }
