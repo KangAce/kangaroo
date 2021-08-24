@@ -4,9 +4,9 @@ import ink.kangaroo.common.core.exception.BaseException;
 import ink.kangaroo.common.core.utils.bean.BeanUtils;
 import ink.kangaroo.common.core.web.controller.BaseController;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
-import ink.kangaroo.reminders.model.entity.RemindersGroupEntity;
-import ink.kangaroo.reminders.model.mapper.RemindersGroupMapper;
-import ink.kangaroo.reminders.model.param.RemindersGroupParam;
+import ink.kangaroo.reminders.model.entity.RemindersReminderEntity;
+import ink.kangaroo.reminders.model.mapper.RemindersReminderMapper;
+import ink.kangaroo.reminders.model.param.RemindersReminderParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +20,16 @@ import javax.validation.constraints.NotNull;
  */
 @RestController
 @RequestMapping("group")
-public class GroupController extends BaseController {
+public class ReminderController extends BaseController {
 
     @Autowired
-    RemindersGroupMapper listMapper;
+    RemindersReminderMapper reminderMapper;
 
     @PostMapping
-    public AjaxResult addGroup(@Valid RemindersGroupParam param) {
-        RemindersGroupEntity entity = new RemindersGroupEntity();
+    public AjaxResult addReminder(@Valid RemindersReminderParam param) {
+        RemindersReminderEntity entity = new RemindersReminderEntity();
         BeanUtils.copyBeanProp(entity, param);
-        int insert = listMapper.insert(entity);
+        int insert = reminderMapper.insert(entity);
         if (insert > 0) {
             return AjaxResult.success().setData(entity.getId());
         } else {
@@ -38,13 +38,13 @@ public class GroupController extends BaseController {
     }
 
     @PutMapping
-    public AjaxResult updateGroup(@Valid RemindersGroupParam param) {
+    public AjaxResult updateReminder(@Valid RemindersReminderParam param) {
         if (param.getId() == null) {
             throw new BaseException("");
         }
-        RemindersGroupEntity entity = new RemindersGroupEntity();
+        RemindersReminderEntity entity = new RemindersReminderEntity();
         BeanUtils.copyBeanProp(entity, param);
-        int insert = listMapper.updateById(entity);
+        int insert = reminderMapper.updateById(entity);
         if (insert > 0) {
             return AjaxResult.success().setData(entity.getId());
         } else {
@@ -53,9 +53,9 @@ public class GroupController extends BaseController {
     }
 
     @DeleteMapping
-    public AjaxResult deleteGroup(@NotNull Long id) {
+    public AjaxResult deleteReminder(@NotNull Long id) {
 
-        int insert = listMapper.deleteById(id);
+        int insert = reminderMapper.deleteById(id);
         if (insert > 0) {
             return AjaxResult.success().setData(id);
         } else {
@@ -64,9 +64,9 @@ public class GroupController extends BaseController {
     }
 
     @DeleteMapping
-    public AjaxResult getGroup(@NotNull Long id) {
+    public AjaxResult getReminder(@NotNull Long id) {
 
-        RemindersGroupEntity byId = listMapper.findById(id);
+        RemindersReminderEntity byId = reminderMapper.findById(id);
         if (byId != null) {
             return AjaxResult.success().setData(byId);
 
@@ -74,5 +74,6 @@ public class GroupController extends BaseController {
             return AjaxResult.fail("");
         }
     }
+
 
 }

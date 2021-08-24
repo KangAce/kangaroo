@@ -255,7 +255,7 @@ public class VerifyImageUtil {
                 for (int j = 0; j < templateImageData[0].length; j++) {
                     // 如果模板图像当前像素点不是白色 copy源文件信息到目标图片中
                     int rgb = templateImageData[i][j];
-                    if (rgb != 16777215 && rgb <= 0) {
+                    if (rgb <= 0) {
                         targetImage.setRGB(i, j, oriImageData[i][j]);
                     }
                 }

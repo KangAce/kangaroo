@@ -6,16 +6,15 @@ import com.google.common.cache.LoadingCache;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Auther herb
+ * @Auther Kangaroo
  * @Description 本地缓存:用户图形验证码资源
- * @Date: create in ${Time} ${Date}
- * @Modified By: herb
  */
 @Slf4j
 public class ValidateCache {
@@ -54,7 +53,7 @@ public class ValidateCache {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
         List<byte[]> value = new ArrayList<>();
-        value.add("ok".getBytes("utf-8"));
+        value.add("ok".getBytes(StandardCharsets.UTF_8));
         ValidateCache.set("121", value);
         ValidateCache.set("111",value);
         ValidateCache.set("12",value);

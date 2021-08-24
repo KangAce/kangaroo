@@ -34,9 +34,9 @@ public enum RedisKeyEnum {
      */
     MESSAGE_QUEUE_IDEMPOTENT("message:queue:idempotent:%s:%s"),
 
-    KEY_VALIDATE_IMG("message:queue:idempotent:%s:%s"),
-    KEY_VALIDATE_TPL("message:queue:idempotent:%s:%s"),
-    KEY_VALIDATE_TOKEN("message:queue:idempotent:%s:%s"),
+    KEY_VALIDATE_IMG("key:validate:img:%s:%s"),
+    KEY_VALIDATE_TPL("key:validate:tpl:%s:%s"),
+    KEY_VALIDATE_TOKEN("key:validate:token:%s:%s"),
 
     ;
     private final String keyName;
