@@ -2,7 +2,6 @@ package ink.kangaroo.reminders;
 
 import ink.kangaroo.common.security.annotation.EnableCustomConfig;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author kbw
@@ -12,6 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableCustomConfig
 public class KangarooRemindersApplication {
     public static void main(String[] args) {
-        SpringApplication.run(KangarooRemindersApplication.class,args);
+        SpringApplication.run(KangarooRemindersApplication.class, args);
     }
 }
