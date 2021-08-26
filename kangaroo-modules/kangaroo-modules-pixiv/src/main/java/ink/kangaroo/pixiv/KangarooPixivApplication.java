@@ -7,6 +7,8 @@ import ink.kangaroo.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 
@@ -26,5 +28,12 @@ public class KangarooPixivApplication {
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager){
         return new JPAQueryFactory(entityManager);
+    }
+    @Bean
+    RestTemplate restTemplate(){
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(10*1000);
+        requestFactory.setReadTimeout(10*1000);
+        return new RestTemplate(requestFactory);
     }
 }
