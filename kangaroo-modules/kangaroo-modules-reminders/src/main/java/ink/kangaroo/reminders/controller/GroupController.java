@@ -8,6 +8,7 @@ import ink.kangaroo.reminders.model.entity.RemindersGroupEntity;
 import ink.kangaroo.reminders.model.mapper.RemindersGroupMapper;
 import ink.kangaroo.reminders.model.param.RemindersGroupParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import javax.validation.constraints.NotNull;
 public class GroupController extends BaseController {
 
     @Autowired
+    @Qualifier("remindersGroupMapper")
     RemindersGroupMapper listMapper;
 
     @PostMapping
