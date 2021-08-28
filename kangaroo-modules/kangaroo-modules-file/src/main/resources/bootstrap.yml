@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9205
+  port: 9300
 
 # Spring
-spring:
+spring: 
   application:
     # 应用名称
-    name: kangaroo-pixiv
+    name: kangaroo-file
   profiles:
     # 环境配置
     active: dev

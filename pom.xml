@@ -48,6 +48,8 @@
         <querydsl.version>5.0.0</querydsl.version>
         <fluent-mybatis.version>1.7.2</fluent-mybatis.version>
         <justauth.version>1.16.3</justauth.version>
+        <javacpp.version>1.5.4</javacpp.version>
+        <javacpp-ffmpeg.version>4.3.1</javacpp-ffmpeg.version>
     </properties>
 
     <dependencyManagement>
@@ -298,6 +300,59 @@
                 <artifactId>JustAuth</artifactId>
                 <version>${justauth.version}</version>
             </dependency>
+            <!--引入Javacpp-->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacpp</artifactId>
+                <version>${javacpp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacpp</artifactId>
+                <version>${javacpp.version}</version>
+                <classifier>linux-x86_64</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacpp</artifactId>
+                <version>${javacpp.version}</version>
+                <classifier>macosx-x86_64</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>
+                <classifier>linux-x86_64</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <classifier>windows-x86_64</classifier>
+                <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>
+                <classifier>macosx-x86_64</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacv</artifactId>
+                <version>${javacpp.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
