@@ -4,7 +4,6 @@ import ink.kangaroo.gateway.security.config.properties.IgnoreWhiteProperties;
 import ink.kangaroo.gateway.security.handler.*;
 import ink.kangaroo.gateway.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.DelegatingReactiveAuthenticationManager;
@@ -18,11 +17,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author kbw
@@ -82,7 +77,6 @@ public class WebfluxSecurityConfig {
                             if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPost())) {
                                 String[] post = ignoreWhiteProperties.getPost().toArray(new String[0]);
                                 exchange.pathMatchers(HttpMethod.POST, post).permitAll();
-
                             }
                             if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getDelete())) {
                                 String[] delete = ignoreWhiteProperties.getDelete().toArray(new String[0]);
@@ -91,7 +85,6 @@ public class WebfluxSecurityConfig {
                             if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPut())) {
                                 String[] put = ignoreWhiteProperties.getPut().toArray(new String[0]);
                                 exchange.pathMatchers(HttpMethod.PUT, put).permitAll();
-
                             }
                             if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getHead())) {
                                 String[] head = ignoreWhiteProperties.getHead().toArray(new String[0]);

@@ -4,8 +4,11 @@ import ink.kangaroo.common.core.constant.Constants;
 import ink.kangaroo.common.core.text.StrFormatter;
 import org.springframework.util.AntPathMatcher;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author kbw
@@ -187,8 +190,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @param link 链接
      * @return 结果
      */
-    public static boolean ishttp(String link)
-    {
+    public static boolean ishttp(String link) {
         return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
     }
 
@@ -229,5 +231,75 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     @SuppressWarnings("unchecked")
     public static <T> T cast(Object obj) {
         return (T) obj;
+    }
+
+    public static boolean isUrl(String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        str = str.trim();
+        return str.matches("^(http|https)://.+");
+    }
+
+
+    public static String getDomainForUrl(String url) {
+        String re ="((http|ftp|https)://)(([a-zA-Z0-9._-]+)|([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}))(([a-zA-Z]{2,6})|(:[0-9]{1,4})?)";
+        String str = "";
+        //编译正则表达式
+        Pattern  pattern = Pattern.compile(re);
+        //忽略大小写的写法
+//        Pattern  pattern = Pattern.compile(re,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(url);
+        //若url = hhtp：//127.0.0.1:8090 或 www.baidu.com ，正则表达式表示匹配
+        if (matcher.matches()){
+            str = url;
+        }else {
+            String[] split2= url.split(re);
+            if (split2.length>1){
+                String substring = url.substring(0, url.length() - split2[1].length());
+                str = substring;
+            }else {
+                str = split2[0];
+            }
+        }
+        return str;
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        if ((len & 1) == 1) {
+            s = "0" + s;
+            len++;
+        }
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i + 1), 16));
+        }
+        return data;
+    }
+
+
+    public static String convertToDownloadSpeed(BigDecimal bigDecimal, int scale) {
+        BigDecimal unit = new BigDecimal(1);
+        BigDecimal kb = new BigDecimal(1 << 10);
+        BigDecimal mb = new BigDecimal(1 << 10).multiply(kb);
+        BigDecimal gb = new BigDecimal(1 << 10).multiply(mb);
+        BigDecimal tb = new BigDecimal(1 << 10).multiply(gb);
+        BigDecimal pb = new BigDecimal(1 << 10).multiply(tb);
+        BigDecimal eb = new BigDecimal(1 << 10).multiply(pb);
+        if (bigDecimal.divide(kb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(unit, scale, BigDecimal.ROUND_HALF_UP).toString() + " B";
+        else if (bigDecimal.divide(mb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(kb, scale, BigDecimal.ROUND_HALF_UP).toString() + " KB";
+        else if (bigDecimal.divide(gb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(mb, scale, BigDecimal.ROUND_HALF_UP).toString() + " MB";
+        else if (bigDecimal.divide(tb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(gb, scale, BigDecimal.ROUND_HALF_UP).toString() + " GB";
+        else if (bigDecimal.divide(pb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(tb, scale, BigDecimal.ROUND_HALF_UP).toString() + " TB";
+        else if (bigDecimal.divide(eb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
+            return bigDecimal.divide(pb, scale, BigDecimal.ROUND_HALF_UP).toString() + " PB";
+        return bigDecimal.divide(eb, scale, BigDecimal.ROUND_HALF_UP).toString() + " EB";
     }
 }
