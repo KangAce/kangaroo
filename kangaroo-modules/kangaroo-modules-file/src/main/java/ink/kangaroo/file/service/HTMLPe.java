@@ -12,6 +12,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,78 +27,23 @@ import java.util.ArrayList;
 public class HTMLPe {
     public static void main(String[] args) throws IOException, InterruptedException {
 
-//        System.setProperty("webdriver.chrome.driver","D:\\Devsoftware\\chrome-win\\chrome.exe");//这一步必不可少
-
-//        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Google\\Chrome\\Application\\chromedriver.exe");
-//
-//
-//        ChromeOptions options = new ChromeOptions();
-//        options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
-//        ChromeDriver driver = new ChromeDriver(options);
-//
-//        //driver.quit();
-//        String pageSource = driver.getPageSource();
-
-        String path = null;
-        path = new String("D:\\Devsoftware\\chrome-win\\chrome.exe".getBytes(), StandardCharsets.UTF_8);
-
-//       String  path ="D:\\develop\\project\\toString\\chrome-win\\chrome.exe";
-        ArrayList<String> arrayList = new ArrayList<>();
-        new LaunchOptions();
-        LaunchOptions launchOptions = new LaunchOptions();
-        launchOptions.setArgs(arrayList);
-        launchOptions.setTimeout(3000000);
-        launchOptions.setHeadless(false);
-        launchOptions.setExecutablePath(path);
-        arrayList.add("--no-sandbox");
-        arrayList.add("--disable-setuid-sandbox");
-        Browser browser = Puppeteer.launch(launchOptions);
-        Page page = browser.newPage();
-
-//        System.out.println(pageSource);
-        Document document = Jsoup.parse(page.content());
-        for (Element div : document.body().select("div#header").select("div").select("div.tophead").select("div.wrap.mt20").select("div.box.movie_list").select("ul").select("li").select("a")) {
-            System.out.println(div);
-            String href = div.attr("href");
-            String fileName = div.attr("alt");
-            System.out.println();
-
-//            page = browser.newPage();
-            System.out.println(href);
-            try {
-                page.goTo(href);
-            }catch (TimeoutException e){
-//                Thread.sleep(10000);
-                continue;
-            } catch (InterruptedException e) {
-                continue;
-            }
-            String content = page.content();
-            Document parse = Jsoup.parse(content);
-            Elements select = parse.body().select("div#header").select("div").select("div.tophead.wk").select("div.player").select("div").select("video#video.video-js").select("source");
-            System.out.println("select(\"div#header\").select(\"div\").select(" + select);
-            String src = select.attr("src");
-            M3U8 load = null;
-            try {
-                load = M3U8Loader.load(src);
-            } catch (Exception e) {
-                continue;
-            }
-            load.setDir("D:\\m3u8JavaTest");
-            load.setFileName(fileName);
-            load.go();
-            System.out.println("第一次循环");
-        }
-        try {
-            page.close();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-//        System.out.println(stringResponseEntity.getBody());
-
-//        System.out.println("=======================content=============="+content);
-
+        System.setProperty("webdriver.chrome.driver", "D:\\Devsoftware\\chrome-win\\chromedriver.exe");//这一步必不可少
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "window-size=1920x3000"/*指定浏览器分辨率*/,
+                "--disable-gpu"/*谷歌文档提到需要加上这个属性来规避bug*/,
+                "--hide-scrollbars"/*隐藏滚动条, 应对一些特殊页面*/,
+                "blink-settings=imagesEnabled=false"/*不加载图片, 提升速度*/,
+                "--headless"/*浏览器不提供可视化页面. linux下如果系统不支持可视化不加这条会启动失败*/);
+//        options.setBinary("D:\\Devsoftware\\chrome-win\\chromedriver.exe");
+        options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+        ChromeDriver driver = new ChromeDriver(options);
+        driver.get("https://www.baidu.com/");
+        String pageSource = driver.getPageSource();
+        System.out.println(pageSource);
+        driver.quit();
 
     }
 }
