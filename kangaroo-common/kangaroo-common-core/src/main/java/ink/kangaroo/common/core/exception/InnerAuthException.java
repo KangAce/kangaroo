@@ -1,5 +1,7 @@
 package ink.kangaroo.common.core.exception;
 
+import ink.kangaroo.common.core.exception.base.BaseException;
+
 /**
  * 内部认证异常
  * 

@@ -1,6 +1,6 @@
 package ink.kangaroo.common.core.exception.mail;
 
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 
 /**
  * @author kbw

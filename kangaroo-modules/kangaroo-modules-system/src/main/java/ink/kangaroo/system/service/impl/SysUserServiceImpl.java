@@ -2,7 +2,7 @@ package ink.kangaroo.system.service.impl;
 
 import ink.kangaroo.common.core.constant.UserConstants;
 import ink.kangaroo.common.core.enums.ResultEnums;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.SecurityUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.system.api.domain.SysRole;

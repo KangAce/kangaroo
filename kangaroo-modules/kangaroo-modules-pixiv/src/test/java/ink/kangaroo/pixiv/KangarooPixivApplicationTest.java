@@ -51,11 +51,13 @@ public class KangarooPixivApplicationTest {
         //获取商品库里商品列表 api
         map.put(baseUrl + "/api/mgr/tencent/create/products", "{\"accountId\":16961308,\"productCatalogId\":268724245,\"productName\":\"\"}");
         ExecutorService exec = Executors.newFixedThreadPool(map.keySet().size());
-        for (String url : map.keySet()) {
-            Runnable task = () -> {
-                extracted(url, map.get(url));
-            };
-            exec.submit(task);
+        for (int i = 0; i < 2; i++) {
+            for (String url : map.keySet()) {
+                Runnable task = () -> {
+                    extracted(url, map.get(url));
+                };
+                exec.submit(task);
+            }
         }
 
         exec.shutdown();
@@ -144,7 +146,7 @@ public class KangarooPixivApplicationTest {
         while (true) {
             ResponseEntity<String> stringResponseEntity = RestTemplateUtils.post(url, request, String.class);
 //            System.out.println(stringResponseEntity);
-            System.out.println(url.substring(url.lastIndexOf("/")) +":\t"+ stringResponseEntity.getBody());
+            System.out.println(url.substring(url.lastIndexOf("/")) + ":\t" + stringResponseEntity.getBody());
         }
     }
 }

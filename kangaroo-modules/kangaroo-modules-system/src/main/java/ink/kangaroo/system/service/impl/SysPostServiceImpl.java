@@ -1,7 +1,7 @@
 package ink.kangaroo.system.service.impl;
 
 import ink.kangaroo.common.core.constant.UserConstants;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.system.domain.SysPost;
 import ink.kangaroo.system.mapper.SysPostMapper;
