@@ -1,6 +1,6 @@
 package ink.kangaroo.common.core.utils.sql;
 
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.StringUtils;
 
 /**

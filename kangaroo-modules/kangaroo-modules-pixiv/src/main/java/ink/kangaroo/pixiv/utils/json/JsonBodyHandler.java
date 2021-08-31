@@ -2,7 +2,7 @@ package ink.kangaroo.pixiv.utils.json;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import lombok.AllArgsConstructor;
 
 import java.io.ByteArrayInputStream;

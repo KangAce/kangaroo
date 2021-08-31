@@ -1,6 +1,6 @@
 package ink.kangaroo.reminders.controller;
 
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.bean.BeanUtils;
 import ink.kangaroo.common.core.web.controller.BaseController;
 import ink.kangaroo.common.core.web.domain.AjaxResult;

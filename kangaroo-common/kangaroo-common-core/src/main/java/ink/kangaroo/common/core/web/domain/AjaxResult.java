@@ -1,7 +1,7 @@
 package ink.kangaroo.common.core.web.domain;
 
 import ink.kangaroo.common.core.enums.ResultEnums;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 
 import java.util.HashMap;
 

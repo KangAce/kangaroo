@@ -1,6 +1,6 @@
 package ink.kangaroo.file.domain;
 
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.file.listener.DownloadListener;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package ink.kangaroo.common.core.exception;
+package ink.kangaroo.common.core.exception.base;
 
 import ink.kangaroo.common.core.enums.ResultEnums;
 

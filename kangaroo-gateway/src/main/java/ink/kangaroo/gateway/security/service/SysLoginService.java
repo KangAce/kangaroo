@@ -5,7 +5,7 @@ import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.constant.UserConstants;
 import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.enums.UserStatus;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.utils.SecurityUtils;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;

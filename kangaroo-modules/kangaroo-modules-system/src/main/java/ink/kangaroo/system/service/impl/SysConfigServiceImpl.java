@@ -2,7 +2,7 @@ package ink.kangaroo.system.service.impl;
 
 import ink.kangaroo.common.core.constant.Constants;
 import ink.kangaroo.common.core.constant.UserConstants;
-import ink.kangaroo.common.core.exception.BaseException;
+import ink.kangaroo.common.core.exception.base.BaseException;
 import ink.kangaroo.common.core.text.Convert;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.common.redis.service.RedisService;

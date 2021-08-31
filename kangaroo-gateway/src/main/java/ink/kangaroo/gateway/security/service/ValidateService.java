@@ -16,7 +16,6 @@ public interface ValidateService {
      * 验证滑块验证码：根据验证码的uuid以及Y轴偏移量验证滑块验证码是否正确
      *
      * @param uuid
-     * @param percentage
      * @return
      */
 //    R<Object> checkSlider(String uuid, String percentage, SliderVerificationCodeType sliderVerificationCodeType);

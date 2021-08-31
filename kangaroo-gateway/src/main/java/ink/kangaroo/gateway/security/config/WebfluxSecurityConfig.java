@@ -14,6 +14,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
@@ -26,6 +27,8 @@ import java.util.LinkedList;
  */
 @EnableWebFluxSecurity
 public class WebfluxSecurityConfig {
+//    @Autowired
+//    private AuthenticationConverter authenticationConverter;
     @Autowired
     private DefaultAuthorizationManager defaultAuthorizationManager;
 
@@ -58,7 +61,7 @@ public class WebfluxSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
-
+//        httpSecurity.authenticationManager().addFilterAfter()
         httpSecurity
                 // 登录认证处理
                 .authenticationManager(reactiveAuthenticationManager())
@@ -121,7 +124,15 @@ public class WebfluxSecurityConfig {
                 .and()
                 .csrf().disable()
         ;
-        return httpSecurity.build();
+        SecurityWebFilterChain chain = httpSecurity.build();
+//        // 设置自定义登录参数转换器
+//        chain.getWebFilters()
+//                .filter(webFilter -> webFilter instanceof AuthenticationWebFilter)
+//                .subscribe(webFilter -> {
+//                    AuthenticationWebFilter filter = (AuthenticationWebFilter) webFilter;
+//                    filter.setServerAuthenticationConverter(authenticationConverter);
+//                });
+        return chain;
     }
 
     /**
@@ -142,6 +153,7 @@ public class WebfluxSecurityConfig {
             // 其他登陆方式 (比如手机号验证码登陆) 可在此设置不得抛出异常或者 Mono.error
             return Mono.empty();
         });
+
         // 必须放最后不然会优先使用用户名密码校验但是用户名密码不对时此 AuthenticationManager 会调用 Mono.error 造成后面的 AuthenticationManager 不生效
         managers.add(new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsServiceImpl));
         managers.add(tokenAuthenticationManager);
