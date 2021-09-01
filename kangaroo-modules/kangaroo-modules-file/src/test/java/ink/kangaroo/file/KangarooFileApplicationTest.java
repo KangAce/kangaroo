@@ -23,9 +23,5 @@ public class KangarooFileApplicationTest {
     @Test
     void contextLoads() throws ServiceException, IOException, InterruptedException {
 
-        m3U8.setDir("D://m3u8JavaTest");
-        m3U8.setFileName("Test.mp4");
-        m3U8.go();
-
     }
 }
