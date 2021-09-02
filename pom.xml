@@ -208,6 +208,12 @@
                 <artifactId>kangaroo-common-redis</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
+            <!-- 缓存服务 -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-mongodb</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
 
             <!-- Kangaroo Api System -->
             <dependency>

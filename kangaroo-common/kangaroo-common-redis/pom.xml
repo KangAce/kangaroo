@@ -23,7 +23,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-
 		<!-- kangaroo Common Core -->
 		<dependency>
 			<groupId>ink.kangaroo</groupId>

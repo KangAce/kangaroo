@@ -68,6 +68,11 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-swagger</artifactId>
         </dependency>
+        <!-- Kangaroo Common Mongo -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-mongodb</artifactId>
+        </dependency>
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>
