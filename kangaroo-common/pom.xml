@@ -22,6 +22,7 @@
         <module>kangaroo-common-log</module>
         <module>kangaroo-common-datasource</module>
         <module>kangaroo-common-ekuaishou</module>
+        <module>kangaroo-common-mongodb</module>
     </modules>
 
 </project>

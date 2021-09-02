@@ -2,9 +2,11 @@ package ink.kangaroo.pixiv;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import ink.kangaroo.common.core.utils.RestTemplateUtils;
+import ink.kangaroo.pixiv.model.Temporary;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,6 +31,8 @@ import java.util.concurrent.Executors;
 @Rollback(value = true)
 @Transactional
 public class KangarooPixivApplicationTest {
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     public static void main(String[] args) {
 //        String baseUrl = "http://192.168.1.107:91";
@@ -76,6 +80,9 @@ public class KangarooPixivApplicationTest {
 
     @Test
     void contextLoad() {
+        Temporary temporary = new Temporary();
+        temporary.setState(0);
+        mongoTemplate.insert(temporary);
 //        target();
 //        targets();
 //        profiles();
