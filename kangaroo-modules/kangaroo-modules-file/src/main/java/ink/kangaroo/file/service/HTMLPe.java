@@ -1,25 +1,11 @@
 package ink.kangaroo.file.service;
 
-import com.alibaba.nacos.shaded.com.google.protobuf.ServiceException;
-import com.ruiyun.jvppeteer.core.Puppeteer;
-import com.ruiyun.jvppeteer.core.browser.Browser;
-import com.ruiyun.jvppeteer.core.page.Page;
-import com.ruiyun.jvppeteer.exception.TimeoutException;
-import com.ruiyun.jvppeteer.options.LaunchOptions;
 import ink.kangaroo.common.core.utils.DateUtils;
 import ink.kangaroo.common.core.utils.DecimalUtils;
-import ink.kangaroo.file.M3U8Loader;
-import ink.kangaroo.file.domain.M3U8;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author kbw
@@ -28,12 +14,17 @@ import java.util.ArrayList;
  */
 public class HTMLPe {
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println(DateUtils.getTime().replace("-","").replace(" ","").replace(":",""));
-        System.out.println(62^4);
-        System.out.println(DecimalUtils._10_to_N(Long.parseLong(DateUtils.getTime().replace("-","").replace(" ","").replace(":","")),62));
+        System.out.println(DateUtils.getTime().replace("-", "").replace(" ", "").replace(":", ""));
+        System.out.println(DecimalUtils._10_to_N(Long.parseLong(DateUtils.getTime().replace("-", "").replace(" ", "").replace(":", "")), 62));
         String s = DecimalUtils._10_to_N(System.currentTimeMillis() % 14776336, 62);
-        System.out.println(DecimalUtils.N_to_10(s,62));
+        System.out.println(s);
+        System.out.println(DecimalUtils.N_to_10(s, 62));
         System.out.println();
+
+        //定义指定视频ID
+        extracted1(10,2);
+
+
 //        System.setProperty("webdriver.chrome.driver", "D:\\Devsoftware\\chrome-win\\chromedriver.exe");//这一步必不可少
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--no-sandbox",
@@ -52,5 +43,87 @@ public class HTMLPe {
 //        System.out.println(pageSource);
 //        driver.quit();
 
+    }
+
+    /**
+     * @param creativeNum 定义需要创建的创意数量
+     * @param vcount      定义视频数量
+     */
+    private static void extracted(int creativeNum, int vcount) {
+        String specifyTheVideo = "55";
+
+        List<String> resultList = new ArrayList<>();
+        //视频idlist
+        List<String> vids = new ArrayList<>();
+        for (int i = 0; i < vcount; i++) {
+            vids.add(String.valueOf(i));
+        }
+        int sumcount = creativeNum * vcount;//100
+
+        int currCount = 0;
+        int index = 0;
+        for (int i = 0; i < sumcount&&index < vids.size(); i++) {
+            currCount++;
+            if (currCount == creativeNum) {
+                currCount = 0;
+                sumcount++;
+                index++;
+                resultList.add(specifyTheVideo);
+                continue;
+            }
+            resultList.add(vids.get(index));
+        }
+        System.out.println(resultList.size());
+        System.out.println(resultList);
+    }
+    /**
+     * @param creativeNum 定义需要创建的创意数量
+     * @param vcount      定义视频数量
+     */
+    private static void extracted1(int creativeNum, int vcount) {
+        String specifyTheVideo = "55";
+
+        List<String> resultList = new ArrayList<>();
+        //视频idlist
+        List<String> vids = new ArrayList<>();
+        for (int i = 0; i < vcount; i++) {
+            vids.add(String.valueOf(i));
+        }
+        List<String> tmpList = new ArrayList<>();
+        for (String vid : vids) {
+            for (int i = 0; i < creativeNum; i++) {
+                tmpList.add(vid);
+            }
+        }
+        int currnum = 0;/*
+        for (String tmp : tmpList) {
+            currnum++;
+            if (currnum%creativeNum==0){
+                resultList.add(specifyTheVideo);
+                continue;
+            }
+            resultList.add(tmp);
+        }*/
+        for (int i = 0; i < tmpList.size(); i++) {
+            currnum++;
+            if (currnum%creativeNum==0){
+                resultList.add(specifyTheVideo);
+                i--;
+                continue;
+            }
+            resultList.add(tmpList.get(i));
+
+        }
+
+        System.out.println(resultList.size());
+        System.out.println(resultList);
+
+        List<List<String>> res = new ArrayList<>();
+        for (String s : resultList) {
+            List<String> tmpList1 = new ArrayList<>();
+            for (int i = 0; i <creativeNum; i++) {
+
+            }
+        }
     }
 }
