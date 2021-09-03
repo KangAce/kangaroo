@@ -20,6 +20,7 @@
         <module>kangaroo-modules-file</module>
         <module>kangaroo-modules-mail</module>
         <module>kangaroo-modules-reminders</module>
+        <module>kangaroo-modules-wms</module>
     </modules>
 
     <properties>
