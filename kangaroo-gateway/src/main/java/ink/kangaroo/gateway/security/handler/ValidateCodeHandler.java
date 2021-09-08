@@ -22,7 +22,7 @@ import java.util.Optional;
 /**
  * 验证码获取
  *
- * @author ruoyi
+ * @author Kangaroo
  */
 @Component
 public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {

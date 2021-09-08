@@ -53,28 +53,45 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- RuoYi Common DataSource -->
+        <!-- Kangaroo Common DataSource -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-datasource</artifactId>
         </dependency>
 
-        <!--        &lt;!&ndash; RuoYi Common DataScope &ndash;&gt;-->
+        <!--        &lt;!&ndash; Kangaroo Common DataScope &ndash;&gt;-->
         <!--        <dependency>-->
         <!--            <groupId>ink.kangaroo</groupId>-->
         <!--            <artifactId>kangaroo-common-datascope</artifactId>-->
         <!--        </dependency>-->
 
-        <!-- RuoYi Common Log -->
+        <!-- Kangaroo Common Log -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-log</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Swagger -->
+        <!-- Kangaroo Common Swagger -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-swagger</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -51,19 +51,19 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- RuoYi Common DataSource -->
+        <!-- Kangaroo Common DataSource -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-datasource</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Log -->
+        <!-- Kangaroo Common Log -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-log</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Swagger -->
+        <!-- Kangaroo Common Swagger -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-swagger</artifactId>
