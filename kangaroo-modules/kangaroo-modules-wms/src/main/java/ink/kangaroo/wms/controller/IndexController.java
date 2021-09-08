@@ -1,5 +1,6 @@
 package ink.kangaroo.wms.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  * @date 2021/9/3 18:22
  */
-@RestController
+@Slf4j
+@Controller
 @RequestMapping("/")
 public class IndexController {
+
+    @RequestMapping
+    public String index(Model model) {
+        model.addAttribute("context","你说啥");
+        return "index";
+    }
 
     @RequestMapping("welcome")
     public String welcome(Model model) {

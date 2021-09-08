@@ -244,6 +244,18 @@
                 <artifactId>kangaroo-modules-job</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
+            <!-- Kangaroo Modules Freemarker -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-freemarker</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
+            <!-- Kangaroo Modules Thread Pool -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-threadpool</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
 
             <!-- Kangaroo Common DataSource -->
             <dependency>

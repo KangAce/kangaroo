@@ -12,8 +12,8 @@
     <artifactId>kangaroo-gateway</artifactId>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
         <!-- SpringCloud Gateway -->
@@ -78,6 +78,10 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-log</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-threadpool</artifactId>
+        </dependency>
 
         <!-- Swagger -->
         <dependency>
@@ -111,7 +115,23 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
-
-
-
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>ink.kangaroo.gateway.KangarooGatewayApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

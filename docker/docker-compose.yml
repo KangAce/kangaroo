@@ -84,7 +84,18 @@ services:
       context: ./kangaroo/modules/job
       dockerfile: dockerfile
     ports:
-    - "9300:9300"
+    - "9204:9204"
+    depends_on:
+      - kangaroo-mysql
+    links:
+      - kangaroo-mysql
+  kangaroo-modules-system:
+    container_name: kangaroo-modules-system
+    build:
+      context: ./kangaroo/modules/system
+      dockerfile: dockerfile
+    ports:
+    - "9201:9201"
     depends_on:
       - kangaroo-mysql
     links:

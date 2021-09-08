@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * 验证码处理
  * 
- * @author ruoyi
+ * @author Kangaroo
  */
 public interface ValidateCodeService
 {

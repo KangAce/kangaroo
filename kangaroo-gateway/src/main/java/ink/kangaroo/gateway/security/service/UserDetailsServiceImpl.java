@@ -10,13 +10,15 @@ import ink.kangaroo.system.api.RemoteUserService;
 import ink.kangaroo.system.api.domain.SysUser;
 import ink.kangaroo.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
@@ -24,7 +26,8 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -36,24 +39,27 @@ import java.util.concurrent.FutureTask;
 public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     private final RemoteUserService remoteUserService;
+    private final Executor executor;
 
     @Lazy
     @Autowired(required = false)
-    public UserDetailsServiceImpl(RemoteUserService remoteUserService) {
+    public UserDetailsServiceImpl(RemoteUserService remoteUserService,@Qualifier("customizeThreadPool") Executor executor) {
         this.remoteUserService = remoteUserService;
+        this.executor = executor;
     }
 
     @Log(title = "gateway", businessType = BusinessType.GRANT, operatorType = OperatorType.MANAGE, isSaveRequestData = true)
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
-        System.out.println(encode);
-        //因为Callable接口是函数式接口，可以使用Lambda表达式
-        FutureTask task = new FutureTask((Callable) () -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+//        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
+//        //因为Callable接口是函数式接口，可以使用Lambda表达式
+        executor.execute(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+        FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
         new Thread(task).start();
+//        Future<R<LoginUser>> task = loginUserR(username);
         R<LoginUser> userInfoR = null;
         try {
-            userInfoR = (R<LoginUser>) task.get();
+            userInfoR = task.get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,6 +95,11 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
 //        assert securityUserDetails != null;
 //        return Mono.just(securityUserDetails);
+    }
+
+    @Async
+    Future<R<LoginUser>> loginUserR(String username) {
+        return AsyncResult.forValue(remoteUserService.getUserInfo(username, SecurityConstants.INNER));
     }
 
 }

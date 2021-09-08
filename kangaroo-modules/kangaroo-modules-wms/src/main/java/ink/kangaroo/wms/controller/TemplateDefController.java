@@ -3,6 +3,7 @@ package ink.kangaroo.wms.controller;
 import ink.kangaroo.wms.model.TemplateDef;
 import ink.kangaroo.wms.service.ModuleService;
 import ink.kangaroo.wms.service.TemplateDefService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/9/3 18:23
  */
-
+@Slf4j
 @RestController
 @RequestMapping("/def")
 public class TemplateDefController {
@@ -85,7 +86,7 @@ public class TemplateDefController {
     public Boolean update(@PathVariable String type, @PathVariable Integer id, HttpServletRequest request) {
         Integer workId = 1;//Integer.parseInt(user.get("workId"));
 
-        logger.info("[{}@workId]:{} (TemplateDef) id[{}]", workId, type, id);
+        log.info("[{}@workId]:{} (TemplateDef) id[{}]", workId, type, id);
 
         if ("delete".equals(type)) {
             TemplateDef def = new TemplateDef();
