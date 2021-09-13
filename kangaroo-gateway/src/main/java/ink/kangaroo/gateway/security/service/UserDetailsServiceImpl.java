@@ -53,9 +53,8 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
     public Mono<UserDetails> findByUsername(String username) {
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
 //        //因为Callable接口是函数式接口，可以使用Lambda表达式
-        executor.execute(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
         FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
-        new Thread(task).start();
+        executor.execute(task);
 //        Future<R<LoginUser>> task = loginUserR(username);
         R<LoginUser> userInfoR = null;
         try {
