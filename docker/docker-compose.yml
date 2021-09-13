@@ -70,6 +70,7 @@ services:
   kangaroo-gateway:
     container_name: kangaroo-gateway
     build:
+      network_mode: "host"
       context: ./kangaroo/gateway
       dockerfile: dockerfile
     ports:

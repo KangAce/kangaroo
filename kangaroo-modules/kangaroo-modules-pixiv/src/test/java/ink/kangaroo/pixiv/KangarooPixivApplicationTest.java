@@ -6,7 +6,10 @@ import ink.kangaroo.pixiv.model.Temporary;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -80,9 +83,26 @@ public class KangarooPixivApplicationTest {
 
     @Test
     void contextLoad() {
-        Temporary temporary = new Temporary();
-        temporary.setState(0);
-        mongoTemplate.insert(temporary);
+        int currentHours = 15;
+        int currentMinute = 5;
+
+        List<CopyTask> copyTask = mongoTemplate.find(Query.query(Criteria.where("is_timer_create").is(true).and("is_timing_enable").is(true).and("is_deleted").is(false).and("timer_time").is(String.format("%02d",currentHours)+":"+String.format("%02d",currentMinute))), CopyTask.class);
+        System.out.println(String.format("%02d",currentHours)+":"+String.format("%02d",currentMinute));
+        System.out.println(copyTask);
+//        Temporary temporary = new Temporary();
+//        temporary.setState(0);
+//        mongoTemplate.insert(temporary);
+//        Query query = Query.query(Criteria.where("task_id").is("6139c453d6063b000134b4a9"));
+//        query.skip(0);
+//        query.limit(10);
+//        query.with(Sort.by(
+//                Sort.Order.desc("create_time")
+//        ));
+//        List<TimingCreateHistory> timingCreateHistories = mongoTemplate.find(query, TimingCreateHistory.class);
+//        System.out.println(timingCreateHistories);
+//        for (TimingCreateHistory timingCreateHistory : timingCreateHistories) {
+//            System.out.println(timingCreateHistory.getCreateTime());
+//        }
 //        target();
 //        targets();
 //        profiles();
@@ -143,11 +163,10 @@ public class KangarooPixivApplicationTest {
 
 
     private static void extracted(String url, String param) {
-        // 方式一
         HttpHeaders headers = new HttpHeaders();
         MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
         headers.setContentType(type);
-        // 添加额外http请求头参数
+        // 添加额外http请求头参数 token
         headers.add("token", "1440947183:380c4d2c167c4d5c82b88515faaede1da566a0a4552ca9639e5f8b08f669aed2ed091333Yh6Ud");
         HttpEntity<String> request = new HttpEntity<String>(param, headers);
         while (true) {
