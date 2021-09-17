@@ -73,6 +73,11 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-mongodb</artifactId>
         </dependency>
+        <!-- Kangaroo Common Ekuaisho -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-ekuaishou</artifactId>
+        </dependency>
         <dependency>
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-core</artifactId>

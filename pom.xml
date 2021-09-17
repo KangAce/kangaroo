@@ -270,6 +270,12 @@
                 <version>${kangaroo.version}</version>
                 <scope>compile</scope>
             </dependency>
+            <!-- Kangaroo Common Ekuaisho -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-ekuaishou</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
             <!--        WxJava 小程序-->
             <dependency>
                 <groupId>com.github.binarywang</groupId>

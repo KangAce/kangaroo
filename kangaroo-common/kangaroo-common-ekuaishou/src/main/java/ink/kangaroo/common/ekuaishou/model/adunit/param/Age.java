@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -20,7 +20,7 @@ public class Age implements Serializable {
      * min
      */
     @NotNull
-    @JsonAlias("min")
+    @JSONField(name = "min")
     private Integer min;
 
     /**
@@ -29,7 +29,7 @@ public class Age implements Serializable {
      * max
      */
     @NotNull
-    @JsonAlias("max")
+    @JSONField(name = "max")
     private Integer max;
 
 }

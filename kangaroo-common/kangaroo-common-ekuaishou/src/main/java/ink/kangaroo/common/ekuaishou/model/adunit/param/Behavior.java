@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -19,7 +19,7 @@ public class Behavior implements Serializable {
      * 根据/rest/openapi/v1/tool/keyword/query接口获取
      * keyword
      */
-    @JsonAlias("keyword")
+    @JSONField(name = "keyword")
     private List<Keyword> keyword;
 
     /**
@@ -27,7 +27,7 @@ public class Behavior implements Serializable {
      * 根据/rest/openapi/v1/tool/label/behavior_interest接口获取。将行为类目id从最高层类目id开始，以“-”连接起来，假如有一个类目id为80202，父类目id为802，最高层类目id为8，则此时应该写"8-802-80202"；如果想全选最高层类目"8"底下的所有子类目，填"8"
      * label
      */
-    @JsonAlias("label")
+     @JSONField(name = "label")
     private List<String> label;
 
     /**
@@ -36,7 +36,7 @@ public class Behavior implements Serializable {
      * time_type
      */
     @NotNull
-    @JsonAlias("time_type")
+     @JSONField(name = "time_type")
     private Integer timeType;
 
     /**
@@ -45,7 +45,7 @@ public class Behavior implements Serializable {
      * strength_type
      */
     @NotNull
-    @JsonAlias("strength_type")
+     @JSONField(name = "strength_type")
     private Integer strength_type;
 
     /**
@@ -54,7 +54,7 @@ public class Behavior implements Serializable {
      * scene_type
      */
     @NotNull
-    @JsonAlias("scene_type")
+     @JSONField(name = "scene_type")
     private List<Integer> scene_type;
 
 }

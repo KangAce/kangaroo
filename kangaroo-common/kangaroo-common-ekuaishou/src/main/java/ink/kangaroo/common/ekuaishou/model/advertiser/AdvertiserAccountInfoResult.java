@@ -1,6 +1,10 @@
 package ink.kangaroo.common.ekuaishou.model.advertiser;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * 获取广告账户信息
  * 请求接口：https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info
@@ -11,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  * @version 1.0
  * @date 2021/8/20 14:57
  */
-public class AdvertiserAccountInfoResult {
+@Data
+public class AdvertiserAccountInfoResult implements Serializable {
     /**
      * user_id：账户快手ID
      */

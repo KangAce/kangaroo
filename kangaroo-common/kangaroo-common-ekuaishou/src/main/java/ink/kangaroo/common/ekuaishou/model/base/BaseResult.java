@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.base;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,14 +11,12 @@ import java.io.Serializable;
  * @date 2021/9/13 16:09
  */
 @Data
-public class BaseResult<T>  implements Serializable {
+public class BaseResult<T> implements Serializable {
 
-    @JsonAlias("code")
+    @JSONField(name = "code")
     private Integer code;
-    @JsonAlias("message")
+    @JSONField(name = "message")
     private String message;
-    @JsonAlias("data")
+    @JSONField(name = "data")
     private T data;
-    @JsonAlias("campaign_id")
-    private Long campaignId;
 }

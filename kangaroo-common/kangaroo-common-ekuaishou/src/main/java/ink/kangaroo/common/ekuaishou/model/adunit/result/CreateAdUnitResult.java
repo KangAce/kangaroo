@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.result;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 
 /**
  * @author kbw
@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonAlias;
  */
 public class CreateAdUnitResult {
     /**
-     * 	广告组ID
+     * 广告组ID
      * unit_id
      */
-    @JsonAlias("unit_id")
+    @JSONField(name = "unit_id")
     private Long unitId;
 }
