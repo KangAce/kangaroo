@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.creative.param;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -22,8 +22,8 @@ public class CreateCreativeParam implements Serializable {
      * advertiser_id
      */
     @NotNull
-    @JsonAlias("advertiser_id")
-    private Long advertiser_id;
+    @JSONField(name = "advertiser_id")
+    private Long advertiserId;
 
     /**
      * 广告组ID
@@ -32,8 +32,8 @@ public class CreateCreativeParam implements Serializable {
      * unit_id
      */
     @NotNull
-    @JsonAlias("unit_id")
-    private Long unit_id;
+    @JSONField(name = "unit_id")
+    private Long unitId;
 
     /**
      * 创意名称
@@ -42,8 +42,8 @@ public class CreateCreativeParam implements Serializable {
      * creative_name
      */
     @NotNull
-    @JsonAlias("creative_name")
-    private String creative_name;
+    @JSONField(name = "creative_name")
+    private String creativeName;
 
     /**
      * 广告组的投放状态
@@ -51,8 +51,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * put_status
      */
-    @JsonAlias("put_status")
-    private Integer put_status;
+    @JSONField(name = "put_status")
+    private Integer putStatus;
 
     /**
      * 视频ID
@@ -60,7 +60,7 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * photo_id
      */
-    @JsonAlias("photo_id")
+    @JSONField(name = "photo_id")
     private String photoId;
 
     /**
@@ -69,8 +69,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * image_token
      */
-    @JsonAlias("image_token")
-    private String image_token;
+    @JSONField(name = "image_token")
+    private String imageToken;
 
     /**
      * 素材类型
@@ -79,7 +79,7 @@ public class CreateCreativeParam implements Serializable {
      * creative_material_type
      */
     @NotNull
-    @JsonAlias("creative_material_type")
+    @JSONField(name = "creative_material_type")
     private Integer creativeMaterialType;
 
     /**
@@ -88,8 +88,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * image_tokens
      */
-    @JsonAlias("image_tokens")
-    private List<Integer> image_tokens;
+    @JSONField(name = "image_tokens")
+    private List<Integer> imageTokens;
 
     /**
      * 行动号召按钮文案
@@ -98,8 +98,8 @@ public class CreateCreativeParam implements Serializable {
      * action_bar_text
      */
     @NotNull
-    @JsonAlias("action_bar_text")
-    private String action_bar_text;
+    @JSONField(name = "action_bar_text")
+    private String actionBarText;
 
     /**
      * 广告语
@@ -107,7 +107,7 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * description
      */
-    @JsonAlias("description")
+    @JSONField(name = "description")
     private String description;
 
     /**
@@ -116,7 +116,7 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * short_slogan
      */
-    @JsonAlias("short_slogan")
+    @JSONField(name = "short_slogan")
     private String shortSlogan;
 
     /**
@@ -125,8 +125,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * sticker_title
      */
-    @JsonAlias("sticker_title")
-    private String sticker_title;
+    @JSONField(name = "sticker_title")
+    private String stickerTitle;
 
     /**
      * 贴纸样式类型
@@ -134,8 +134,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * overlay_type
      */
-    @JsonAlias("overlay_type")
-    private String overlay_type;
+    @JSONField(name = "overlay_type")
+    private String overlayType;
 
     /**
      * 广告标签
@@ -143,8 +143,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * expose_tag
      */
-    @JsonAlias("expose_tag")
-    private String expose_tag;
+    @JSONField(name = "expose_tag")
+    private String exposeTag;
 
     /**
      * 广告标签2期
@@ -152,8 +152,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * new_expose_tag
      */
-    @JsonAlias("new_expose_tag")
-    private List<String> new_expose_tag;
+    @JSONField(name = "new_expose_tag")
+    private List<String> newExposeTag;
 
     /**
      * 安卓下载中间页ID
@@ -161,8 +161,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * site_id
      */
-    @JsonAlias("site_id")
-    private Long site_id;
+    @JSONField(name = "site_id")
+    private Long siteId;
 
 
     /**
@@ -171,8 +171,8 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * click_track_url
      */
-    @JsonAlias("click_track_url")
-    private String click_track_url;
+    @JSONField(name = "click_track_url")
+    private String clickTrackUrl;
 
     /**
      * 第三方开始播放监测链接
@@ -180,24 +180,24 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * click_track_url
      */
-    @JsonAlias("impression_url")
-    private String impression_url;
+    @JSONField(name = "impression_url")
+    private String impressionUrl;
     /**
      * 第三方有效播放监测链接
      * 仅历史个别账户使用且当广告组scene_id为3时可选，与impression_url不可同时使用
      * <p>
      * ad_photo_played_t3s_url
      */
-    @JsonAlias("ad_photo_played_t3s_url")
-    private String ad_photo_played_t3s_url;
+    @JSONField(name = "ad_photo_played_t3s_url")
+    private String adPhotoPlayedT3sUrl;
     /**
      * 第三方点击按钮监测链接
      * 1.校验click_url必填的广告场景 优选(1)/信息流(2、7)/上下滑（6） 2.优化目标为激活功能必填点击监测链接,但如果安卓应用接入了快手监测sdk就不需要填写监测链接了 3.联盟场景检查click_url不能为空 4.若广告联盟的转化目标为激活，click_url、actionbar_click_url和监测SDK至少三选一
      * <p>
      * actionbar_click_url
      */
-    @JsonAlias("actionbar_click_url")
-    private String actionbar_click_url;
+    @JSONField(name = "actionbar_click_url")
+    private String actionbarClickUrl;
 
     /**
      * 创意分类
@@ -206,8 +206,8 @@ public class CreateCreativeParam implements Serializable {
      * 金融，教育，游戏，小说 如上行业必填
      * creative_category
      */
-    @JsonAlias("creative_category")
-    private Integer creative_category;
+    @JSONField(name = "creative_category")
+    private Integer creativeCategory;
 
     /**
      * 创意标签
@@ -216,8 +216,8 @@ public class CreateCreativeParam implements Serializable {
      * 选创意分类 必填
      * creative_tag
      */
-    @JsonAlias("creative_tag")
-    private List<String> creative_tag;
+    @JSONField(name = "creative_tag")
+    private List<String> creativeTag;
 
     /**
      * 直播类型（小店直播推广类型，计划type=14）
@@ -225,7 +225,7 @@ public class CreateCreativeParam implements Serializable {
      * <p>
      * live_creative_type
      */
-    @JsonAlias("live_creative_type")
-    private Integer live_creative_type;
+    @JSONField(name = "live_creative_type")
+    private Integer liveCreativeType;
 
 }

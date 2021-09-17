@@ -1,6 +1,6 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class BehaviorInterest implements Serializable {
      * behavior
      */
     @NotNull
-    @JsonAlias("behavior")
+    @JSONField(name = "behavior")
     private Behavior behavior;
 
     /**
@@ -26,6 +26,6 @@ public class BehaviorInterest implements Serializable {
      * behavior与interest同时不传，则清空行为兴趣定向
      * interest
      */
-    @JsonAlias("interest")
+    @JSONField(name = "interest")
     private Interest interest;
 }

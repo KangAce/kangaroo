@@ -1,6 +1,7 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,25 +10,26 @@ import javax.validation.constraints.NotNull;
  * @version 1.0
  * @date 2021/9/13 17:47
  */
+@Data
 public class Keyword {
 
 
     /**
-     * 	关键词id
+     * 关键词id
      * id与name需互相匹配
      * id
      */
     @NotNull
-    @JsonAlias("id")
+    @JSONField(name = "id")
     private Long id;
 
     /**
-     * 	关键词name
+     * 关键词name
      * id与name需互相匹配
      * name
      */
     @NotNull
-    @JsonAlias("name")
+    @JSONField(name = "name")
     private String name;
 
 }

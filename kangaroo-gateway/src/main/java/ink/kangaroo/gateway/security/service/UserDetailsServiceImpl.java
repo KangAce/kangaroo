@@ -12,8 +12,6 @@ import ink.kangaroo.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -43,7 +40,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     @Lazy
     @Autowired(required = false)
-    public UserDetailsServiceImpl(RemoteUserService remoteUserService,@Qualifier("customizeThreadPool") Executor executor) {
+    public UserDetailsServiceImpl(RemoteUserService remoteUserService, @Qualifier("customizeThreadPool") Executor executor) {
         this.remoteUserService = remoteUserService;
         this.executor = executor;
     }
@@ -52,16 +49,9 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
     @Override
     public Mono<UserDetails> findByUsername(String username) {
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
-//        //因为Callable接口是函数式接口，可以使用Lambda表达式
         FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
         executor.execute(task);
-//        Future<R<LoginUser>> task = loginUserR(username);
-        R<LoginUser> userInfoR = null;
-        try {
-            userInfoR = task.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        R<LoginUser> userInfoR = loginUserR(username);
         SecurityUserDetails securityUserDetails = null;
         if (R.isOk(userInfoR.getCode())) {
             LoginUser loginUser = userInfoR.getData();
@@ -96,9 +86,16 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 //        return Mono.just(securityUserDetails);
     }
 
-    @Async
-    Future<R<LoginUser>> loginUserR(String username) {
-        return AsyncResult.forValue(remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+    R<LoginUser> loginUserR(String username) {
+        //因为Callable接口是函数式接口，可以使用Lambda表达式
+        FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+        executor.execute(task);
+        try {
+            return task.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

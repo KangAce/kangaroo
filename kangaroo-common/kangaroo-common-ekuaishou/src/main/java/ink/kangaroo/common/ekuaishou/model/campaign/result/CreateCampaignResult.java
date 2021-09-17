@@ -1,6 +1,7 @@
 package ink.kangaroo.common.ekuaishou.model.campaign.result;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -9,10 +10,11 @@ import java.io.Serializable;
  * @version 1.0
  * @date 2021/9/13 16:18
  */
+@Data
 public class CreateCampaignResult implements Serializable {
     /**
      * 广告计划ID
      */
-    @JsonAlias("campaign_id")
+    @JSONField(name = "campaign_id")
     private Long campaignId;
 }
