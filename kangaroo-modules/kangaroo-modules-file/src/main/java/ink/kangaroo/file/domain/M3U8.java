@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -139,8 +141,9 @@ public class M3U8 {
                     consume++;
                     BigDecimal bigDecimal = new BigDecimal(downloadBytes.toString());
                     Thread.sleep(1000L);
-                    log.info("已用时" + consume + "秒！\t下载速度：" + StringUtils.convertToDownloadSpeed(new BigDecimal(downloadBytes.toString()).subtract(bigDecimal), 3) + "/s");
-                    log.info("\t已完成" + finishedCount + "个，还剩" + (tsList.size() - finishedCount) + "个！");
+//                    log.info("已用时" + consume + "秒！\t下载速度：" + StringUtils.convertToDownloadSpeed(new BigDecimal(downloadBytes.toString()).subtract(bigDecimal), 3) + "/s");
+//                    log.info("\t已完成" + finishedCount + "个，还剩" + (tsList.size() - finishedCount) + "个！");
+                    log.info("文件:{} 已用时{}秒！\t下载速度：{}/s\t已完成{}个，还剩{}个！", fileName, consume, StringUtils.convertToDownloadSpeed(new BigDecimal(downloadBytes.toString()).subtract(bigDecimal), 3), finishedCount, (tsList.size() - finishedCount));
                     log.info(new BigDecimal(finishedCount).divide(new BigDecimal(tsList.size()), 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP) + "%");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -194,6 +197,7 @@ public class M3U8 {
      */
     private void deleteFiles() {
         File file = new File(dir + FILESEPARATOR + fileName);
+        System.out.print(file.getAbsolutePath());
         if (file.exists()) {
             file.delete();
         }
@@ -276,6 +280,8 @@ public class M3U8 {
 //                    InputStream inputStream = forEntity.getBody().getInputStream();
                     //
                     URL url = new URL(baseUrl + urls);
+//                    Proxy proxy = new Proxy(java.net.Proxy.Type.HTTP,new InetSocketAddress("127.0.0.1", Integer.valueOf(1080)));
+//                    httpURLConnection = (HttpURLConnection) url.openConnection(proxy);
                     httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setConnectTimeout((int) timeoutMillisecond);
                     for (Map.Entry<String, Object> entry : requestHeaderMap.entrySet())
@@ -344,6 +350,7 @@ public class M3U8 {
             }
             if (count > retryCount) {
                 //自定义异常
+                System.out.println("连接超时！" + baseUrl+urls);
                 throw new BaseException("连接超时！" + urls);
             }
             finishedCount++;

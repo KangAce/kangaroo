@@ -15,6 +15,7 @@
         <module>kangaroo-api-system</module>
         <module>kangaroo-api-mail</module>
         <module>kangaroo-api-pixiv</module>
+        <module>kangaroo-api-limiter</module>
     </modules>
 
     <properties>

@@ -36,6 +36,8 @@ public class M3U8Loader {
 //    private RestTemplate restTemplate;
     public static void main(String[] args) throws ServiceException, IOException {
         List<String> urls = new ArrayList<>();
+//        urls.add("");
+        urls.add("https://e1v-h.phncdn.com/hls/videos/202001/24/279029131/,201212_1835_1080P_4000K,201212_1835_720P_4000K,201212_1835_480P_2000K,201212_1835_240P_1000K,_279029131.mp4.urlset/index-f2-v1-a1.m3u8?validfrom=1630411236&validto=1630418436&ip=8.210.7.103&ipa=8.210.7.103&hdl=-1&hash=lwgCSVcl3SzACvR%2BnC%2BGw1wDV9s%3D");
         for (String url : urls) {
             M3U8 m3U8 = M3U8Loader.load(url);
             m3U8.setDir("D:\\m3u8JavaTest");
@@ -135,7 +137,7 @@ public class M3U8Loader {
             }
         }
         m3U8.setTsList(tsList);
-        m3U8.setThreadCount(100);
+        m3U8.setThreadCount(10);
         return m3U8;
     }
 

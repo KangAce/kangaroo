@@ -243,22 +243,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     public static String getDomainForUrl(String url) {
-        String re ="((http|ftp|https)://)(([a-zA-Z0-9._-]+)|([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}))(([a-zA-Z]{2,6})|(:[0-9]{1,4})?)";
+        String re = "((http|ftp|https)://)(([a-zA-Z0-9._-]+)|([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}))(([a-zA-Z]{2,6})|(:[0-9]{1,4})?)";
         String str = "";
         //编译正则表达式
-        Pattern  pattern = Pattern.compile(re);
+        Pattern pattern = Pattern.compile(re);
         //忽略大小写的写法
 //        Pattern  pattern = Pattern.compile(re,Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(url);
         //若url = hhtp：//127.0.0.1:8090 或 www.baidu.com ，正则表达式表示匹配
-        if (matcher.matches()){
+        if (matcher.matches()) {
             str = url;
-        }else {
-            String[] split2= url.split(re);
-            if (split2.length>1){
+        } else {
+            String[] split2 = url.split(re);
+            if (split2.length > 1) {
                 String substring = url.substring(0, url.length() - split2[1].length());
                 str = substring;
-            }else {
+            } else {
                 str = split2[0];
             }
         }
@@ -301,5 +301,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         else if (bigDecimal.divide(eb, scale, BigDecimal.ROUND_HALF_UP).compareTo(unit) < 0)
             return bigDecimal.divide(pb, scale, BigDecimal.ROUND_HALF_UP).toString() + " PB";
         return bigDecimal.divide(eb, scale, BigDecimal.ROUND_HALF_UP).toString() + " EB";
+    }
+
+    public static boolean isEmpty(Object str) {
+        return (str == null || "".equals(str));
     }
 }

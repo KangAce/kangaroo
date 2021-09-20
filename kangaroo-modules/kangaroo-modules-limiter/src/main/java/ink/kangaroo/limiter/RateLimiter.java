@@ -1,6 +1,6 @@
 package ink.kangaroo.limiter;
 
-import ink.kangaroo.limiter.enums.TargetEnum;
+import ink.kangaroo.limiter.api.enums.TargetEnum;
 
 import java.util.concurrent.TimeUnit;
 

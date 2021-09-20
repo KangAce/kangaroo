@@ -1,7 +1,7 @@
 package ink.kangaroo.limiter.executor;
 
 import ink.kangaroo.limiter.RateLimiter;
-import ink.kangaroo.limiter.enums.TargetEnum;
+import ink.kangaroo.limiter.api.enums.TargetEnum;
 import ink.kangaroo.limiter.redis.RedisRateLimiterFactory;
 import lombok.extern.slf4j.Slf4j;
 
