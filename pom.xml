@@ -256,7 +256,12 @@
                 <artifactId>kangaroo-common-threadpool</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
-
+            <!-- Kangaroo Api Limiter -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-api-limiter</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
             <!-- Kangaroo Common DataSource -->
             <dependency>
                 <groupId>ink.kangaroo</groupId>

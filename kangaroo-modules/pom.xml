@@ -21,6 +21,7 @@
         <module>kangaroo-modules-mail</module>
         <module>kangaroo-modules-reminders</module>
         <module>kangaroo-modules-wms</module>
+        <module>kangaroo-modules-trying</module>
         <module>kangaroo-modules-limiter</module>
     </modules>
 

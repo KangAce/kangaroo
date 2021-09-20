@@ -2,7 +2,7 @@ package ink.kangaroo.limiter.redis;
 
 import ink.kangaroo.common.redis.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

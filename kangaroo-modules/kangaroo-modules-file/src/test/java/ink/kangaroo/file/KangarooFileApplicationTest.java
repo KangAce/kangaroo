@@ -20,8 +20,8 @@ import java.io.IOException;
 public class KangarooFileApplicationTest {
     @Resource
     M3U8Loader loader;
-    @Test
+//    @Test
     void contextLoads() throws ServiceException, IOException, InterruptedException {
-
+        M3U8 m3U8 = M3U8Loader.load("");
     }
 }

@@ -51,6 +51,7 @@ public class DefaultAuthenticationSuccessHandler implements ServerAuthentication
             map.put(SecurityConstants.DETAILS_USERNAME, userDetails.getUsername());
             //TODO
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/test"));
+            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/**"));
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/swagger-ui/index.html"));
             map.put("roles", userDetails.getAuthorities());
             String token = JwtTokenUtil.generateToken(map, userDetails.getUsername(), jwtTokenExpired);

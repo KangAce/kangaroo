@@ -49,8 +49,6 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
     @Override
     public Mono<UserDetails> findByUsername(String username) {
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
-        FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
-        executor.execute(task);
         R<LoginUser> userInfoR = loginUserR(username);
         SecurityUserDetails securityUserDetails = null;
         if (R.isOk(userInfoR.getCode())) {

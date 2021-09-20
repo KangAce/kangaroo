@@ -32,4 +32,9 @@ public class ServiceNameConstants {
      */
     public static final String PIXIV_SERVICE = "kangaroo-pixiv";
 
+    /**
+     * PIXIV爬取服务的serviceid
+     */
+    public static final String LIMITER_SERVICE = "kangaroo-limiter";
+
 }

@@ -63,6 +63,7 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/cert:/etc/nginx/cert
     depends_on:
       - kangaroo-gateway
     links:
@@ -70,7 +71,6 @@ services:
   kangaroo-gateway:
     container_name: kangaroo-gateway
     build:
-      network_mode: "host"
       context: ./kangaroo/gateway
       dockerfile: dockerfile
     ports:

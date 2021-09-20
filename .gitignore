@@ -10,5 +10,6 @@
 /**/**/**/**/**/*.jar
 /**/**/.classpath
 /**/**/.project
+/kangaroo-modules/kangaroo-modules-file/logs/
 /docker/nginx/logs/
 /**/**/logs/

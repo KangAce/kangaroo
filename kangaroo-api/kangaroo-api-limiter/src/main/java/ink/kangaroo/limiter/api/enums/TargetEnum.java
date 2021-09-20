@@ -1,4 +1,4 @@
-package ink.kangaroo.limiter.enums;
+package ink.kangaroo.limiter.api.enums;
 
 /**
  * @author kbw
