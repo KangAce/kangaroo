@@ -23,6 +23,7 @@
         <module>kangaroo-modules-wms</module>
         <module>kangaroo-modules-trying</module>
         <module>kangaroo-modules-limiter</module>
+        <module>kangaroo-modules-ad-delivery</module>
     </modules>
 
     <properties>

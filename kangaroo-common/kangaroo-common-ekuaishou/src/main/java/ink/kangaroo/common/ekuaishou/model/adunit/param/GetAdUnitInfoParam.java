@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author kbw
@@ -58,7 +59,7 @@ public class GetAdUnitInfoParam implements Serializable {
      * unit_ids;
      */
      @JSONField(name = "unit_ids")
-    private long[] unitIds;
+    private List<Long> unitIds;
     /**
      * 可选	广告组状态	过滤筛选条件；-1：不限，1：计划已暂停，3：计划超预算，6：余额不足，11：审核中，12：审核未通过，14：已结束，15：已暂停，17：组超预算，19：未达投放时间，20：有效-2，22：不在投放时段。所有包含已删除 10：只包含已删除不传：所有不包含已删除 其他值无效
      * <p>
