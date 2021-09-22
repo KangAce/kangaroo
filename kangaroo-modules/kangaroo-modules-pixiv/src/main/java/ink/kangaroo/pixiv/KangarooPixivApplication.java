@@ -4,9 +4,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import ink.kangaroo.common.security.annotation.EnableCustomConfig;
 import ink.kangaroo.common.security.annotation.EnableKangarooFeignClients;
 import ink.kangaroo.common.swagger.annotation.EnableCustomSwagger2;
+import ink.kangaroo.pixiv.repository.base.BaseRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +23,7 @@ import javax.persistence.EntityManager;
 @EnableCustomSwagger2
 @EnableKangarooFeignClients
 @SpringBootApplication
+@EnableJpaRepositories(basePackages = "ink.kangaroo.pixiv.repository", repositoryBaseClass = BaseRepositoryImpl.class)
 public class KangarooPixivApplication {
     public static void main(String[] args) {
         SpringApplication.run(KangarooPixivApplication.class, args);

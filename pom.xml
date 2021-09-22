@@ -47,6 +47,8 @@
         <wxjava.version>4.1.0</wxjava.version>
         <querydsl.version>5.0.0</querydsl.version>
         <fluent-mybatis.version>1.7.2</fluent-mybatis.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <mybatis-plus-extension.version>3.4.1</mybatis-plus-extension.version>
         <justauth.version>1.16.3</justauth.version>
         <javacpp.version>1.5.4</javacpp.version>
         <javacpp-ffmpeg.version>4.3.1</javacpp-ffmpeg.version>
@@ -381,7 +383,17 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
+            <!-- mybatis-plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus-extension.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -398,6 +410,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
