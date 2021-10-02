@@ -5,6 +5,7 @@ import com.alibaba.nacos.shaded.com.google.protobuf.ServiceException;
 import ink.kangaroo.file.domain.M3U8;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -21,7 +22,10 @@ public class KangarooFileApplicationTest {
     @Resource
     M3U8Loader loader;
 //    @Test
-    void contextLoads() throws ServiceException, IOException, InterruptedException {
+    @Resource
+    RestTemplate restTemplate;
+    @Test
+    void contextLoads() throws ServiceException, IOException {
         M3U8 m3U8 = M3U8Loader.load("");
     }
 }

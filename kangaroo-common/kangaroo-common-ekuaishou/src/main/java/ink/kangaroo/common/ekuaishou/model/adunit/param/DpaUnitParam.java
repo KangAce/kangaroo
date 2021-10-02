@@ -1,12 +1,16 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 
 /**
+ * 除非接口变得否则请勿修改
+ *
  * @author kbw
  * @version 1.0
  * @date 2021/9/13 17:17
  */
+@Data
 public class DpaUnitParam {
 
     /**
@@ -15,7 +19,7 @@ public class DpaUnitParam {
      * library_id
      */
     @JSONField(name = "library_id")
-    private Long library_id;
+    private Long libraryId;
 
     /**
      * 外部商品ID
@@ -23,7 +27,7 @@ public class DpaUnitParam {
      * dpa_unit_param
      */
     @JSONField(name = "outer_id")
-    private String outer_id;
+    private String outerId;
 
     /**
      * 商品链接类型

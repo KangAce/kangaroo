@@ -1,6 +1,7 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/9/13 16:21
  */
+@Data
 public class CreateAdUnitParam {
 
     /**
@@ -61,7 +63,7 @@ public class CreateAdUnitParam {
      */
     @NotNull
     @JSONField(name = "bid_type")
-    private Integer bid_type;
+    private Integer bidType;
     /**
      * 广告主ID
      * 在获取access_token的时候返回
@@ -243,7 +245,7 @@ public class CreateAdUnitParam {
      * 加白
      */
     @JSONField(name = "site_type")
-    private Long site_type;
+    private Long siteType;
     /**
      * 游戏礼包码
      * "gift_data": {}，仅支持计划类型为 2
@@ -251,7 +253,7 @@ public class CreateAdUnitParam {
      * 加白
      */
     @JSONField(name = "gift_data")
-    private GiftData gift_data;
+    private GiftData giftData;
     /**
      * 是否使用落地页前置功能
      * true: 使用 false：不使用，不填使用系统默认值（只支持双feed流，推广品牌活动-落地页url填写、获取电商下单-淘客短链url填写、获取电商下单-金牛活动页、获取销售线、获取销售线索）
@@ -272,7 +274,7 @@ public class CreateAdUnitParam {
      * auto_create_photo
      */
     @JSONField(name = "auto_create_photo")
-    private Boolean auto_create_photo;
+    private Boolean autoCreatePhoto;
     /**
      * 电商关联Id (小店通) 电商关联Id (小店通商品推广，计划type=13)
      * 1. merchantItemType为0时填写小店商品id；2. merchantItemType为2时不用填写，系统补充
@@ -301,7 +303,7 @@ public class CreateAdUnitParam {
      * unit_type=7选填
      */
     @JSONField(name = "smart_cover")
-    private Boolean smart_cover;
+    private Boolean smartCover;
     /**
      * 程序化创意2.0素材挖掘
      * 是否开启历史素材挖掘
@@ -380,7 +382,7 @@ public class CreateAdUnitParam {
      * dpa_unit_param
      */
     @JSONField(name = "dpa_unit_param")
-    private DpaUnitParam dpa_unit_param;
+    private DpaUnitParam dpaUnitParam;
     /**
      * 定向数据
      * 具体见下方表格

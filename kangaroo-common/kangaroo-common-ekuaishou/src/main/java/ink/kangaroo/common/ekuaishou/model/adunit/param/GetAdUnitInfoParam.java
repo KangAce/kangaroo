@@ -1,16 +1,14 @@
 package ink.kangaroo.common.ekuaishou.model.adunit.param;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 除非接口变更否则请勿修改
+ *
  * @author kbw
  * @version 1.0
  * @date 2021/9/15 17:19
@@ -45,7 +43,7 @@ public class GetAdUnitInfoParam implements Serializable {
      * unit_id;
      */
      @JSONField(name = "unit_id")
-    private long unitId;
+    private Long unitId;
     /**
      * 可选	广告组名称	过滤筛选条件，支持模糊搜索&精确查询
      * <p>

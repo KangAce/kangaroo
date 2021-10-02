@@ -114,6 +114,7 @@ public class BaseEntity implements Serializable {
     public void setParams(Map<String, Object> params) {
         this.params = params;
     }
+
     @PrePersist
     protected void prePersist() {
         Date now = DateUtils.getNowDate();
