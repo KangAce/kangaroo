@@ -15,23 +15,29 @@ public class DecimalUtils {
 
     //10进制转为其他进制，除留取余，逆序排列
     public static String _10_to_N(long number, int N) {
-        Long rest = number;
-        Stack<Character> stack = new Stack<Character>();
+        if (N > array.length) {
+            return null;
+        }
+        long rest = number;
+        Stack<Character> stack = new Stack<>();
         StringBuilder result = new StringBuilder(0);
         while (rest != 0) {
-            stack.add(array[new Long((rest % N)).intValue()]);
+            stack.add(array[Long.valueOf((rest % N)).intValue()]);
             rest = rest / N;
         }
-        for (; !stack.isEmpty();) {
+        while (!stack.isEmpty()) {
             result.append(stack.pop());
         }
-        return result.length() == 0 ? "0":result.toString();
+        return result.length() == 0 ? "0" : result.toString();
 
     }
 
     // 其他进制转为10进制，按权展开
     public static long N_to_10(String number, int N) {
-        char ch[] = number.toCharArray();
+        if (N > array.length) {
+            return 0;
+        }
+        char[] ch = number.toCharArray();
         int len = ch.length;
         long result = 0;
         if (N == 10) {

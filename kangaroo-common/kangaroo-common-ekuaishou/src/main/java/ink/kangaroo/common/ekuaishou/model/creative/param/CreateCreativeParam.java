@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 除非接口变更否则请勿修改
+ *
  * @author kbw
  * @version 1.0
  * @date 2021/9/13 18:08

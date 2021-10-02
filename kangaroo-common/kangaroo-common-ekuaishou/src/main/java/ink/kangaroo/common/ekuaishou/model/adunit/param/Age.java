@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
+ * 除非接口变得否则请勿修改
+ *
  * @author kbw
  * @version 1.0
  * @date 2021/9/13 17:26

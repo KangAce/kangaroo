@@ -3,8 +3,6 @@ package ink.kangaroo.ad.delivery.executor;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.shencaozuo.common.RpcResult;
-import com.shencaozuo.common.enums.ResultEnum;
-import com.shencaozuo.kwai.model.adunit.param.GetAdUnitInfoParam;
 import com.shencaozuo.kwai.service.KwaiAdUnitService;
 import com.shencaozuo.kwai.service.PlatformAccountService;
 import ink.kangaroo.ad.delivery.mapper.AdTaskExecutionResultMapper;
@@ -14,6 +12,7 @@ import ink.kangaroo.ad.delivery.model.entity.AdTaskExecutionResult;
 import ink.kangaroo.common.core.utils.DateUtils;
 import ink.kangaroo.common.ekuaishou.factory.KwaiAds;
 import ink.kangaroo.common.ekuaishou.model.adunit.param.GetAdUnitInfoParam;
+import ink.kangaroo.common.ekuaishou.model.base.BaseResult;
 import ink.kangaroo.common.redis.service.RedisService;
 import lombok.Getter;
 import lombok.Setter;
@@ -196,7 +195,7 @@ public class KwaiCopyAdtaskExecutor extends AbstractCopyAdTaskExecutor {
 
     @Override
     public void initAccessToken() {
-        String accessToken = platformAccountService.getAccessToken(String.valueOf(getAdTask().getDeliveryAccount()));
+        String accessToken = kwaiAds.getAccessToken(String.valueOf(getAdTask().getDeliveryAccount()));
         log.info("[accessToken -> {}]", accessToken);
         setAccessToken(accessToken);
     }
@@ -214,8 +213,8 @@ public class KwaiCopyAdtaskExecutor extends AbstractCopyAdTaskExecutor {
             getAdUnitInfoParam.setAdvertiserId(getAdTask().getDeliveryAccount());
             getAdUnitInfoParam.setUnitIds(Collections.singletonList(getAdUnitId()));
 
-            JSONObject adUnitInfo = kwaiAds.getAdUnitInfo(getAdUnitInfoParam);
-            if (ResultEnum.isOk(adUnitInfo.getCode())) {
+            BaseResult<JSONObject> adUnitInfo = kwaiAds.getAdUnitInfo(getAdUnitInfoParam);
+            if (adUnitInfo.getCode() != null && adUnitInfo.getCode() == 0) {
                 adString = adUnitInfo.getData().getJSONArray("details").get(0).toString();
                 setAdSring(adString);
             }
