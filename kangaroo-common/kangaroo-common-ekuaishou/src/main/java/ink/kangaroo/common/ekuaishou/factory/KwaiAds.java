@@ -16,10 +16,10 @@ import ink.kangaroo.common.ekuaishou.model.creative.result.CreateCreativeResult;
 import ink.kangaroo.common.ekuaishou.model.creative.result.GetCreativeInfo2Result;
 import ink.kangaroo.common.ekuaishou.model.creative.result.GetCreativeInfoResult;
 import lombok.Data;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +29,7 @@ import java.util.Map;
  * @date 2021/9/16 14:20
  */
 @Data
+@Slf4j
 public class KwaiAds {
     private static final String KWAI_URL = "https://ad.e.kuaishou.com/rest/openapi/";
 
@@ -46,9 +47,9 @@ public class KwaiAds {
      *
      * @return
      */
-    public BaseResult<JSONObject> getAdUnitInfo(GetAdUnitInfoParam getAdUnitInfoParam) {
+    public BaseResult<AdUnitDetailsDataResult> getAdUnitInfo(GetAdUnitInfoParam getAdUnitInfoParam) {
         String path = "v1/ad_unit/list";
-        return (BaseResult<JSONObject>) postRequest(path,getAdUnitInfoParam,BaseResult.class);
+        return (BaseResult<AdUnitDetailsDataResult>) postRequest(path, getAdUnitInfoParam, BaseResult.class);
     }
 
     /**
@@ -79,9 +80,8 @@ public class KwaiAds {
      *
      * @param param
      * @return
-     * @throws Exception
      */
-    public BaseResult<JSONObject> getAdvertiser(AdvertiserParam param) throws Exception {
+    public BaseResult<JSONObject> getAdvertiser(AdvertiserParam param) {
         String path = "v1/advertiser/info";
         return (BaseResult<JSONObject>) postRequest(path, param, JSONObject.class);
     }
@@ -91,9 +91,8 @@ public class KwaiAds {
      *
      * @param param
      * @return
-     * @throws Exception
      */
-    public BaseResult<JSONObject> getAdvertisers(AdvertiserParam param) throws Exception {
+    public BaseResult<JSONObject> getAdvertisers(AdvertiserParam param) {
         String path = "gw/uc/v1/advertisers";
         return (BaseResult<JSONObject>) postRequest(path, param, JSONObject.class);
     }
@@ -104,22 +103,9 @@ public class KwaiAds {
      *
      * @param param
      * @return
-     * @throws Exception
      */
-    public BaseResult<JSONObject> getCampaignList(CampaignListParam param) throws Exception {
+    public BaseResult<JSONObject> getCampaignList(CampaignListParam param) {
         String path = "v1/campaign/list";
-        return (BaseResult<JSONObject>) postRequest(path, param, JSONObject.class);
-    }
-
-    /**
-     * 获取广告组列表
-     *
-     * @param param
-     * @return
-     * @throws Exception
-     */
-    public BaseResult<JSONObject> getUnitList(UnitListParam param) throws Exception {
-        String path = "v1/ad_unit/list";
         return (BaseResult<JSONObject>) postRequest(path, param, JSONObject.class);
     }
 
@@ -283,7 +269,7 @@ public class KwaiAds {
     }
 
     private BaseResult<?> parse2(BaseResult<? extends Object> baseResult, Class clazz) {
-        baseResult.setData(JSON.parseObject(JSON.toJSONString(baseResult.getData()), clazz));
+        baseResult.setData(JSON.parseObject(JSON.toJSONString(baseResult.getData()), (Type) clazz));
         return baseResult;
     }
 

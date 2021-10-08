@@ -1,7 +1,8 @@
 /**
-  * Copyright 2021 bejson.com 
-  */
+ * Copyright 2021 bejson.com
+ */
 package ink.kangaroo.common.ekuaishou.model.adunit.result;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
@@ -20,13 +21,15 @@ public class AdUnitDetailsDataResult {
      *
      *
      * total_count
-     */@JSONField(name = "total_count")
+     */
+    @JSONField(name = "total_count")
     private int totalCount;
     /**
      *
      *
      * details
-     */@JSONField(name = "details")
+     */
+    @JSONField(name = "details")
     private List<AdUnitDetailsResult> details;
 
 

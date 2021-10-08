@@ -12,11 +12,21 @@ import java.io.Serializable;
  */
 @Data
 public class BaseResult<T> implements Serializable {
-
+    /**
+     * code:返回码
+     */
     @JSONField(name = "code")
     private Integer code;
+    /**
+     * message:返回信息
+     */
     @JSONField(name = "message")
     private String message;
+    /**
+     * data:struct
+     */
     @JSONField(name = "data")
     private T data;
+
+
 }

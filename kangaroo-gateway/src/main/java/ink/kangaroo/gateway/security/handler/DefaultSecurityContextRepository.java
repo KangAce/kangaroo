@@ -2,7 +2,7 @@ package ink.kangaroo.gateway.security.handler;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,6 +22,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/8/9 17:34
  */
+@Slf4j
 @Component
 public class DefaultSecurityContextRepository implements ServerSecurityContextRepository {
 
