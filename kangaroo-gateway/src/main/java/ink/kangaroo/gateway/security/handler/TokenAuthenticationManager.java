@@ -26,7 +26,7 @@ public class TokenAuthenticationManager implements ReactiveAuthenticationManager
 
     @Override
     @SuppressWarnings("unchecked")
-    public Mono<Authentication> authenticate(Authentication authentication) {
+    public Mono<Authentication>   authenticate(Authentication authentication) {
         return Mono.just(authentication)
                 .map(auth -> JwtTokenUtil.parseJwtRsa256(auth.getPrincipal().toString()))
                 .map(claims -> {

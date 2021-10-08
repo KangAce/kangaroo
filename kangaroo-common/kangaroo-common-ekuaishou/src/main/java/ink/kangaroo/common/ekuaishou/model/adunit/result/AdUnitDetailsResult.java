@@ -208,17 +208,17 @@ public class AdUnitDetailsResult {
     /**
      * diverse_data
      */
-    @JSONField(name = "compensate_status")
+    @JSONField(name = "diverse_data")
     private DiverseData diverse_data;
     /**
      * gift_data
      */
-    @JSONField(name = "compensate_status")
+    @JSONField(name = "gift_data")
     private String gift_data;
     /**
      * study_status
      */
-    @JSONField(name = "compensate_status")
+    @JSONField(name = "study_status")
     private int study_status;
     /**
      * compensate_status

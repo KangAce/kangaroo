@@ -1,5 +1,6 @@
 package ink.kangaroo.mail.api.factory;
 
+import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.mail.api.RemoteMailService;
 import ink.kangaroo.mail.api.model.param.MailParam;
@@ -21,7 +22,7 @@ public class RemoteMailFallbackFactory implements FallbackFactory<RemoteMailServ
         log.error("邮件服务调用失败:{}", throwable.getMessage());
         return new RemoteMailService() {
             @Override
-            public AjaxResult testMail(MailParam mailParam, String source) {
+            public R<String> testMail(MailParam mailParam, String source) {
                 return null;
             }
         };

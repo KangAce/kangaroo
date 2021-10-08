@@ -6,6 +6,7 @@ import ink.kangaroo.gateway.security.SliderVerificationCodeType;
 import ink.kangaroo.gateway.security.domain.SliderVerificationVo;
 import ink.kangaroo.gateway.security.service.ValidateCodeService;
 import ink.kangaroo.gateway.security.service.ValidateService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
     private ValidateService validateService;
 
     @Override
-    public Mono<ServerResponse> handle(ServerRequest serverRequest) {
+    public @NonNull Mono<ServerResponse> handle(ServerRequest serverRequest) {
         AjaxResult ajax = AjaxResult.fail("");
         MultiValueMap<String, String> queryParams = serverRequest.queryParams();
         Integer type = Integer.valueOf(Objects.requireNonNull(queryParams.getFirst("type")));
