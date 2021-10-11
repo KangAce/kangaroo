@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ink.kangaroo.common.redis.lock.CacheLockInterceptor,\
   ink.kangaroo.common.redis.configure.RedisConfig,\
   ink.kangaroo.common.redis.service.RedisService
 

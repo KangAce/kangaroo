@@ -1,17 +1,6 @@
 package ink.kangaroo.common.core.utils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.alibaba.fastjson.JSONObject;
 import ink.kangaroo.common.core.constant.Constants;
 import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.text.Convert;
@@ -20,11 +9,23 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import com.alibaba.fastjson.JSONObject;
 import reactor.core.publisher.Mono;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author kbw
@@ -109,6 +110,37 @@ public class ServletUtils {
             }
         }
         return map;
+    }
+
+    /**
+     * Gets request ip.
+     *
+     * @return ip address or null
+     */
+    @Nullable
+    public static String getRequestIp() {
+        //获取用户真实ip方法
+        HttpServletRequest request = getRequest();
+        String ip = request.getHeader("x-forwarded-for");
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+
+            ip = request.getHeader("Proxy-Client-IP");
+
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+
+            ip = request.getHeader("WL-Proxy-Client-IP");
+
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+
+            ip = request.getRemoteAddr();
+
+        }
+        return ip;
     }
 
     /**
