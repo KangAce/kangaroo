@@ -17,7 +17,7 @@ public class RemotePixivFallbackFactory implements FallbackFactory<RemotePixivSe
         return new RemotePixivService() {
 
             @Override
-            public R<?> pullPixivRank() {
+            public R<?> pullPixivRank(String source) {
                 return null;
             }
         };

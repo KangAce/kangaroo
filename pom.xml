@@ -283,6 +283,12 @@
                 <artifactId>kangaroo-common-ekuaishou</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
+            <!-- Kangaroo Common PIXIV -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-pixiv</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
             <!--        WxJava 小程序-->
             <dependency>
                 <groupId>com.github.binarywang</groupId>

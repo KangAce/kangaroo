@@ -4,22 +4,25 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ink.kangaroo.common.core.utils.DateUtils;
+import ink.kangaroo.common.pixiv.config.PixivClient;
+import ink.kangaroo.common.pixiv.config.PixivProperties;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankContent;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankMode;
+import ink.kangaroo.common.pixiv.model.rank.param.GetPixivRankParam;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankContentResult;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankResult;
 import ink.kangaroo.pixiv.model.entity.*;
 import ink.kangaroo.pixiv.model.result.IllustPageResult;
-import ink.kangaroo.pixiv.model.result.PixivRankContentResult;
-import ink.kangaroo.pixiv.model.result.PixivRankResult;
 import ink.kangaroo.pixiv.repository.pixiv.*;
 import ink.kangaroo.pixiv.utils.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +42,7 @@ public class PixivRankService {
     private final PixivArtwordRepository pixivArtwordRepository;
     private final PixivArtistRepository pixivArtistRepository;
     private final PixivTagRepository pixivTagRepository;
+
     @CacheEvict(value = "rank", allEntries = true)
     public void pullAllRank() {
         String format = DateUtils.parseDateToStr(DateUtils.YYYYMMDD, DateUtils.addMinutes(DateUtils.getNowDate(), -(35 * 60 + 25)));
@@ -60,19 +64,29 @@ public class PixivRankService {
         log.info(date + "排行爬取完毕!");
     }
 
-    private List<PixivRankArtword> getArtwords(String mode,String content, String date) {
+    private List<PixivRankArtword> getArtwords(String mode, String content, String date) {
 
         ArrayList<PixivRankContentResult> illustrations = new ArrayList<>(100);
         Integer i = 1;
         boolean flag = true;
         while (flag) {
             try {
-                PixivRankResult artwords = getArtwords(mode,content, date, i);
-                illustrations.addAll(artwords.getContents());
-                flag = artwords.getNext() != null;
-                i = artwords.getNext();
+                PixivProperties pixivProperties = new PixivProperties();
+                pixivProperties.setCookie("63063042_bzdxnk6SGKaNg4DsdSJ4A853VSZcjOvr");
+                PixivClient init = PixivClient.init(pixivProperties);
+                GetPixivRankParam getPixivRankParam = new GetPixivRankParam();
+                getPixivRankParam.setMode(PixivRankMode.getByValue(mode));
+                getPixivRankParam.setContent(PixivRankContent.getByValue(content));
+                getPixivRankParam.setPageNum(i);
+                getPixivRankParam.setDate(date);
+                PixivRankResult pixivRank = init.getPixivRank(getPixivRankParam);
+
+//                PixivRankResult artwords = getArtwords(mode,content, date, i);
+                illustrations.addAll(pixivRank.getContents());
+                flag = pixivRank.getNext() != null;
+                i = pixivRank.getNext();
 //                break;
-            } catch (ExecutionException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -92,9 +106,9 @@ public class PixivRankService {
         log.info("开始排行榜: " + mode + date);
 //        PixivRank pixivRank = pixivRankRepository.findPixivRankByModeAndDate(mode, date);
 
-        PixivRank pixivRank = pixivRankRepository.findPixivRankByModeAndDateAndContent(mode, date,content);
+        PixivRank pixivRank = pixivRankRepository.findPixivRankByModeAndDateAndContent(mode, date, content);
         if (pixivRank == null) {
-            pixivRank = new PixivRank(rankMode, date,content);
+            pixivRank = new PixivRank(rankMode, date, content);
             pixivRank = pixivRankRepository.save(pixivRank);
         }
         /**
@@ -171,35 +185,6 @@ public class PixivRankService {
             //检查作者是否已经存在，如果存在则获取、更新，如果不存在则创建 ，最后关联
             return pixivRankArtword;
         }).collect(Collectors.toList());
-    }
-    /**
-     * 根据模式 日期分页 获取 排行榜 对应的插画列表
-     *
-     * @param mode
-     * @param date
-     * @param pageable
-     * @return
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
-    private PixivRankResult getArtwords(String mode, String content,String date, Pageable pageable) throws ExecutionException, InterruptedException {
-        return getArtwords(mode,content, date, pageable.getPageNumber(), pageable.getPageSize());
-    }
-
-    private PixivRankResult getArtwords(String mode, String content,String date, Integer index) throws ExecutionException, InterruptedException {
-        return getArtwords(mode,content, date, index, 50);
-    }
-
-    private PixivRankResult getArtwords(String mode,String content, String date, Integer index, Integer pageSize) throws ExecutionException, InterruptedException {
-        //TODO 根据模式 日期，页码，每页大小，爬取pixiv每日排行帮
-        PixivRankResult pixivRankResult = this.getRankByModeAndDateAndPageNumberAndPageSize(mode,content, date, index, pageSize);
-        return pixivRankResult;
-    }
-
-
-    public PixivRankResult getRankByModeAndDateAndPageNumberAndPageSize(String mode,String content, String date, Integer pageNumber, Integer pageSize) {
-
-        return PixivRankResult.getResult(requestUtil,mode,content,date,pageNumber,pageSize);
     }
 
     public List<IllustPageResult> getIllustPage(String IllustId) {

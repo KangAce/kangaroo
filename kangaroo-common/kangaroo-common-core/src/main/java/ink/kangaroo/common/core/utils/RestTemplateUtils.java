@@ -4,27 +4,35 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Map;
 
 /**
  * RestTemplate 远程调用工具类
- * 
+ *
  * @author Logan
  * @createDate 2019-02-08
- *
  */
 public class RestTemplateUtils {
 
-    private static final RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate;
 
+    static {
+        restTemplate = new RestTemplate();
+        SimpleClientHttpRequestFactory reqfac = new SimpleClientHttpRequestFactory();
+        reqfac.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 1080)));
+        restTemplate.setRequestFactory(reqfac);
+    }
     // ----------------------------------GET-------------------------------------------------------
 
     /**
      * GET请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @return ResponseEntity 响应对象封装类
      */
@@ -34,8 +42,8 @@ public class RestTemplateUtils {
 
     /**
      * GET请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -46,8 +54,8 @@ public class RestTemplateUtils {
 
     /**
      * GET请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -58,9 +66,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的GET请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -73,9 +81,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的GET请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -87,9 +95,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的GET请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -102,9 +110,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的GET请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -118,8 +126,8 @@ public class RestTemplateUtils {
 
     /**
      * POST请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @return
      */
@@ -129,9 +137,9 @@ public class RestTemplateUtils {
 
     /**
      * POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @return ResponseEntity 响应对象封装类
      */
@@ -141,9 +149,9 @@ public class RestTemplateUtils {
 
     /**
      * POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -154,9 +162,9 @@ public class RestTemplateUtils {
 
     /**
      * POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -167,10 +175,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -183,10 +191,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -198,10 +206,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -214,10 +222,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的POST请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -229,11 +237,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的POST请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，按顺序依次对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> post(String url, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) {
@@ -242,11 +250,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的POST请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，与Map中的key对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> post(String url, HttpEntity<?> requestEntity, Class<T> responseType, Map<String, ?> uriVariables) {
@@ -257,8 +265,8 @@ public class RestTemplateUtils {
 
     /**
      * PUT请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -269,9 +277,9 @@ public class RestTemplateUtils {
 
     /**
      * PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -283,9 +291,9 @@ public class RestTemplateUtils {
 
     /**
      * PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -297,10 +305,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -313,10 +321,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -328,10 +336,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -344,10 +352,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的PUT请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -359,11 +367,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的PUT请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，按顺序依次对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> put(String url, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) {
@@ -372,11 +380,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的PUT请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，与Map中的key对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> put(String url, HttpEntity<?> requestEntity, Class<T> responseType, Map<String, ?> uriVariables) {
@@ -387,8 +395,8 @@ public class RestTemplateUtils {
 
     /**
      * DELETE请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -399,8 +407,8 @@ public class RestTemplateUtils {
 
     /**
      * DELETE请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url          请求URL
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -411,9 +419,9 @@ public class RestTemplateUtils {
 
     /**
      * DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -425,9 +433,9 @@ public class RestTemplateUtils {
 
     /**
      * DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -439,9 +447,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -454,9 +462,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -468,9 +476,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -483,9 +491,9 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -497,10 +505,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -513,10 +521,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
@@ -528,10 +536,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -544,10 +552,10 @@ public class RestTemplateUtils {
 
     /**
      * 带请求头的DELETE请求调用方式
-     * 
-     * @param url 请求URL
-     * @param headers 请求头参数
-     * @param requestBody 请求参数体
+     *
+     * @param url          请求URL
+     * @param headers      请求头参数
+     * @param requestBody  请求参数体
      * @param responseType 返回对象类型
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
@@ -559,11 +567,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的DELETE请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，按顺序依次对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> delete(String url, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) {
@@ -572,11 +580,11 @@ public class RestTemplateUtils {
 
     /**
      * 自定义请求头和请求体的DELETE请求调用方式
-     * 
-     * @param url 请求URL
+     *
+     * @param url           请求URL
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，与Map中的key对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> delete(String url, HttpEntity<?> requestEntity, Class<T> responseType, Map<String, ?> uriVariables) {
@@ -587,12 +595,12 @@ public class RestTemplateUtils {
 
     /**
      * 通用调用方式
-     * 
-     * @param url 请求URL
-     * @param method 请求方法类型
+     *
+     * @param url           请求URL
+     * @param method        请求方法类型
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，按顺序依次对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，按顺序依次对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) {
@@ -601,12 +609,12 @@ public class RestTemplateUtils {
 
     /**
      * 通用调用方式
-     * 
-     * @param url 请求URL
-     * @param method 请求方法类型
+     *
+     * @param url           请求URL
+     * @param method        请求方法类型
      * @param requestEntity 请求头和请求体封装对象
-     * @param responseType 返回对象类型
-     * @param uriVariables URL中的变量，与Map中的key对应
+     * @param responseType  返回对象类型
+     * @param uriVariables  URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Map<String, ?> uriVariables) {
@@ -615,7 +623,7 @@ public class RestTemplateUtils {
 
     /**
      * 获取RestTemplate实例对象，可自由调用其方法
-     * 
+     *
      * @return RestTemplate实例对象
      */
     public static RestTemplate getRestTemplate() {
