@@ -54,6 +54,11 @@
         <!-- Kangaroo Common DataSource -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-redis</artifactId>
+        </dependency>
+        <!-- Kangaroo Common DataSource -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-datasource</artifactId>
         </dependency>
 
@@ -77,6 +82,11 @@
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-ekuaishou</artifactId>
+        </dependency>
+        <!-- Kangaroo Common Pixiv -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-pixiv</artifactId>
         </dependency>
         <dependency>
             <groupId>us.codecraft</groupId>

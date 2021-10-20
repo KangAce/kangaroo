@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021/8/9 0:18
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
-public interface RemoteUserService
-{
+public interface RemoteUserService {
     /**
      * 通过用户名查询用户信息
      *
      * @param username 用户名
-     * @param source 请求来源
+     * @param source   请求来源
      * @return 结果
      */
     @GetMapping("/user/info/{username}")
@@ -33,7 +32,7 @@ public interface RemoteUserService
      * 注册用户信息
      *
      * @param sysUser 用户信息
-     * @param source 请求来源
+     * @param source  请求来源
      * @return 结果
      */
     @PostMapping("/user/register")

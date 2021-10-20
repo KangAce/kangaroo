@@ -2,7 +2,7 @@ package ink.kangaroo.pixiv.model.entity;
 
 import ink.kangaroo.common.core.enums.Sex;
 import ink.kangaroo.common.core.web.domain.BaseEntity;
-import ink.kangaroo.pixiv.model.result.PixivRankContentResult;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankContentResult;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

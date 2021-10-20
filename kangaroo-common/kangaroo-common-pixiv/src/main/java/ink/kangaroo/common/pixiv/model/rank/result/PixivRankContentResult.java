@@ -1,4 +1,5 @@
-package ink.kangaroo.pixiv.model.result;
+package ink.kangaroo.common.pixiv.model.rank.result;
+
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;

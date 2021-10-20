@@ -1,10 +1,12 @@
 package ink.kangaroo.pixiv.api;
 
+import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.pixiv.api.factory.RemotePixivFallbackFactory;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
 import ink.kangaroo.common.core.domain.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * @author kbw
@@ -18,6 +20,6 @@ public interface RemotePixivService {
      * 抓取pixiv排行榜
      * @return
      */
-    @GetMapping
-    public R<?> pullPixivRank();
+    @GetMapping("/api/pixiv/pullAllRank")
+    public R<?> pullPixivRank(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }
