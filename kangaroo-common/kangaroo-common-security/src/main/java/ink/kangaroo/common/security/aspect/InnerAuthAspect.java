@@ -2,6 +2,7 @@ package ink.kangaroo.common.security.aspect;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.exception.InnerAuthException;
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.common.security.annotation.InnerAuth;
@@ -25,9 +26,20 @@ public class InnerAuthAspect implements Ordered {
     public Object innerAround(ProceedingJoinPoint point, InnerAuth innerAuth) throws Throwable {
         String source = ServletUtils.getRequest().getHeader(SecurityConstants.FROM_SOURCE);
         // 内部请求验证
-        if (!StringUtils.equals(SecurityConstants.INNER, source)) {
-            throw new InnerAuthException("没有内部访问权限，不允许访问");
+        if (source == null) {
+            throw new InnerAuthException("没有内部访问权限，不允许访问.");
         }
+        String replace = source.replace(SecurityConstants.INNER + ":", "");
+        try {
+            if (System.currentTimeMillis() - DecimalUtils.N_to_10(replace, 62) > 60 * 1000) {
+                throw new InnerAuthException("没有内部访问权限，不允许访问;");
+            }
+        } catch (Exception e) {
+            throw new InnerAuthException("没有内部访问权限，不允许访问。");
+        }
+//        if (!StringUtils.equals(SecurityConstants.INNER, source)) {
+//            throw new InnerAuthException("没有内部访问权限，不允许访问");
+//        }
 
         String userid = ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USER_ID);
         String username = ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USERNAME);

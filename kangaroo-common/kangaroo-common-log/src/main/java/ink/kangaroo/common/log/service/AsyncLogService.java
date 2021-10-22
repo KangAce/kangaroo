@@ -1,5 +1,6 @@
 package ink.kangaroo.common.log.service;
 
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.system.api.RemoteLogService;
 import ink.kangaroo.system.api.domain.SysOperLog;
 import ink.kangaroo.common.core.constant.SecurityConstants;
@@ -22,6 +23,6 @@ public class AsyncLogService {
      */
     @Async
     public void saveSysLog(SysOperLog sysOperLog) {
-        remoteLogService.saveLog(sysOperLog, SecurityConstants.INNER);
+        remoteLogService.saveLog(sysOperLog, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
     }
 }
