@@ -1,7 +1,7 @@
 package ink.kangaroo.job.task;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
-import ink.kangaroo.common.core.utils.StringUtils;
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.pixiv.api.RemotePixivService;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +28,7 @@ public class PixivTask {
     }
 
     public void pullPixivRank() {
-
         System.out.println("pullPixivRank");
-        remotePixivService.pullPixivRank(SecurityConstants.INNER);
+        remotePixivService.pullPixivRank(SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
     }
 }

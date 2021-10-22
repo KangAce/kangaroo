@@ -2,6 +2,7 @@ package ink.kangaroo.gateway.handler;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.domain.R;
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.common.core.utils.ExceptionUtil;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
@@ -86,7 +87,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
     R<String> sendMail(MailParam mailParam) {
         //因为Callable接口是函数式接口，可以使用Lambda表达式
-        FutureTask<R<String>> task = new FutureTask<>(() -> remoteMailService.testMail(mailParam, SecurityConstants.INNER));
+        FutureTask<R<String>> task = new FutureTask<>(() -> remoteMailService.testMail(mailParam, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62)));
         executor.execute(task);
         try {
             return task.get();

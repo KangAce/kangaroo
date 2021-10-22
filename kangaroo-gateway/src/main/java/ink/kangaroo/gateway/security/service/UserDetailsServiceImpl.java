@@ -2,6 +2,7 @@ package ink.kangaroo.gateway.security.service;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.domain.R;
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.common.log.annotation.Log;
 import ink.kangaroo.common.log.enums.BusinessType;
 import ink.kangaroo.common.log.enums.OperatorType;
@@ -86,7 +87,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     R<LoginUser> loginUserR(String username) {
         //因为Callable接口是函数式接口，可以使用Lambda表达式
-        FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER));
+        FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62)));
         executor.execute(task);
         try {
             return task.get();

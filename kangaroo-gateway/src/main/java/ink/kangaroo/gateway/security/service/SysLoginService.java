@@ -6,6 +6,7 @@ import ink.kangaroo.common.core.constant.UserConstants;
 import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.enums.UserStatus;
 import ink.kangaroo.common.core.exception.base.BaseException;
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ink.kangaroo.common.core.utils.SecurityUtils;
 import ink.kangaroo.common.core.utils.ServletUtils;
 import ink.kangaroo.common.core.utils.StringUtils;
@@ -60,7 +61,7 @@ public class SysLoginService
             throw new BaseException("用户名不在指定范围");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+        R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
 
         if (R.FAIL == userResult.getCode())
         {
@@ -124,7 +125,7 @@ public class SysLoginService
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+        R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
 
         if (R.FAIL == registerResult.getCode())
         {
@@ -156,6 +157,6 @@ public class SysLoginService
         {
             logininfor.setStatus("1");
         }
-        remoteLogService.saveLogininfor(logininfor, SecurityConstants.INNER);
+        remoteLogService.saveLogininfor(logininfor, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
     }
 }
