@@ -76,6 +76,12 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-swagger</artifactId>
         </dependency>
+
+        <!-- Kangaroo Common Security -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
