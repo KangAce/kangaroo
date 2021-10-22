@@ -64,10 +64,10 @@
         </dependency>
 
         <!--验证码 -->
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.penggle</groupId>-->
+<!--            <artifactId>kaptcha</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-redis</artifactId>
