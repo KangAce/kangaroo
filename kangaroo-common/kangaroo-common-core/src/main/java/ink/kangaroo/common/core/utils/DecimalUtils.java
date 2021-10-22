@@ -13,6 +13,27 @@ public class DecimalUtils {
             .toCharArray();
     private static String numStr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * 时间戳相关随机字符
+     *
+     * @param N 要生成随机字符的长度
+     * @return
+     */
+    public static String timeToStringByCount(int N) {
+        long rest = (long) (System.currentTimeMillis() % Math.pow(62, N));
+        Stack<Character> stack = new Stack<>();
+        StringBuilder result = new StringBuilder(0);
+        while (rest != 0) {
+            stack.add(array[Long.valueOf((rest % array.length)).intValue()]);
+            rest = rest / array.length;
+        }
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+        return result.length() == 0 ? "0" : result.toString();
+
+    }
+
     //10进制转为其他进制，除留取余，逆序排列
     public static String _10_to_N(long number, int N) {
         if (N > array.length) {
