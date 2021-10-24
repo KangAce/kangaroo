@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ink.kangaroo.system.api.factory.RemoteConfigFallbackFactory, \
   ink.kangaroo.system.api.factory.RemoteUserFallbackFactory, \
   ink.kangaroo.system.api.factory.RemoteLogFallbackFactory, \
   ink.kangaroo.system.api.factory.RemoteFileFallbackFactory

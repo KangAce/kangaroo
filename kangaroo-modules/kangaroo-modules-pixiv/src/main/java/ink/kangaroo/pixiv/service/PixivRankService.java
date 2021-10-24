@@ -37,6 +37,7 @@ public class PixivRankService {
     private final static String[] MODES = {"daily_all", "daily_illust", "weekly_all", "weekly_illust", "monthly_all", "monthly_illust", "rookie_illust", "original_all", "male_all", "female_all"};
     private final ObjectMapper objectMapper;
     private final RequestUtil requestUtil;
+    private final PixivClient pixivClient;
     private final PixivRankArtwordRepository pixivRankArtwordRepository;
     private final PixivRankRepository pixivRankRepository;
     private final PixivArtwordRepository pixivArtwordRepository;
@@ -70,25 +71,18 @@ public class PixivRankService {
         Integer i = 1;
         boolean flag = true;
         while (flag) {
-            try {
-                PixivProperties pixivProperties = new PixivProperties();
-                pixivProperties.setCookie("63063042_bzdxnk6SGKaNg4DsdSJ4A853VSZcjOvr");
-                PixivClient init = PixivClient.init(pixivProperties);
-                GetPixivRankParam getPixivRankParam = new GetPixivRankParam();
-                getPixivRankParam.setMode(PixivRankMode.getByValue(mode));
-                getPixivRankParam.setContent(PixivRankContent.getByValue(content));
-                getPixivRankParam.setPageNum(i);
-                getPixivRankParam.setDate(date);
-                PixivRankResult pixivRank = init.getPixivRank(getPixivRankParam);
+            GetPixivRankParam getPixivRankParam = new GetPixivRankParam();
+            getPixivRankParam.setMode(PixivRankMode.getByValue(mode));
+            getPixivRankParam.setContent(PixivRankContent.getByValue(content));
+            getPixivRankParam.setPageNum(i);
+            getPixivRankParam.setDate(date);
+            PixivRankResult pixivRank = pixivClient.getPixivRank(getPixivRankParam);
 
 //                PixivRankResult artwords = getArtwords(mode,content, date, i);
-                illustrations.addAll(pixivRank.getContents());
-                flag = pixivRank.getNext() != null;
-                i = pixivRank.getNext();
+            illustrations.addAll(pixivRank.getContents());
+            flag = pixivRank.getNext() != null;
+            i = pixivRank.getNext();
 //                break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         String rankMode;
         switch (mode) {

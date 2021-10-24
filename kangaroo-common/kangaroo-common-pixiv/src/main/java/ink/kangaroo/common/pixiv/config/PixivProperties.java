@@ -9,4 +9,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "pixiv.personal")
 public class PixivProperties {
     private String cookie;
+    private String proxyIp;
+    private Integer proxyPort;
 }

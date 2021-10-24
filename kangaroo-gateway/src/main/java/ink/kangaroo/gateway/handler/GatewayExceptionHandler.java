@@ -9,6 +9,7 @@ import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.mail.api.RemoteMailService;
 import ink.kangaroo.mail.api.model.param.MailParam;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,10 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             msg = "Token 错误";
         } else if (ex instanceof ExpiredJwtException) {
             msg = "Token 已过期";
+        } else if (ex instanceof StringIndexOutOfBoundsException) {
+            msg = "Token 长度不足";
+        } else if (ex instanceof MalformedJwtException) {
+            msg = "Token Error";
         } else if (ex instanceof ResponseStatusException) {
             ResponseStatusException responseStatusException = (ResponseStatusException) ex;
             msg = responseStatusException.getMessage();
