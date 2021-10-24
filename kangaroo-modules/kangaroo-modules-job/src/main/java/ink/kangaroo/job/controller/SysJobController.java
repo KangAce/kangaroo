@@ -10,6 +10,7 @@ import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.common.core.web.page.TableDataInfo;
 import ink.kangaroo.common.log.annotation.Log;
 import ink.kangaroo.common.log.enums.BusinessType;
+import ink.kangaroo.common.security.annotation.PreAuthorize;
 import ink.kangaroo.job.domain.SysJob;
 import ink.kangaroo.job.service.ISysJobService;
 import ink.kangaroo.job.uitl.CronUtils;
@@ -38,7 +39,7 @@ public class SysJobController extends BaseController {
     /**
      * 查询定时任务列表
      */
-//    @PreAuthorize(hasPermi = "monitor:job:list")
+    @PreAuthorize(hasPermi = "monitor:job:list")
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
         startPage();
@@ -49,7 +50,7 @@ public class SysJobController extends BaseController {
     /**
      * 导出定时任务列表
      */
-//    @PreAuthorize(hasPermi = "monitor:job:export")
+    @PreAuthorize(hasPermi = "monitor:job:export")
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysJob sysJob) throws IOException {
@@ -61,7 +62,7 @@ public class SysJobController extends BaseController {
     /**
      * 获取定时任务详细信息
      */
-//    @PreAuthorize(hasPermi = "monitor:job:query")
+    @PreAuthorize(hasPermi = "monitor:job:query")
     @GetMapping(value = "/{jobId}")
     public AjaxResult getInfo(@PathVariable("jobId") Long jobId) {
         return AjaxResult.createAjaxResult(jobService.selectJobById(jobId));
@@ -70,7 +71,7 @@ public class SysJobController extends BaseController {
     /**
      * 新增定时任务
      */
-//    @PreAuthorize(hasPermi = "monitor:job:add")
+    @PreAuthorize(hasPermi = "monitor:job:add")
     @Log(title = "定时任务", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysJob job) throws SchedulerException, TaskException {
@@ -90,7 +91,7 @@ public class SysJobController extends BaseController {
     /**
      * 修改定时任务
      */
-//    @PreAuthorize(hasPermi = "monitor:job:edit")
+    @PreAuthorize(hasPermi = "monitor:job:edit")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysJob job) throws SchedulerException, TaskException {
@@ -110,7 +111,7 @@ public class SysJobController extends BaseController {
     /**
      * 定时任务状态修改
      */
-//    @PreAuthorize(hasPermi = "monitor:job:changeStatus")
+    @PreAuthorize(hasPermi = "monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysJob job) throws SchedulerException {
@@ -122,7 +123,7 @@ public class SysJobController extends BaseController {
     /**
      * 定时任务立即执行一次
      */
-//    @PreAuthorize(hasPermi = "monitor:job:changeStatus")
+    @PreAuthorize(hasPermi = "monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/run")
     public AjaxResult run(@RequestBody SysJob job) throws SchedulerException {
@@ -133,7 +134,7 @@ public class SysJobController extends BaseController {
     /**
      * 删除定时任务
      */
-//    @PreAuthorize(hasPermi = "monitor:job:remove")
+    @PreAuthorize(hasPermi = "monitor:job:remove")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
     @DeleteMapping("/{jobIds}")
     public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException {

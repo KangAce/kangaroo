@@ -39,6 +39,7 @@ public class DefaultSecurityContextRepository implements ServerSecurityContextRe
 
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
+        //获取头信息，并处理
         ServerHttpRequest request = exchange.getRequest();
         List<String> headers = request.getHeaders().get(SecurityConstants.TOKEN_AUTHENTICATION);
         if (!CollectionUtils.isEmpty(headers)) {

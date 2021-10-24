@@ -1,5 +1,6 @@
 package ink.kangaroo.system.controller;
 
+import com.alibaba.nacos.shaded.com.google.common.base.Function;
 import ink.kangaroo.common.core.constant.UserConstants;
 import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.utils.ExcelUtil;
@@ -11,6 +12,7 @@ import ink.kangaroo.common.core.web.page.TableDataInfo;
 import ink.kangaroo.common.log.annotation.Log;
 import ink.kangaroo.common.log.enums.BusinessType;
 import ink.kangaroo.common.security.annotation.InnerAuth;
+import ink.kangaroo.common.security.annotation.PreAuthorize;
 import ink.kangaroo.system.api.domain.SysRole;
 import ink.kangaroo.system.api.domain.SysUser;
 import ink.kangaroo.system.api.model.LoginUser;
@@ -53,7 +55,7 @@ public class SysUserController extends BaseController {
     /**
      * 获取用户列表
      */
-//    @PreAuthorize(hasPermi = "system:user:list")
+    @PreAuthorize(hasPermi = "system:user:list")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user) {
         startPage();
@@ -62,7 +64,7 @@ public class SysUserController extends BaseController {
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
-//    @PreAuthorize(hasPermi = "system:user:export")
+    @PreAuthorize(hasPermi = "system:user:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) throws IOException {
         List<SysUser> list = userService.selectUserList(user);
@@ -71,7 +73,7 @@ public class SysUserController extends BaseController {
     }
 
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-//    @PreAuthorize(hasPermi = "system:user:import")
+    @PreAuthorize(hasPermi = "system:user:import")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -146,7 +148,7 @@ public class SysUserController extends BaseController {
     /**
      * 根据用户编号获取详细信息
      */
-//    @PreAuthorize(hasPermi = "system:user:query")
+    @PreAuthorize(hasPermi = "system:user:query")
     @GetMapping(value = {"/", "/{userId}"})
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         AjaxResult ajax = AjaxResult.success();
@@ -164,7 +166,7 @@ public class SysUserController extends BaseController {
     /**
      * 新增用户
      */
-//    @PreAuthorize(hasPermi = "system:user:add")
+    @PreAuthorize(hasPermi = "system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user) {
@@ -185,7 +187,7 @@ public class SysUserController extends BaseController {
     /**
      * 修改用户
      */
-//    @PreAuthorize(hasPermi = "system:user:edit")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
@@ -204,7 +206,7 @@ public class SysUserController extends BaseController {
     /**
      * 删除用户
      */
-//    @PreAuthorize(hasPermi = "system:user:remove")
+    @PreAuthorize(hasPermi = "system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds) {
@@ -217,7 +219,7 @@ public class SysUserController extends BaseController {
     /**
      * 重置密码
      */
-//    @PreAuthorize(hasPermi = "system:user:edit")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
@@ -230,7 +232,7 @@ public class SysUserController extends BaseController {
     /**
      * 状态修改
      */
-//    @PreAuthorize(hasPermi = "system:user:edit")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user) {
@@ -242,7 +244,7 @@ public class SysUserController extends BaseController {
     /**
      * 根据用户编号获取授权角色
      */
-//    @PreAuthorize(hasPermi = "system:user:query")
+    @PreAuthorize(hasPermi = "system:user:query")
     @GetMapping("/authRole/{userId}")
     public AjaxResult authRole(@PathVariable("userId") Long userId) {
         AjaxResult ajax = AjaxResult.success();
@@ -256,7 +258,7 @@ public class SysUserController extends BaseController {
     /**
      * 用户授权角色
      */
-//    @PreAuthorize(hasPermi = "system:user:edit")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds) {

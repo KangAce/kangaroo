@@ -28,12 +28,13 @@ public class AjaxResult extends HashMap<String, Object> {
 
     private static final String EMPTY = "";
 
-    public static AjaxResult fail(Integer code,String message) {
+    public static AjaxResult fail(Integer code, String message) {
         AjaxResult ajaxResult = createAjaxResult();
         ajaxResult.putData(CODE, code);
         ajaxResult.putData(MESSAGE, message);
         return ajaxResult;
     }
+
     public static AjaxResult fail(BaseException e) {
         AjaxResult ajaxResult = createAjaxResult();
         ajaxResult.putData(CODE, e.getCode());
@@ -58,6 +59,13 @@ public class AjaxResult extends HashMap<String, Object> {
             return (String) get(MESSAGE);
         }
         return EMPTY;
+    }
+
+    public Object getData() {
+        if (get(DATA) != null) {
+            return get(DATA);
+        }
+        return new Object();
     }
 
     private AjaxResult() {
