@@ -197,6 +197,53 @@ services:
         hard: -1
     networks:
       - elastic
+  kangaroo-rmqnamesrv:
+    image: foxiswho/rocketmq:server
+    container_name: kangaroo-rmqnamesrv
+    ports:
+      - 9876:9876
+    volumes:
+      - ./rocketmq/logs:/opt/logs
+      - ./rocketmq/store:/opt/store
+    networks:
+      rmq:
+        aliases:
+          - kangaroo-rmqnamesrv
+
+  kangaroo-rmqbroker:
+    image: foxiswho/rocketmq:broker
+    container_name: kangaroo-rmqbroker
+    ports:
+      - 10909:10909
+      - 10911:10911
+    volumes:
+      - ./rocketmq/logs:/opt/logs
+      - ./rocketmq/store:/opt/store
+      - ./rocketmq/conf/broker.conf:/etc/rocketmq/broker.conf
+    environment:
+      NAMESRV_ADDR: "kangaroo-rmqnamesrv:9876"
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+    command: mqbroker -c /etc/rocketmq/broker.conf
+    depends_on:
+      - kangaroo-rmqnamesrv
+    networks:
+      rmq:
+        aliases:
+          - kangaroo-rmqbroker
+  kangaroo-rmqconsole:
+    image: styletang/rocketmq-console-ng
+    container_name: kangaroo-rmqconsole
+    ports:
+      - 8080:8080
+    environment:
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=kangaroo-rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+    depends_on:
+      - kangaroo-rmqnamesrv
+    networks:
+      rmq:
+        aliases:
+          - kangaroo-rmqconsole
 
 volumes:
   data01:
@@ -222,4 +269,7 @@ volumes:
 
 networks:
   elastic:
+    driver: bridge
+  rmq:
+    name: rmq
     driver: bridge

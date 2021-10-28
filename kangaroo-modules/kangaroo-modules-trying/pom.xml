@@ -15,10 +15,17 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    <dependencies>        <!-- SpringCloud Alibaba Nacos -->
+    <dependencies>
+        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- SpringCloud Alibaba Nacos Config -->
@@ -127,7 +134,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.13.1</version>
+            <version>1.14.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
         <!--    <dependency>-->
@@ -136,16 +143,12 @@
         <!--        <version>4.0.0-beta-4</version>-->
         <!--    </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server-standalone -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-server-standalone</artifactId>
-            <version>2.46.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>22.0</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server-standalone -->
+<!--        <dependency>-->
+<!--            <groupId>org.seleniumhq.selenium</groupId>-->
+<!--            <artifactId>selenium-server-standalone</artifactId>-->
+<!--            <version>2.53.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -154,28 +157,54 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cn.wanghaomiao</groupId>
             <artifactId>JsoupXpath</artifactId>
             <version>2.5.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jsoup</artifactId>
+                    <groupId>org.jsoup</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>ws.schild</groupId>
             <artifactId>jave-all-deps</artifactId>
             <version>3.2.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>ws.schild</groupId>-->
-<!--            <artifactId>jave-core</artifactId>-->
-<!--            <version>3.2.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>ws.schild</groupId>-->
-<!--            <artifactId>jave-nativebin-win64</artifactId>-->
-<!--            <version>3.2.0</version>-->
-<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.apache.rocketmq/rocketmq-spring-boot-starter -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.2.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-beanutils</artifactId>
+                    <groupId>commons-beanutils</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-swagger</artifactId>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>ws.schild</groupId>-->
+        <!--            <artifactId>jave-core</artifactId>-->
+        <!--            <version>3.2.0</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>ws.schild</groupId>-->
+        <!--            <artifactId>jave-nativebin-win64</artifactId>-->
+        <!--            <version>3.2.0</version>-->
+        <!--        </dependency>-->
     </dependencies>
 </project>
