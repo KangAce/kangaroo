@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class CampaignListParam {
+
     @JSONField(name = "advertiser_id")
     private Long advertiserId;
 
@@ -26,6 +27,5 @@ public class CampaignListParam {
 
     @JSONField(name = "page_size")
     private Integer pageSize;
-
 
 }
