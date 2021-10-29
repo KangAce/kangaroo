@@ -1,5 +1,6 @@
 package ink.kangaroo.trying;
 
+import ink.kangaroo.common.core.utils.DecimalUtils;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.info.MultimediaInfo;
 
@@ -17,25 +18,29 @@ import java.util.Date;
 public class J {
     public static void main(String[] args) throws Exception {
 
-        URL url = null;
-        try {
-            url = new URL("https://xjfs.xjcod.com/transport/creative/video/2021-04-30/YchijkmrfH.mp4");
-            MultimediaObject object = new MultimediaObject(url);
-            MultimediaInfo info = object.getInfo();
-            long duration = info.getDuration();
-            System.out.println("duration-->" + duration);
-            System.out.println("video size-->" + info.getVideo().getSize());
-            //码率
-            System.out.println("video bit rate-->" + info.getVideo().getBitRate());
-            //帧率
-            System.out.println("video bit rate-->" + info.getVideo().getFrameRate());
-            System.out.println("video decoder-->" + info.getVideo().getDecoder());
-            System.out.println("format-->" + info.getFormat());
-            System.out.println("metadata-->" + info.getMetadata());
-            System.out.println("audio-->" + info.getAudio());
-        } catch (Exception e) {
-            e.printStackTrace();
+        while (true){
+            System.out.println(DecimalUtils.timeToStringByCount(4));
+            Thread.sleep(1000);
         }
+//        URL url = null;
+//        try {
+//            url = new URL("https://xjfs.xjcod.com/transport/creative/video/2021-04-30/YchijkmrfH.mp4");
+//            MultimediaObject object = new MultimediaObject(url);
+//            MultimediaInfo info = object.getInfo();
+//            long duration = info.getDuration();
+//            System.out.println("duration-->" + duration);
+//            System.out.println("video size-->" + info.getVideo().getSize());
+//            //码率
+//            System.out.println("video bit rate-->" + info.getVideo().getBitRate());
+//            //帧率
+//            System.out.println("video bit rate-->" + info.getVideo().getFrameRate());
+//            System.out.println("video decoder-->" + info.getVideo().getDecoder());
+//            System.out.println("format-->" + info.getFormat());
+//            System.out.println("metadata-->" + info.getMetadata());
+//            System.out.println("audio-->" + info.getAudio());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //
 //        String releaseDate = "2019-11-10";
 //        String date = "2019-11-11";
