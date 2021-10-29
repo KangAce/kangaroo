@@ -123,8 +123,9 @@ public class M3U8 {
         int i = 0;
         //如果生成目录不存在，则创建
         File file1 = new File(dir);
-        if (!file1.exists())
+        if (!file1.exists()) {
             file1.mkdirs();
+        }
         //执行多线程下载
         for (TS s : tsList) {
             i++;
