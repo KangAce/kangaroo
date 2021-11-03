@@ -31,6 +31,7 @@ public class InnerAuthAspect implements Ordered {
         }
         String replace = source.replace(SecurityConstants.INNER + ":", "");
         try {
+            System.out.println(System.currentTimeMillis() - DecimalUtils.N_to_10(replace, 62));
             if (System.currentTimeMillis() - DecimalUtils.N_to_10(replace, 62) > 60 * 1000) {
                 throw new InnerAuthException("没有内部访问权限，不允许访问;");
             }

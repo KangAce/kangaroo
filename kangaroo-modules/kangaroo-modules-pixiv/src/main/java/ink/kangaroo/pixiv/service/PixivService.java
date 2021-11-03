@@ -1,5 +1,6 @@
 package ink.kangaroo.pixiv.service;
 
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankResult;
 import ink.kangaroo.pixiv.model.vo.PixivArtwordDetailVo;
 import ink.kangaroo.pixiv.model.vo.PixivArtwordVo;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,6 @@ public interface PixivService {
     boolean like(Long userId, Long id);
 
     Page<PixivArtwordVo> listByLikeUserId(Long userId, Pageable pageable);
+
+    PixivRankResult getPixivRankResultRealTime (Pageable pageable, String date, String mode, String content);
 }

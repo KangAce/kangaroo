@@ -8,7 +8,10 @@ import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.common.core.web.controller.BaseController;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.common.pixiv.config.PixivClient;
-import ink.kangaroo.common.redis.lock.annotation.CacheLock;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankContent;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankMode;
+import ink.kangaroo.common.pixiv.model.rank.param.GetPixivRankParam;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankResult;
 import ink.kangaroo.common.redis.lock.annotation.CacheParam;
 import ink.kangaroo.common.security.annotation.InnerAuth;
 import ink.kangaroo.pixiv.model.entity.PixivArtist;
@@ -84,8 +87,28 @@ public class PixivController extends BaseController {
             date = DateUtils.parseDateToStr(DateUtils.YYYYMMDD, DateUtils.addMinutes(DateUtils.getNowDate(), -(35 * 60 + 25)));
         }
         Page<PixivArtwordVo> list = pixivService.list(date, mode, flag, pageable);
+
         return list;
     }
+
+    @GetMapping("/wpList")
+//    @StaticApiCaChe
+//    @CacheLock(prefix = "wp")
+    public PixivRankResult wpListPage(
+            @PageableDefault(sort = "rankNumber", direction = ASC) @CacheParam Pageable pageable,
+            @CacheParam String date,
+            @NotNull @CacheParam String mode,
+            @NotNull @CacheParam String content
+    ) {
+        if (StringUtils.isBlank(date)) {
+            date = DateUtils.parseDateToStr(DateUtils.YYYYMMDD, DateUtils.addMinutes(DateUtils.getNowDate(), -(35 * 60 + 25)));
+        }
+        if (StringUtils.isBlank(content)) {
+            content = PixivRankContent.PIXIV_RANK_ALL.getValue();
+        }
+        return pixivService.getPixivRankResultRealTime(pageable, date, mode, content);
+    }
+
 
     @GetMapping("/img/{type}/{id}/{order}/{clarity}")
     public void img(@PathVariable(value = "type") String type, @PathVariable(value = "id") String id, @PathVariable(value = "order") Integer order, HttpServletResponse response, @PathVariable(value = "clarity") String clarity) {
@@ -167,5 +190,16 @@ public class PixivController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     *
+     * 发现漫画插画：https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60&lang=zh
+     * 发现小说：https://www.pixiv.net/ajax/discovery/novels?mode=all&limit=100&lang=zh
+     * 发现推荐用户：https://www.pixiv.net/ajax/discovery/users?limit=20&lang=zh
+     * @param args
+     */
+    public static void main(String[] args) {
+
     }
 }

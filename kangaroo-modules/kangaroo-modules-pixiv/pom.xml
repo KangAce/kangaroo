@@ -127,7 +127,23 @@
         <!--query dsl end-->
     </dependencies>
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <mainClass>ink.kangaroo.pixiv.KangarooPixivApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--该插件可以生成querysdl需要的查询对象，执行mvn compile即可-->
             <plugin>
                 <groupId>com.mysema.maven</groupId>

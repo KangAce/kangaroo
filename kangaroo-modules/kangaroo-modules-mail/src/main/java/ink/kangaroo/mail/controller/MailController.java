@@ -36,6 +36,12 @@ public class MailController {
         mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
         return R.ok("已发送，请查收。若确认没有收到邮件，请检查服务器日志");
     }
+    @PostMapping("tests")
+    @Operation(summary = "Tests the SMTP service")
+    public R<String> testsMail(@Valid @RequestBody MailParam mailParam) {
+        mailService.sendTextMail(mailParam.getTo(), mailParam.getSubject(), mailParam.getContent());
+        return R.ok("已发送，请查收。若确认没有收到邮件，请检查服务器日志");
+    }
 
     @PostMapping("test/connection")
     @Operation(summary = "Test connection with email server")

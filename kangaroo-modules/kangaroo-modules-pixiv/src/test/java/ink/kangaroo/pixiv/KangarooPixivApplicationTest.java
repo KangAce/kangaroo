@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSON;
 import ink.kangaroo.common.core.utils.RestTemplateUtils;
 import ink.kangaroo.common.ekuaishou.model.adunit.param.GetAdUnitInfoParam;
 import ink.kangaroo.common.ekuaishou.model.adunit.result.AdUnitDetailsDataResult;
-import ink.kangaroo.common.ekuaishou.model.advertiser.AdvertiserAccountInfoResult;
 import ink.kangaroo.common.ekuaishou.model.base.BaseResult;
+import ink.kangaroo.common.pixiv.config.PixivClient;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankContent;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankMode;
+import ink.kangaroo.common.pixiv.model.rank.param.GetPixivRankParam;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,9 @@ public class KangarooPixivApplicationTest {
     @Autowired
     MongoTemplate mongoTemplate;
 
+    @Autowired
+    PixivClient pixivClient;
+
     public static void main(String[] args) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -48,8 +55,8 @@ public class KangarooPixivApplicationTest {
         String s = JSON.toJSONString(getAdUnitInfoParam);
         System.out.println(s);
         ResponseEntity<BaseResult> stringResponseEntity = RestTemplateUtils.post("https://ad.e.kuaishou.com/rest/openapi/v1/ad_unit/list", httpHeaders, s, BaseResult.class);
-        BaseResult<AdUnitDetailsDataResult> baseResult=new BaseResult<>();
-        BeanUtils.copyProperties(stringResponseEntity.getBody(),baseResult);
+        BaseResult<AdUnitDetailsDataResult> baseResult = new BaseResult<>();
+        BeanUtils.copyProperties(stringResponseEntity.getBody(), baseResult);
         System.out.println(baseResult);
 
 //        ResponseEntity<AdvertiserAccountInfoResult> advertiserAccountInfoResultResponseEntity = RestTemplateUtils.get("https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info", httpHeaders, AdvertiserAccountInfoResult.class, param);
@@ -99,16 +106,22 @@ public class KangarooPixivApplicationTest {
 
     @Test
     void contextLoad() {
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        Map<String, String> param = new HashMap<>();
-        param.put("access_token", "4ef5e661-08cd-4358-862f-d0e5671d1e06");
-        param.put("advertiser_id", "5823815");
-        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.get("https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info", httpHeaders, String.class, param);
-        System.out.println(stringResponseEntity);
-
-        ResponseEntity<AdvertiserAccountInfoResult> advertiserAccountInfoResultResponseEntity = RestTemplateUtils.get("https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info", httpHeaders, AdvertiserAccountInfoResult.class, param);
-        System.out.println(advertiserAccountInfoResultResponseEntity);
+        GetPixivRankParam getPixivRankParam = new GetPixivRankParam();
+        getPixivRankParam.setMode(PixivRankMode.PIXIV_RANK_DAILY);
+        getPixivRankParam.setContent(PixivRankContent.PIXIV_RANK_ALL);
+        getPixivRankParam.setPageNum(1);
+        getPixivRankParam.setDate("20211021");
+        PixivRankResult pixivRank = pixivClient.getPixivRank(getPixivRankParam);
+        System.out.println(pixivRank);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        Map<String, String> param = new HashMap<>();
+//        param.put("access_token", "4ef5e661-08cd-4358-862f-d0e5671d1e06");
+//        param.put("advertiser_id", "5823815");
+//        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.get("https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info", httpHeaders, String.class, param);
+//        System.out.println(stringResponseEntity);
+//
+//        ResponseEntity<AdvertiserAccountInfoResult> advertiserAccountInfoResultResponseEntity = RestTemplateUtils.get("https://ad.e.kuaishou.com/rest/openapi/v1/advertiser/info", httpHeaders, AdvertiserAccountInfoResult.class, param);
+//        System.out.println(advertiserAccountInfoResultResponseEntity);
 //        int currentHours = 15;
 //        int currentMinute = 5;
 //
