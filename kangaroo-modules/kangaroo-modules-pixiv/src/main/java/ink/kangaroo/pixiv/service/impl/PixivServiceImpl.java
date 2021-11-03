@@ -2,9 +2,14 @@ package ink.kangaroo.pixiv.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
+import ink.kangaroo.common.pixiv.config.PixivClient;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankContent;
+import ink.kangaroo.common.pixiv.model.rank.PixivRankMode;
+import ink.kangaroo.common.pixiv.model.rank.param.GetPixivRankParam;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankContentResult;
+import ink.kangaroo.common.pixiv.model.rank.result.PixivRankResult;
 import ink.kangaroo.common.redis.service.RedisService;
 import ink.kangaroo.pixiv.model.entity.PixivArtword;
 import ink.kangaroo.pixiv.model.entity.PixivLike;
@@ -25,11 +30,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +45,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PixivServiceImpl implements PixivService {
 
+    private final PixivClient pixivClient;
     private final ArtworkRepository artworkRepository;
     private final PixivRankRepository pixivRankRepository;
     private final PixivArtwordRepository pixivArtwordRepository;
@@ -141,9 +145,11 @@ public class PixivServiceImpl implements PixivService {
 //                pixivArtwordVo.setImgUrl(attachmentMap.get(e.getThumbnailLocal()).getThumbPath());
 //                pixivArtwordVo.setAvatar(attachmentMap.get(e.getArtist().getAttachmentId()).getThumbPath());
             } else if (flag == 2) {
-                AjaxResult webBaseUrl = remoteConfigService.getConfigKey("web.base.url", SecurityConstants.INNER);
-                pixivArtwordVo.setImgUrl(webBaseUrl.getMessage() + "/api/pixiv/img/artwork/" + e.getIllustId() + "/0/smail");
-                pixivArtwordVo.setAvatar(webBaseUrl.getMessage() + "/api/pixiv/img/artist/" + e.getArtist().getId() + "/0/smail");
+                AjaxResult pixivForwardUrl = remoteConfigService.getConfigKey("pixiv.forward.url", SecurityConstants.INNER);
+                AjaxResult pixivTargetUrl = remoteConfigService.getConfigKey("pixiv.target.url", SecurityConstants.INNER);
+                pixivArtwordVo.setImgUrl(e.getThumbnail().replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage()));
+                String replace = e.getArtist().getAvatar().replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage());
+                pixivArtwordVo.setAvatar(replace);
             }
             return pixivArtwordVo;
         });
@@ -153,23 +159,15 @@ public class PixivServiceImpl implements PixivService {
     public PixivArtwordDetailVo detail(Long userId, Long id) {
         PixivArtword one = pixivArtwordRepository.getOne(id);
         PixivArtwordDetailVo pixivArtwordDetailVo = new PixivArtwordDetailVo(one);
-        AjaxResult webBaseUrl = remoteConfigService.getConfigKey("web.base.url", SecurityConstants.INNER);
-        pixivArtwordDetailVo.setAvatar(webBaseUrl.getMessage() + "/api/pixiv/img/artist/" + one.getArtist().getId() + "/0/smail");
-        List<PixivImageUrlVo> imgList = new ArrayList<>();
-        for (int i = 0; i < one.getPageCount(); i++) {
+        AjaxResult pixivForwardUrl = remoteConfigService.getConfigKey("pixiv.forward.url", SecurityConstants.INNER);
+        AjaxResult pixivTargetUrl = remoteConfigService.getConfigKey("pixiv.target.url", SecurityConstants.INNER);
+        pixivArtwordDetailVo.setAvatar(one.getArtist().getAvatar().replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage()));
+        List<PixivImageUrlVo> imgList = one.getImageUrls().stream().map(e -> {
             PixivImageUrlVo pixivImageUrlVo = new PixivImageUrlVo();
-            /*pixivImageUrlVo.setImageUrl(optionService.getWebBaseUrl()+"/api/pixiv/img/artwork/"+one.getIllustId()+"/"+i+"/thumb");
-            imgList.add(pixivImageUrlVo);
-            pixivImageUrlVo = new PixivImageUrlVo();
-            pixivImageUrlVo.setImageUrl(optionService.getWebBaseUrl()+"/api/pixiv/img/artwork/"+one.getIllustId()+"/"+i+"/smail");
-            imgList.add(pixivImageUrlVo);*/
-//            pixivImageUrlVo = new PixivImageUrlVo();
-            pixivImageUrlVo.setImageUrl(webBaseUrl.getMessage() + "/api/pixiv/img/artwork/" + one.getIllustId() + "/" + i + "/regular");
-            imgList.add(pixivImageUrlVo);
-            /*pixivImageUrlVo = new PixivImageUrlVo();
-            pixivImageUrlVo.setImageUrl(optionService.getWebBaseUrl()+"/api/pixiv/img/artwork/"+one.getIllustId()+"/"+i+"/original");
-            imgList.add(pixivImageUrlVo);*/
-        }
+            String replace = e.getSmall().replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage());
+            pixivImageUrlVo.setImageUrl(replace);
+            return pixivImageUrlVo;
+        }).collect(Collectors.toList());
         pixivArtwordDetailVo.setImgList(imgList);
         pixivArtwordDetailVo.setLiked(pixivLikeRepository.findAllByUserIdAndArtworkId(userId, id) != null);
         ;
@@ -208,5 +206,25 @@ public class PixivServiceImpl implements PixivService {
         return map;
     }
 
+    @Override
+    public PixivRankResult getPixivRankResultRealTime(Pageable pageable, String date, String mode, String content) {
+        GetPixivRankParam getPixivRankParam = new GetPixivRankParam();
+        getPixivRankParam.setMode(PixivRankMode.getByValue(mode));
+        getPixivRankParam.setContent(PixivRankContent.getByValue(content));
+        getPixivRankParam.setPageNum(pageable.getPageNumber() + 1);
+        getPixivRankParam.setDate(date);
+        PixivRankResult pixivRank = pixivClient.getPixivRank(getPixivRankParam);
+        if (!CollectionUtils.isEmpty(pixivRank.getContents())) {
+            AjaxResult pixivForwardUrl = remoteConfigService.getConfigKey("pixiv.forward.url", SecurityConstants.INNER);
+            AjaxResult pixivTargetUrl = remoteConfigService.getConfigKey("pixiv.target.url", SecurityConstants.INNER);
+            List<PixivRankContentResult> pixivRankContentResults = pixivRank.getContents().stream().peek(e -> {
+                String url = e.getUrl();
+                e.setUrl(url.replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage()));
+                e.setProfileImg(e.getProfileImg().replace(pixivTargetUrl.getMessage(), pixivForwardUrl.getMessage()));
+            }).collect(Collectors.toList());
+            pixivRank.setContents(pixivRankContentResults);
+        }
+        return pixivRank;
+    }
 
 }

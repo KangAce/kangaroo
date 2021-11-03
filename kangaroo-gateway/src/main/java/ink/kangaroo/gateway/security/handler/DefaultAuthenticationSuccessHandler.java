@@ -52,6 +52,7 @@ public class DefaultAuthenticationSuccessHandler implements ServerAuthentication
             //TODO
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/test"));
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/wp"));
+            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/try/try/try"));
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/**"));
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/swagger-ui/index.html"));
             map.put("roles", userDetails.getAuthorities());

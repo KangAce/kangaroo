@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ink.kangaroo.common.core.utils.DateUtils;
 import ink.kangaroo.common.pixiv.config.PixivClient;
-import ink.kangaroo.common.pixiv.config.PixivProperties;
 import ink.kangaroo.common.pixiv.model.rank.PixivRankContent;
 import ink.kangaroo.common.pixiv.model.rank.PixivRankMode;
 import ink.kangaroo.common.pixiv.model.rank.param.GetPixivRankParam;
@@ -77,8 +76,7 @@ public class PixivRankService {
             getPixivRankParam.setPageNum(i);
             getPixivRankParam.setDate(date);
             PixivRankResult pixivRank = pixivClient.getPixivRank(getPixivRankParam);
-
-//                PixivRankResult artwords = getArtwords(mode,content, date, i);
+            //PixivRankResult artwords = getArtwords(mode,content, date, i);
             illustrations.addAll(pixivRank.getContents());
             flag = pixivRank.getNext() != null;
             i = pixivRank.getNext();

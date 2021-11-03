@@ -2,12 +2,15 @@ package ink.kangaroo.common.pixiv.config;
 
 
 import com.alibaba.fastjson.JSON;
+import ink.kangaroo.common.core.utils.RestTemplateUtils;
 import ink.kangaroo.common.pixiv.InputStreamBodyHandler;
 import ink.kangaroo.common.pixiv.JsonBodyHandler;
 import ink.kangaroo.common.pixiv.model.PixivCategory;
 import ink.kangaroo.common.pixiv.model.PixivResult;
 import ink.kangaroo.common.pixiv.model.artist.GetPixivArtistParam;
 import ink.kangaroo.common.pixiv.model.artist.PixivArtistResult;
+import ink.kangaroo.common.pixiv.model.discovery.DiscoveryPixivParam;
+import ink.kangaroo.common.pixiv.model.discovery.DiscoveryResult;
 import ink.kangaroo.common.pixiv.model.illust.GetPixivIllustDetailParam;
 import ink.kangaroo.common.pixiv.model.illust.GetPixivIllustPageParam;
 import ink.kangaroo.common.pixiv.model.illust.PixivIllustDetailResult;
@@ -18,6 +21,7 @@ import ink.kangaroo.common.pixiv.model.search.SearchPixivParam;
 import ink.kangaroo.common.pixiv.model.search.SearchPixivResult;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -126,6 +130,23 @@ public class PixivClient {
         return pixivClient;
     }
 
+
+    /**
+     * 发现
+     *
+     * @return
+     */
+    public DiscoveryResult discovery(DiscoveryPixivParam discoveryPixivParam) {
+        RestTemplateUtils.get("", String.class, new HashMap<>());
+        String url = "https://www.pixiv.net/ajax/discovery/" + discoveryPixivParam.getCategory().getValue() + "/";
+        PixivResult<Object> jsonSync = (PixivResult) getJsonSyncRetry(url, PixivResult.class);
+
+        if (jsonSync == null) {
+            return null;
+        }
+        System.out.println(jsonSync.getBody());
+        return JSON.parseObject(JSON.toJSONString(jsonSync.getBody()), DiscoveryResult.class);
+    }
 
     /**
      * 搜索框 分类

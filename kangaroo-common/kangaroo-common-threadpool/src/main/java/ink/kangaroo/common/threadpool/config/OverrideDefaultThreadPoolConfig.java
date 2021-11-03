@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * 重写默认线程池配置
  *
- * @author YuXD
+ * @author Kangaroo
  */
 @Slf4j
 @Configuration
