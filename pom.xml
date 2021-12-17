@@ -278,6 +278,12 @@
                 <version>${kangaroo.version}</version>
                 <scope>compile</scope>
             </dependency>
+            <!-- Kangaroo Api DouYin -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>dy-java-open-spring-boot-starter</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
             <!-- Kangaroo Common Ekuaisho -->
             <dependency>
                 <groupId>ink.kangaroo</groupId>

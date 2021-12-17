@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -103,6 +104,27 @@ public class AdTask implements Serializable {
      * 投放日期
      */
     private String releaseDate;
+
+    //    @Field("is_timer_create")
+    @ApiModelProperty("是否定时创建")
+    private Boolean isTimerCreate = false;
+
+    //    @Field("is_timing_enable")
+    @ApiModelProperty("是否开始定时")
+    private Boolean isTimerEnable;
+
+    //    @Field("timer_time")
+    @ApiModelProperty("定时时间")
+    private String timerTime;
+
+    //    @Field("timer_type")
+    @ApiModelProperty("定时类型(0仅一次 1每周 2每天)")
+    private Integer timerType;
+
+    //    @Field("timer1_weeks")
+    @ApiModelProperty("1-7 代表周一到周日")
+    private List<Integer> timer1Weeks;
+
 
 
 }

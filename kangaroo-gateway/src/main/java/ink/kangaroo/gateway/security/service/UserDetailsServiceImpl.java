@@ -13,6 +13,7 @@ import ink.kangaroo.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -85,6 +86,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 //        return Mono.just(securityUserDetails);
     }
 
+    @Async
     R<LoginUser> loginUserR(String username) {
         //因为Callable接口是函数式接口，可以使用Lambda表达式
         FutureTask<? extends R<LoginUser>> task = new FutureTask<>(() -> remoteUserService.getUserInfo(username, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62)));

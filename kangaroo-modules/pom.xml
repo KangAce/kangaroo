@@ -24,6 +24,7 @@
         <module>kangaroo-modules-trying</module>
         <module>kangaroo-modules-limiter</module>
         <module>kangaroo-modules-ad-delivery</module>
+        <module>kangaroo-modules-douyin</module>
     </modules>
 
     <properties>
