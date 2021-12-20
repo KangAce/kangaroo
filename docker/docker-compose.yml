@@ -5,11 +5,12 @@ services:
     image: nacos/nacos-server
     build:
       context: ./nacos
+      dockerfile: Dockerfile
     environment:
       - MODE=standalone
     volumes:
       - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+      - ./nacos/conf:/home/nacos/conf
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -21,11 +22,12 @@ services:
     image: mysql:5.7
     build:
       context: ./mysql
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/logs
+      - ./mysql/logs:/var/logs
       - ./mysql/data:/var/lib/mysql
     command: [
         'mysqld',
@@ -38,19 +40,34 @@ services:
     environment:
       MYSQL_DATABASE: 'kangaroo-cloud'
       MYSQL_ROOT_PASSWORD: password
+  kangaroo-jenkins:
+    container_name: kangaroo-jenkins
+    image: jenkins/jenkins:lts
+    restart: always
+    user: root
+    privileged: true
+    ports:
+      - 8080:8080
+      - 50001:50000
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /opt/jenkins/data:/var/jenkins_home
+      - /etc/sysconfig/docker:/etc/sysconfig/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
   kangaroo-redis:
     container_name: kangaroo-redis
     image: redis
     build:
       context: ./redis
+      dockerfile: Dockerfile
     ports:
       - "6379:6379"
     volumes:
       - ./redis/conf/redis.conf:/home/kangaroo/redis/redis.conf
       - ./redis/data:/data
-    command:
-      - redis-server
-      - /home/kangaroo/redis/redis.conf
+    command: redis-server /home/kangaroo/redis/redis.conf
   kangaroo-nginx:
     container_name: kangaroo-nginx
     image: nginx
@@ -72,7 +89,7 @@ services:
     container_name: kangaroo-gateway
     build:
       context: ./kangaroo/gateway
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -83,9 +100,20 @@ services:
     container_name: kangaroo-modules-job
     build:
       context: ./kangaroo/modules/job
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
     - "9204:9204"
+    depends_on:
+      - kangaroo-mysql
+    links:
+      - kangaroo-mysql
+  kangaroo-modules-mail:
+    container_name: kangaroo-modules-mail
+    build:
+      context: ./kangaroo/modules/mail
+      dockerfile: Dockerfile
+    ports:
+    - "9203:9203"
     depends_on:
       - kangaroo-mysql
     links:
@@ -94,7 +122,7 @@ services:
     container_name: kangaroo-modules-system
     build:
       context: ./kangaroo/modules/system
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
     - "9201:9201"
     depends_on:

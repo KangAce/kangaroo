@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
@@ -39,17 +40,21 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     private final RemoteUserService remoteUserService;
     private final Executor executor;
+    private final PasswordEncoder passwordEncoder;
 
     @Lazy
     @Autowired(required = false)
-    public UserDetailsServiceImpl(RemoteUserService remoteUserService, @Qualifier("customizeThreadPool") Executor executor) {
+    public UserDetailsServiceImpl(RemoteUserService remoteUserService, @Qualifier("customizeThreadPool") Executor executor,  @Qualifier("passwordEncoder") PasswordEncoder passwordEncoder) {
         this.remoteUserService = remoteUserService;
         this.executor = executor;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Log(title = "gateway", businessType = BusinessType.GRANT, operatorType = OperatorType.MANAGE, isSaveRequestData = true)
     @Override
     public Mono<UserDetails> findByUsername(String username) {
+        String encode = passwordEncoder.encode("123456");
+        System.out.println("passwordEncoder:" + encode);
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
         R<LoginUser> userInfoR = loginUserR(username);
         SecurityUserDetails securityUserDetails = null;
