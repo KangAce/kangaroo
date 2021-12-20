@@ -26,7 +26,7 @@ import java.util.LinkedList;
  */
 @EnableWebFluxSecurity
 public class WebfluxSecurityConfig {
-//    @Autowired
+    //    @Autowired
 //    private AuthenticationConverter authenticationConverter;
     @Autowired
     private DefaultAuthorizationManager defaultAuthorizationManager;
@@ -62,10 +62,32 @@ public class WebfluxSecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
 //        httpSecurity.authenticationManager().addFilterAfter()
         httpSecurity
-                // 登录认证处理
-                .authenticationManager(reactiveAuthenticationManager())
-                //
-                .securityContextRepository(defaultSecurityContextRepository)
+//                .oauth2Login((oAuth2LoginSpec) -> {
+//                    oAuth2LoginSpec
+//                            //存储认证授权的相关信息 自定义JWT Token认证管理
+//                            .securityContextRepository(defaultSecurityContextRepository)
+//                            // 登录认证处理
+//                            .authenticationManager(reactiveAuthenticationManager())
+//                            //登录成功处理 自定义登录成功Handler
+//                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
+//                            // 登录失败处理 自定义登录失败Handler
+//                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
+//
+//                    ;
+//                })
+                .formLogin((formLoginSpec) -> {
+                    formLoginSpec
+                            //存储认证授权的相关信息 自定义JWT Token认证管理
+                            .securityContextRepository(defaultSecurityContextRepository)
+                            // 登录认证处理
+                            .authenticationManager(reactiveAuthenticationManager())
+                            //登录成功处理 自定义登录成功Handler
+                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
+                            // 登录失败处理 自定义登录失败Handler
+                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
+
+                    ;
+                })
                 // 请求拦截处理
                 .authorizeExchange(exchange -> {
                             if (!CollectionUtils.isEmpty(ignoreWhiteProperties.getPattern())) {
@@ -108,21 +130,16 @@ public class WebfluxSecurityConfig {
                             exchange.anyExchange().access(defaultAuthorizationManager);
                         }
                 )
-                .formLogin()
                 // 自定义处理
-                .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
-                .authenticationFailureHandler(defaultAuthenticationFailureHandler)
-                .and()
-                .exceptionHandling()
-                // 未认证处理 自定义未认证Handler
-                .authenticationEntryPoint(defaultAuthenticationEntryPoint)
-                .and()
-                .exceptionHandling()
-                // 鉴权管理 自定义鉴权失败Handler
-                .accessDeniedHandler(defaultAccessDeniedHandler)
-                .and()
-                .csrf().disable()
-        ;
+                .exceptionHandling((exceptionHandlingSpec -> {
+                    exceptionHandlingSpec
+                            // 未认证处理 自定义未认证Handler
+                            .authenticationEntryPoint(defaultAuthenticationEntryPoint)
+                            // 鉴权管理 自定义鉴权失败Handler
+                            .accessDeniedHandler(defaultAccessDeniedHandler)
+                            .and().csrf().disable();
+                }));
+
         SecurityWebFilterChain chain = httpSecurity.build();
 //        // 设置自定义登录参数转换器
 //        chain.getWebFilters()
