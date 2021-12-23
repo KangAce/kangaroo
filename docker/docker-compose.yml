@@ -26,9 +26,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/var/logs
-      - ./mysql/data:/var/lib/mysql
+      - /kangaroo/mysql/conf:/etc/mysql/conf.d
+      - /kangaroo/mysql/logs:/var/logs
+      - /kangaroo/mysql/data:/var/lib/mysql
     command: [
         'mysqld',
         '--innodb-buffer-pool-size=80M',
@@ -47,7 +47,7 @@ services:
     user: root
     privileged: true
     ports:
-      - 8080:8080
+      - 8888:8080
       - 50001:50000
     environment:
       TZ: Asia/Shanghai
@@ -102,7 +102,7 @@ services:
       context: ./kangaroo/modules/job
       dockerfile: Dockerfile
     ports:
-    - "9204:9204"
+      - "9204:9204"
     depends_on:
       - kangaroo-mysql
     links:
@@ -113,7 +113,7 @@ services:
       context: ./kangaroo/modules/mail
       dockerfile: Dockerfile
     ports:
-    - "9203:9203"
+      - "9203:9203"
     depends_on:
       - kangaroo-mysql
     links:
@@ -124,7 +124,7 @@ services:
       context: ./kangaroo/modules/system
       dockerfile: Dockerfile
     ports:
-    - "9201:9201"
+      - "9201:9201"
     depends_on:
       - kangaroo-mysql
     links:

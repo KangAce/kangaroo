@@ -4,7 +4,7 @@ FROM  openjdk:11-jre
 MAINTAINER kangaroo
 
 ENV TZ 'Asia/Shanghai'
-ENV LANG C.UTF-8
+#ENV LANG C.UTF-8
 #ENV LC_ALL en_US.UTF-8
 
 # 挂载目录
