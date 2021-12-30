@@ -36,7 +36,8 @@
         <commons.io.version>2.11.0</commons.io.version>
         <fastjson.version>1.2.76</fastjson.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
-        <minio.version>8.3.1</minio.version>
+        <minio.version>8.3.4</minio.version>
+        <okhttp.version>4.9.0</okhttp.version>
         <poi.version>4.1.2</poi.version>
         <druid.version>1.2.6</druid.version>
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
@@ -58,6 +59,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Minio -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+            <!-- Minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
@@ -206,7 +219,7 @@
                 <version>${kangaroo.version}</version>
             </dependency>
 
-            <!-- 缓存服务 -->
+            <!-- Redis缓存服务 -->
             <dependency>
                 <groupId>ink.kangaroo</groupId>
                 <artifactId>kangaroo-common-redis</artifactId>
@@ -270,6 +283,12 @@
             <dependency>
                 <groupId>ink.kangaroo</groupId>
                 <artifactId>kangaroo-common-datasource</artifactId>
+                <version>${kangaroo.version}</version>
+            </dependency>
+            <!-- Kangaroo Common JPA -->
+            <dependency>
+                <groupId>ink.kangaroo</groupId>
+                <artifactId>kangaroo-common-jpa</artifactId>
                 <version>${kangaroo.version}</version>
             </dependency>
             <!-- Kangaroo Api Pixiv -->

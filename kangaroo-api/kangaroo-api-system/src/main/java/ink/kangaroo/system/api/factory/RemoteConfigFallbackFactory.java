@@ -1,11 +1,7 @@
 package ink.kangaroo.system.api.factory;
 
-import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.system.api.RemoteConfigService;
-import ink.kangaroo.system.api.RemoteUserService;
-import ink.kangaroo.system.api.domain.SysUser;
-import ink.kangaroo.system.api.model.LoginUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;

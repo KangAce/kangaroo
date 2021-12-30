@@ -5,12 +5,11 @@ services:
     image: nacos/nacos-server
     build:
       context: ./nacos
-      dockerfile: Dockerfile
     environment:
       - MODE=standalone
     volumes:
-      - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf:/home/nacos/conf
+      - /kangaroo/nacos/logs/:/home/nacos/logs
+      - /kangaroo/nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -61,12 +60,11 @@ services:
     image: redis
     build:
       context: ./redis
-      dockerfile: Dockerfile
     ports:
       - "6379:6379"
     volumes:
-      - ./redis/conf/redis.conf:/home/kangaroo/redis/redis.conf
-      - ./redis/data:/data
+      - /kangaroo/redis/conf/redis.conf:/home/kangaroo/redis/redis.conf
+      - /kangaroo/redis/data:/home/kangaroo/redis/data
     command: redis-server /home/kangaroo/redis/redis.conf
   kangaroo-nginx:
     container_name: kangaroo-nginx
@@ -76,11 +74,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/html/dist:/home/kangaroo/projects/kangaroo-ui
-      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/logs:/var/log/nginx
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/cert:/etc/nginx/cert
+      - /kangaroo/nginx/html/dist:/home/kangaroo/projects/kangaroo-ui
+      - /kangaroo/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - /kangaroo/nginx/logs:/var/log/nginx
+      - /kangaroo/nginx/conf.d:/etc/nginx/conf.d
+      - /kangaroo/nginx/cert:/etc/nginx/cert
     depends_on:
       - kangaroo-gateway
     links:
@@ -92,10 +90,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    depends_on:
-      - kangaroo-redis
-    links:
-      - kangaroo-redis
+#    depends_on:
+#      - kangaroo-redis
+#    links:
+#      - kangaroo-redis
   kangaroo-modules-job:
     container_name: kangaroo-modules-job
     build:
@@ -107,6 +105,24 @@ services:
       - kangaroo-mysql
     links:
       - kangaroo-mysql
+  kangaroo-modules-file:
+    container_name: kangaroo-modules-file
+    build:
+      context: ./kangaroo/modules/file
+      dockerfile: Dockerfile
+    ports:
+      - "9903:9903"
+    volumes:
+      - /kangaroo/file/uploadPath:/home/kangaroo/uploadPath
+    networks:
+      - kangaroo-net
+  kangaroo-modules-douyin:
+    container_name: kangaroo-modules-douyin
+    build:
+      context: ./kangaroo/modules/douyin
+      dockerfile: Dockerfile
+    ports:
+      - "9909:9909"
   kangaroo-modules-mail:
     container_name: kangaroo-modules-mail
     build:
@@ -124,7 +140,7 @@ services:
       context: ./kangaroo/modules/system
       dockerfile: Dockerfile
     ports:
-      - "9201:9201"
+      - "9901:9901"
     depends_on:
       - kangaroo-mysql
     links:
@@ -231,10 +247,10 @@ services:
     ports:
       - 9876:9876
     volumes:
-      - ./rocketmq/logs:/opt/logs
-      - ./rocketmq/store:/opt/store
+      - /kangaroo/rocketmq/logs:/opt/logs
+      - /kangaroo/rocketmq/store:/opt/store
     networks:
-      rmq:
+      kangaroo-net:
         aliases:
           - kangaroo-rmqnamesrv
 
@@ -245,9 +261,9 @@ services:
       - 10909:10909
       - 10911:10911
     volumes:
-      - ./rocketmq/logs:/opt/logs
-      - ./rocketmq/store:/opt/store
-      - ./rocketmq/conf/broker.conf:/etc/rocketmq/broker.conf
+      - /kangaroo/rocketmq/logs:/opt/logs
+      - /kangaroo/rocketmq/store:/opt/store
+      - /kangaroo/rocketmq/conf/broker.conf:/etc/rocketmq/broker.conf
     environment:
       NAMESRV_ADDR: "kangaroo-rmqnamesrv:9876"
       JAVA_OPTS: " -Duser.home=/opt"
@@ -256,20 +272,20 @@ services:
     depends_on:
       - kangaroo-rmqnamesrv
     networks:
-      rmq:
+      kangaroo-net:
         aliases:
           - kangaroo-rmqbroker
   kangaroo-rmqconsole:
     image: styletang/rocketmq-console-ng
     container_name: kangaroo-rmqconsole
     ports:
-      - 8080:8080
+      - 9090:8080
     environment:
       JAVA_OPTS: "-Drocketmq.namesrv.addr=kangaroo-rmqnamesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
     depends_on:
       - kangaroo-rmqnamesrv
     networks:
-      rmq:
+      kangaroo-net:
         aliases:
           - kangaroo-rmqconsole
 
@@ -298,6 +314,13 @@ volumes:
 networks:
   elastic:
     driver: bridge
-  rmq:
-    name: rmq
-    driver: bridge
+  kangaroo-net:
+    name: kangaroo-net
+    ipam:
+      driver: bridge
+      config:
+        - subnet: 192.168.0.0/16
+        - gateway: 192.168.0.1
+    enable_ipv6: false
+    internal: false
+    attachable: false
