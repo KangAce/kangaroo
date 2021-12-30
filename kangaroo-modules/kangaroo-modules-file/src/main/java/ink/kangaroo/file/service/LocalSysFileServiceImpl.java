@@ -47,4 +47,14 @@ public class LocalSysFileServiceImpl implements ISysFileService
         String url = domain + localFilePrefix + name;
         return url;
     }
+
+    @Override
+    public String signature(String fileName) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void removeFile(String fileName) throws Exception {
+
+    }
 }

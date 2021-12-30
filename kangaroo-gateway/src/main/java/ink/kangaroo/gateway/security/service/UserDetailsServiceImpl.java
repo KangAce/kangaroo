@@ -1,5 +1,6 @@
 package ink.kangaroo.gateway.security.service;
 
+import com.alibaba.fastjson.JSON;
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.utils.DecimalUtils;
@@ -44,7 +45,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     @Lazy
     @Autowired(required = false)
-    public UserDetailsServiceImpl(RemoteUserService remoteUserService, @Qualifier("customizeThreadPool") Executor executor,  @Qualifier("passwordEncoder") PasswordEncoder passwordEncoder) {
+    public UserDetailsServiceImpl(RemoteUserService remoteUserService, @Qualifier("customizeThreadPool") Executor executor, @Qualifier("passwordEncoder") PasswordEncoder passwordEncoder) {
         this.remoteUserService = remoteUserService;
         this.executor = executor;
         this.passwordEncoder = passwordEncoder;
@@ -58,6 +59,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
         R<LoginUser> userInfoR = loginUserR(username);
         SecurityUserDetails securityUserDetails = null;
+//        System.out.println("JSON.toJSONString(userInfoR):" + JSON.toJSONString(userInfoR));
         if (R.isOk(userInfoR.getCode())) {
             LoginUser loginUser = userInfoR.getData();
             SysUser sysUser = loginUser.getSysUser();

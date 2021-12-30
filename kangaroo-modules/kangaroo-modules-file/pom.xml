@@ -15,137 +15,182 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-<dependencies>
-    <!-- SpringCloud Alibaba Nacos -->
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-    </dependency>
+    <dependencies>
+        <!-- SpringCloud Alibaba Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
 
-    <!-- SpringCloud Alibaba Nacos Config -->
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-    </dependency>
+        <!-- SpringCloud Alibaba Nacos Config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
 
-    <!-- SpringCloud Alibaba Sentinel -->
-    <dependency>
-        <groupId>com.alibaba.cloud</groupId>
-        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-    </dependency>
+        <!-- SpringCloud Alibaba Sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
 
-    <!-- SpringBoot Actuator -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
+        <!-- SpringBoot Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
-    <!-- FastDFS -->
-    <dependency>
-        <groupId>com.github.tobato</groupId>
-        <artifactId>fastdfs-client</artifactId>
-    </dependency>
+        <!-- FastDFS -->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+        </dependency>
 
-    <!-- Minio -->
-    <dependency>
-        <groupId>io.minio</groupId>
-        <artifactId>minio</artifactId>
-        <version>${minio.version}</version>
-    </dependency>
+        <!-- Minio -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
 
-    <!-- Kangaroo Api System -->
-    <dependency>
-        <groupId>ink.kangaroo</groupId>
-        <artifactId>kangaroo-api-system</artifactId>
-    </dependency>
+        <!-- Kangaroo Api System -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-api-system</artifactId>
+        </dependency>
+        <!-- Kangaroo Api System -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>3.2.0</version>
+        </dependency>
 
-    <!-- Kangaroo Common Swagger -->
-<!--    <dependency>-->
-<!--        <groupId>ink.kangaroo</groupId>-->
-<!--        <artifactId>kangaroo-common-swagger</artifactId>-->
-<!--    </dependency>-->
-    <!--引入Javacpp-->
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacpp</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacpp</artifactId>
-        <classifier>linux-x86_64</classifier>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacpp</artifactId>
-        <classifier>macosx-x86_64</classifier>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg</artifactId>
-        <classifier>linux-x86_64</classifier>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg</artifactId>
-        <classifier>windows-x86_64</classifier>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>ffmpeg</artifactId>
-        <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>
-        <classifier>macosx-x86_64</classifier>
-    </dependency>
-    <dependency>
-        <groupId>org.bytedeco</groupId>
-        <artifactId>javacv</artifactId>
-        <exclusions>
-            <exclusion>
-                <groupId>*</groupId>
-                <artifactId>*</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
-    <dependency>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk16</artifactId>
-        <version>1.46</version>
-    </dependency>
-    <dependency>
-        <groupId>io.github.fanyong920</groupId>
-        <artifactId>jvppeteer</artifactId>
-        <version>1.1.4</version>
-    </dependency>
-    <dependency>
-        <groupId>org.jsoup</groupId>
-        <artifactId>jsoup</artifactId>
-        <version>1.14.3</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
-<!--    <dependency>-->
-<!--        <groupId>org.seleniumhq.selenium</groupId>-->
-<!--        <artifactId>selenium-chrome-driver</artifactId>-->
-<!--        <version>4.0.0-beta-4</version>-->
-<!--    </dependency>-->
-    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server-standalone -->
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-server-standalone</artifactId>
-        <version>2.46.0</version>
-    </dependency>
-    <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>22.0</version>
-    </dependency>
-</dependencies>
+        <!-- Kangaroo Common Swagger -->
+        <!--    <dependency>-->
+        <!--        <groupId>ink.kangaroo</groupId>-->
+        <!--        <artifactId>kangaroo-common-swagger</artifactId>-->
+        <!--    </dependency>-->
+        <!--引入Javacpp-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>javacpp</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>javacpp</artifactId>-->
+<!--            <classifier>linux-x86_64</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>javacpp</artifactId>-->
+<!--            <classifier>macosx-x86_64</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>ffmpeg</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>ffmpeg</artifactId>-->
+<!--            <classifier>linux-x86_64</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>ffmpeg</artifactId>-->
+<!--            <classifier>windows-x86_64</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>ffmpeg</artifactId>-->
+<!--            <version>${javacpp-ffmpeg.version}-${javacpp.version}</version>-->
+<!--            <classifier>macosx-x86_64</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.bytedeco</groupId>-->
+<!--            <artifactId>javacv</artifactId>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>*</groupId>-->
+<!--                    <artifactId>*</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 -->
+<!--        <dependency>-->
+<!--            <groupId>org.bouncycastle</groupId>-->
+<!--            <artifactId>bcprov-jdk16</artifactId>-->
+<!--            <version>1.46</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.github.fanyong920</groupId>-->
+<!--            <artifactId>jvppeteer</artifactId>-->
+<!--            <version>1.1.4</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.jsoup</groupId>-->
+<!--            <artifactId>jsoup</artifactId>-->
+<!--            <version>1.14.3</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
+        <!--    <dependency>-->
+        <!--        <groupId>org.seleniumhq.selenium</groupId>-->
+        <!--        <artifactId>selenium-chrome-driver</artifactId>-->
+        <!--        <version>4.0.0-beta-4</version>-->
+        <!--    </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server-standalone -->
+<!--        <dependency>-->
+<!--            <groupId>org.seleniumhq.selenium</groupId>-->
+<!--            <artifactId>selenium-server-standalone</artifactId>-->
+<!--            <version>2.46.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.guava</groupId>-->
+<!--            <artifactId>guava</artifactId>-->
+<!--            <version>22.0</version>-->
+<!--        </dependency>-->
+    </dependencies>
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="../../docker/kangaroo/modules/file/jar"
+                                      file="target/${project.artifactId}-${project.version}.${project.packaging}"/>
+                                <move file="../../docker/kangaroo/modules/file/jar/${project.artifactId}-${project.version}.${project.packaging}"
+                                      tofile="../../docker/kangaroo/modules/file/jar/${project.artifactId}.${project.packaging}" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

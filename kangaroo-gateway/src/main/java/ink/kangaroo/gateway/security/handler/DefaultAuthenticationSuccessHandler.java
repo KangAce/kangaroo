@@ -1,9 +1,10 @@
 package ink.kangaroo.gateway.security.handler;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import ink.kangaroo.common.core.constant.SecurityConstants;
+import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.utils.JwtTokenUtil;
-import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.gateway.security.domain.SecurityUserDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -50,18 +51,23 @@ public class DefaultAuthenticationSuccessHandler implements ServerAuthentication
             map.put(SecurityConstants.DETAILS_USER_ID, userDetails.getUserId());
             map.put(SecurityConstants.DETAILS_USERNAME, userDetails.getUsername());
             //TODO
-            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/test"));
-            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/wp"));
-            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/try/try/try"));
+//            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/test"));
+//            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/pixiv/api/pixiv/wp"));
+//            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/try/try/try"));
             userDetails.getAuthorities().add(new SimpleGrantedAuthority("/**"));
-            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/swagger-ui/index.html"));
-            map.put("roles", userDetails.getAuthorities());
+//            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/douyin/**"));
+//            userDetails.getAuthorities().add(new SimpleGrantedAuthority("/swagger-ui/index.html"));
+            map.put("roles", "userDetails.getAuthorities()");
+            System.out.println("JSON.toJSONString(map):" + JSON.toJSONString(map));
             String token = JwtTokenUtil.generateToken(map, userDetails.getUsername(), jwtTokenExpired);
             String refreshToken = JwtTokenUtil.generateToken(map, userDetails.getUsername(), jwtTokenRefreshExpired);
             Map<String, Object> tokenMap = new HashMap<>(2);
-            tokenMap.put("token", token);
-            tokenMap.put("refreshToken", refreshToken);
-            DataBuffer dataBuffer = dataBufferFactory.wrap(JSONObject.toJSONString(AjaxResult.createAjaxResult(tokenMap)).getBytes());
+            System.out.println("token.length():" + token.length());
+            tokenMap.put("access_token", token);
+            tokenMap.put("expires_in", jwtTokenExpired);
+            tokenMap.put("refresh_token", refreshToken);
+            tokenMap.put("refresh_expires_in", jwtTokenRefreshExpired);
+            DataBuffer dataBuffer = dataBufferFactory.wrap(JSONObject.toJSONString(R.ok(tokenMap)).getBytes());
             return response.writeWith(Mono.just(dataBuffer));
         }));
     }

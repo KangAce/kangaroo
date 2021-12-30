@@ -33,8 +33,8 @@ class KangarooDouyinApplicationTest {
     RestTemplate restTemplate;
     @Test
     void contextLoads() throws ServiceException, IOException {
-        dyOAuth2Service.buildAuthorizationUrl();
-        dyOAuth2Service.getAccessToken();
+//        dyOAuth2Service.buildAuthorizationUrl();
+//        dyOAuth2Service.getAccessToken();
 
     }
 }

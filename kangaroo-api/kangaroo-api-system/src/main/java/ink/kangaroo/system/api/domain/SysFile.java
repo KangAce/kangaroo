@@ -1,50 +1,89 @@
 package ink.kangaroo.system.api.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import ink.kangaroo.common.core.web.domain.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author kbw
  * @version 1.0
  * @date 2021/8/5 14:27
  */
-public class SysFile
-{
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class SysFile extends BaseEntity {
     /**
-     * 文件名称
+     * 文件（夹）主键
+     */
+    private String id;
+    /**
+     * 文件（夹）名称
      */
     private String name;
+    /**
+     * 文件后缀（eg. png 全部转小写保存）
+     */
+    private String suffix;
 
     /**
-     * 文件地址
+     * 文件（夹）地址
      */
     private String url;
 
-    public String getName()
-    {
-        return name;
-    }
+    /**
+     * 文件夹id (如果是顶节点，那么文件夹id是0)
+     */
+    private Long fileFolderId;
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+    /**
+     * 文件夹路径（父文件夹路径，如果是顶节点，那么父文件夹路径是 “/”）
+     */
+    private Long fileFolderUrl;
 
-    public String getUrl()
-    {
-        return url;
-    }
+    /**
+     * 是否问文件夹
+     */
+    private Boolean isFolder;
 
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
+    /**
+     * 文件大小
+     */
+    private Long fileSize;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("name", getName())
-                .append("url", getUrl())
-                .toString();
-    }
+    private String mediaType;
+
+    /*宽*/
+    private Long width;
+    /*高度*/
+    private Long height;
+    /*类型*/
+    private Integer type;
+    /**
+     * 2021年9月29日更新参数
+     * @return
+     */
+    /**
+     * 时长
+     */
+    private Long duration;
+    /**
+     * 视频码率
+     */
+    private Integer bitRate;
+    /**
+     * 视频帧率
+     */
+    private Float frameRate;
+    /**
+     * 音频码率
+     */
+    private Integer audioBitRate;
+    /**
+     * 宽高比 9/16
+     */
+    private Double aspectRatio;
+    /**
+     * md5
+     */
+    private String md5;
 }

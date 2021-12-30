@@ -1,9 +1,9 @@
 package ink.kangaroo.system.api;
 
-import ink.kangaroo.system.api.domain.SysFile;
-import ink.kangaroo.system.api.factory.RemoteFileFallbackFactory;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
 import ink.kangaroo.common.core.domain.R;
+import ink.kangaroo.system.api.domain.SysFile;
+import ink.kangaroo.system.api.factory.RemoteFileFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

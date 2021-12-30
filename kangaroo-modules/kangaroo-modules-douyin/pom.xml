@@ -16,6 +16,7 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
+
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -40,6 +41,17 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- Swagger UI -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.fox.version}</version>
+        </dependency>
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -49,9 +61,45 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>dy-java-open-spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- Kangaroo Common DataSource -->
+<!--        <dependency>-->
+<!--            <groupId>ink.kangaroo</groupId>-->
+<!--            <artifactId>kangaroo-common-datasource</artifactId>-->
+<!--        </dependency>-->
+
+        <!--        &lt;!&ndash; Kangaroo Common DataScope &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>ink.kangaroo</groupId>-->
+        <!--            <artifactId>kangaroo-common-datascope</artifactId>-->
+        <!--        </dependency>-->
+
+        <!-- Kangaroo Common Log -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
-            <artifactId>kangaroo-common-redis</artifactId>
+            <artifactId>kangaroo-common-log</artifactId>
+        </dependency>
+
+        <!-- Kangaroo Common Swagger -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-swagger</artifactId>
+        </dependency>
+
+        <!-- Kangaroo Common Security -->
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-security</artifactId>
+        </dependency>
+
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
 
     </dependencies>
@@ -77,10 +125,10 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <copy todir="../docker/kangaroo/modules/douyin/jar"
+                                <copy todir="../../docker/kangaroo/modules/douyin/jar"
                                       file="target/${project.artifactId}-${project.version}.${project.packaging}"/>
-                                <move file="../docker/kangaroo/gateway/jar/${project.artifactId}-${project.version}.${project.packaging}"
-                                      tofile="../docker/kangaroo/gateway/jar/${project.artifactId}.${project.packaging}" />
+                                <move file="../../docker/kangaroo/modules/douyin/jar/${project.artifactId}-${project.version}.${project.packaging}"
+                                      tofile="../../docker/kangaroo/modules/douyin/jar/${project.artifactId}.${project.packaging}"/>
                             </tasks>
                         </configuration>
                         <goals>

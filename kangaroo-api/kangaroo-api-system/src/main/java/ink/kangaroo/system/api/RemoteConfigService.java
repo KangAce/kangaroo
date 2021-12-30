@@ -2,13 +2,12 @@ package ink.kangaroo.system.api;
 
 import ink.kangaroo.common.core.constant.SecurityConstants;
 import ink.kangaroo.common.core.constant.ServiceNameConstants;
-import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
-import ink.kangaroo.system.api.domain.SysUser;
 import ink.kangaroo.system.api.factory.RemoteConfigFallbackFactory;
-import ink.kangaroo.system.api.model.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * 用户服务
@@ -24,7 +23,7 @@ public interface RemoteConfigService {
      * 通过用户名查询用户信息
      *
      * @param configKey 用户名
-     * @param source   请求来源
+     * @param source    请求来源
      * @return 结果
      */
     @GetMapping(value = "/config/configKey/{configKey}")

@@ -26,11 +26,12 @@ public class TokenAuthenticationManager implements ReactiveAuthenticationManager
 
     @Override
     @SuppressWarnings("unchecked")
-    public Mono<Authentication>   authenticate(Authentication authentication) {
+    public Mono<Authentication> authenticate(Authentication authentication) {
         return Mono.just(authentication)
                 .map(auth -> JwtTokenUtil.parseJwtRsa256(auth.getPrincipal().toString()))
                 .map(claims -> {
                     List<LinkedHashMap<String, String>> roles = (List<LinkedHashMap<String, String>>) claims.get("roles");
+                    System.out.println("roles:" + roles);
                     return new UsernamePasswordAuthenticationToken(
                             claims.getSubject(),
                             null,

@@ -39,4 +39,14 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
                 FilenameUtils.getExtension(file.getOriginalFilename()), null);
         return domain + "/" + storePath.getFullPath();
     }
+
+    @Override
+    public String signature(String fileName) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void removeFile(String fileName) throws Exception {
+
+    }
 }
