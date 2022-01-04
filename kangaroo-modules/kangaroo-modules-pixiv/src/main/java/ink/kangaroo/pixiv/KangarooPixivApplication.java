@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import ink.kangaroo.common.security.annotation.EnableCustomConfig;
 import ink.kangaroo.common.security.annotation.EnableKangarooFeignClients;
 import ink.kangaroo.common.swagger.annotation.EnableCustomSwagger2;
-import ink.kangaroo.pixiv.repository.base.BaseRepositoryImpl;
+import ink.kangaroo.common.jpa.repository.base.BaseRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

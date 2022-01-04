@@ -124,6 +124,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ink.kangaroo</groupId>
+            <artifactId>kangaroo-common-jpa</artifactId>
+        </dependency>
         <!--query dsl end-->
     </dependencies>
     <build>

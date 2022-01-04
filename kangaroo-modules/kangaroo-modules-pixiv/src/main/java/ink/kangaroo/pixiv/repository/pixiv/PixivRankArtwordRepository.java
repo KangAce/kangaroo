@@ -3,7 +3,7 @@ package ink.kangaroo.pixiv.repository.pixiv;
 import ink.kangaroo.pixiv.model.entity.PixivRank;
 import ink.kangaroo.pixiv.model.entity.PixivRankArtword;
 import ink.kangaroo.pixiv.model.entity.PixivRankArtwordKey;
-import ink.kangaroo.pixiv.repository.base.BaseRepository;
+import ink.kangaroo.common.jpa.repository.base.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

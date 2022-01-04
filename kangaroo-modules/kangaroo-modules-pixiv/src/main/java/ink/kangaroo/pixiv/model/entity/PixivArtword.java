@@ -1,8 +1,8 @@
 package ink.kangaroo.pixiv.model.entity;
 
 import ink.kangaroo.common.core.web.domain.BaseEntity;
+import ink.kangaroo.common.jpa.model.support.StringListConverter;
 import ink.kangaroo.common.pixiv.model.rank.result.PixivRankContentResult;
-import ink.kangaroo.pixiv.model.support.StringListConverter;
 import ink.kangaroo.pixiv.model.entity.artwords.ImageUrl;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -80,7 +80,7 @@ public class PixivArtword extends BaseEntity implements Cloneable {
     @Column(name = "thumbnail_local")
     protected Long thumbnailLocal;
 
-    @Column(name = "sanity_level",nullable = false)
+    @Column(name = "sanity_level", nullable = false)
     @ColumnDefault("-1")
     protected Integer sanityLevel;
     @Column(name = "limit_num")

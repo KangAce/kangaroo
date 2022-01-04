@@ -1,7 +1,7 @@
 package ink.kangaroo.pixiv.repository.pixiv;
 
 import ink.kangaroo.pixiv.model.entity.Artwork;
-import ink.kangaroo.pixiv.repository.base.BaseRepository;
+import ink.kangaroo.common.jpa.repository.base.BaseRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 /**

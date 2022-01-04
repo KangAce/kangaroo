@@ -1,8 +1,8 @@
 package ink.kangaroo.pixiv.service.impl;
 
+import ink.kangaroo.common.jpa.repository.base.BaseRepository;
+import ink.kangaroo.common.jpa.service.AbstractCrudService;
 import ink.kangaroo.pixiv.model.entity.PixivArtist;
-import ink.kangaroo.pixiv.repository.base.BaseRepository;
-import ink.kangaroo.pixiv.service.AbstractCrudService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

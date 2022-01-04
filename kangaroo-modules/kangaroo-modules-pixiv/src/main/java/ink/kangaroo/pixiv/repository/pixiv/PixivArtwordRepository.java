@@ -1,7 +1,7 @@
 package ink.kangaroo.pixiv.repository.pixiv;
 
+import ink.kangaroo.common.jpa.repository.base.BaseRepository;
 import ink.kangaroo.pixiv.model.entity.PixivArtword;
-import ink.kangaroo.pixiv.repository.base.BaseRepository;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
