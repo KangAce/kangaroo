@@ -9,15 +9,20 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.DelegatingReactiveAuthenticationManager;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
 import java.util.LinkedList;
+
 
 /**
  * @author kbw
@@ -52,6 +57,12 @@ public class WebfluxSecurityConfig {
     @Autowired
     private DefaultAccessDeniedHandler defaultAccessDeniedHandler;
 
+    @Autowired
+    private DefaultLogoutHandler defaultLogoutHandler;
+
+    @Autowired
+    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
+
     /**
      * 自定义过滤权限
      */
@@ -61,22 +72,49 @@ public class WebfluxSecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
 //        httpSecurity.authenticationManager().addFilterAfter()
-        httpSecurity
-//                .oauth2Login((oAuth2LoginSpec) -> {
-//                    oAuth2LoginSpec
-//                            //存储认证授权的相关信息 自定义JWT Token认证管理
-//                            .securityContextRepository(defaultSecurityContextRepository)
-//                            // 登录认证处理
-//                            .authenticationManager(reactiveAuthenticationManager())
-//                            //登录成功处理 自定义登录成功Handler
-//                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
-//                            // 登录失败处理 自定义登录失败Handler
-//                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
+        ;
+//        httpSecurity
+//                .authorizeExchange((exchanges) ->
+//                        exchanges
+//                                // any URL that starts with /admin/ requires the role "ROLE_ADMIN"
+//                                .pathMatchers("/admin/**").hasRole("ADMIN")
+//                                // a POST to /users requires the role "USER_POST"
+//                                .pathMatchers(HttpMethod.POST, "/users").hasAuthority("USER_POST")
+//                                // a request to /users/{username} requires the current authentication's username
+//                                // to be equal to the {username}
+//                                .pathMatchers("/users/{username}").access((authentication, context) ->
+//                                        authentication
+//                                                .map(Authentication::getName)
+//                                                .map((username) -> {
 //
-//                    ;
-//                })
+//                                                    return username.equals(context.getVariables().get("username"));
+//                                                })
+//                                                .map(AuthorizationDecision::new)
+//                                )
+//                                // allows providing a custom matching strategy that requires the role "ROLE_CUSTOM"
+////                                .matchers(customMatcher).hasRole("CUSTOM")
+//                                // any other request requires the user to be authenticated
+//                                .anyExchange().authenticated()
+//                );
+
+        httpSecurity.anonymous().authorities("").and()
+                .oauth2Login((oAuth2LoginSpec) -> {
+                    oAuth2LoginSpec
+//                            .authorizedClientService(new InMemoryReactiveOAuth2AuthorizedClientService(new InMemoryReactiveClientRegistrationRepository()))
+                            //存储认证授权的相关信息 自定义JWT Token认证管理
+                            .securityContextRepository(defaultSecurityContextRepository)
+                            // 登录认证处理
+                            .authenticationManager(reactiveAuthenticationManager())
+                            //登录成功处理 自定义登录成功Handler
+                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
+                            // 登录失败处理 自定义登录失败Handler
+                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
+
+                    ;
+                })
                 .formLogin((formLoginSpec) -> {
                     formLoginSpec
+                            .loginPage("/auth/login")
                             //存储认证授权的相关信息 自定义JWT Token认证管理
                             .securityContextRepository(defaultSecurityContextRepository)
                             // 登录认证处理
@@ -130,6 +168,10 @@ public class WebfluxSecurityConfig {
                             exchange.anyExchange().access(defaultAuthorizationManager);
                         }
                 )
+                .logout(logoutSpec -> logoutSpec
+//                        .logoutSuccessHandler(defaultLogoutSuccessHandler)
+//                        .logoutHandler(defaultLogoutHandler)
+                        .logoutUrl("/auth/logout"))
                 // 自定义处理
                 .exceptionHandling((exceptionHandlingSpec -> {
                     exceptionHandlingSpec
@@ -171,6 +213,8 @@ public class WebfluxSecurityConfig {
         });
 
         // 必须放最后不然会优先使用用户名密码校验但是用户名密码不对时此 AuthenticationManager 会调用 Mono.error 造成后面的 AuthenticationManager 不生效
+//        managers.add(new OAuth2AuthorizationCodeReactiveAuthenticationManager(userDetailsServiceImpl));
+//        managers.add(new OAuth2LoginReactiveAuthenticationManager(userDetailsServiceImpl));
         managers.add(new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsServiceImpl));
         managers.add(tokenAuthenticationManager);
         return new DelegatingReactiveAuthenticationManager(managers);

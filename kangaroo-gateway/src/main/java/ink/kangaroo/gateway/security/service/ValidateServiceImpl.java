@@ -37,6 +37,7 @@ import java.util.jar.JarFile;
 public class ValidateServiceImpl implements ValidateService {
     @Resource
     RedisService redisService;
+
 //    @Resource
 //    MqConfig mqConfig;
 //    @Resource
