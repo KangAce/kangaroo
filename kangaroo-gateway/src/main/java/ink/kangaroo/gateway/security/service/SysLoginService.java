@@ -22,12 +22,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * 登录校验方法
- * 
+ *
  * @author Kangaroo
  */
 @Component
-public class SysLoginService
-{
+public class SysLoginService {
     @Lazy
     @Autowired(required = false)
     private RemoteLogService remoteLogService;
@@ -38,55 +37,46 @@ public class SysLoginService
     /**
      * 登录
      */
-    public LoginUser login(String username, String password)
-    {
+    public LoginUser login(String username, String password) {
         // 用户名或密码为空 错误
-        if (StringUtils.isAnyBlank(username, password))
-        {
+        if (StringUtils.isAnyBlank(username, password)) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户/密码必须填写");
             throw new BaseException("用户/密码必须填写");
         }
         // 密码如果不在指定范围内 错误
         if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
-        {
+                || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户密码不在指定范围");
             throw new BaseException("用户密码不在指定范围");
         }
         // 用户名不在指定范围内 错误
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
-        {
+                || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户名不在指定范围");
             throw new BaseException("用户名不在指定范围");
         }
         // 查询用户信息
         R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
 
-        if (R.FAIL == userResult.getCode())
-        {
+        if (R.FAIL == userResult.getCode()) {
             throw new BaseException(userResult.getMsg());
         }
 
-        if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData()))
-        {
+        if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData())) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
             throw new BaseException("登录用户：" + username + " 不存在");
         }
         LoginUser userInfo = userResult.getData();
         SysUser user = userResult.getData().getSysUser();
-        if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
-        {
+        if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "对不起，您的账号已被删除");
             throw new BaseException("对不起，您的账号：" + username + " 已被删除");
         }
-        if (UserStatus.DISABLE.getCode().equals(user.getStatus()))
-        {
+        if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户已停用，请联系管理员");
             throw new BaseException("对不起，您的账号：" + username + " 已停用");
         }
-        if (!SecurityUtils.matchesPassword(password, user.getPassword()))
-        {
+        if (!SecurityUtils.matchesPassword(password, user.getPassword())) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户密码错误");
             throw new BaseException("用户不存在/密码错误");
         }
@@ -94,29 +84,24 @@ public class SysLoginService
         return userInfo;
     }
 
-    public void logout(String loginName)
-    {
+    public void logout(String loginName) {
         recordLogininfor(loginName, Constants.LOGOUT, "退出成功");
     }
 
     /**
      * 注册
      */
-    public void register(String username, String password)
-    {
+    public void register(String username, String password) {
         // 用户名或密码为空 错误
-        if (StringUtils.isAnyBlank(username, password))
-        {
+        if (StringUtils.isAnyBlank(username, password)) {
             throw new BaseException("用户/密码必须填写");
         }
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
-        {
+                || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
             throw new BaseException("账户长度必须在2到20个字符之间");
         }
         if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
-        {
+                || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
             throw new BaseException("密码长度必须在5到20个字符之间");
         }
 
@@ -127,8 +112,7 @@ public class SysLoginService
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
         R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));
 
-        if (R.FAIL == registerResult.getCode())
-        {
+        if (R.FAIL == registerResult.getCode()) {
             throw new BaseException(registerResult.getMsg());
         }
         recordLogininfor(username, Constants.REGISTER, "注册成功");
@@ -136,25 +120,21 @@ public class SysLoginService
 
     /**
      * 记录登录信息
-     * 
+     *
      * @param username 用户名
-     * @param status 状态
-     * @param message 消息内容
+     * @param status   状态
+     * @param message  消息内容
      * @return
      */
-    public void recordLogininfor(String username, String status, String message)
-    {
+    public void recordLogininfor(String username, String status, String message) {
         SysLogininfor logininfor = new SysLogininfor();
         logininfor.setUserName(username);
         logininfor.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
         logininfor.setMsg(message);
         // 日志状态
-        if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER))
-        {
+        if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
             logininfor.setStatus("0");
-        }
-        else if (Constants.LOGIN_FAIL.equals(status))
-        {
+        } else if (Constants.LOGIN_FAIL.equals(status)) {
             logininfor.setStatus("1");
         }
         remoteLogService.saveLogininfor(logininfor, SecurityConstants.INNER + ":" + DecimalUtils._10_to_N(System.currentTimeMillis(), 62));

@@ -2,12 +2,19 @@ package ink.kangaroo.wx.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.menu.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenuButton;
+import me.chanjar.weixin.common.bean.menu.WxMenuRule;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Binary Wang(https://github.com/binarywang)
@@ -27,7 +34,7 @@ public class WxPortalController {
                           @RequestParam(name = "nonce", required = false) String nonce,
                           @RequestParam(name = "echostr", required = false) String echostr) {
         log.info("\n接收到来自微信服务器的认证消息：signature = [{}], timestamp = [{}], nonce = [{}], echostr = [{}]",
-            signature, timestamp, nonce, echostr);
+                signature, timestamp, nonce, echostr);
 
         if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
             throw new IllegalArgumentException("请求参数非法，请核实!");
@@ -80,11 +87,11 @@ public class WxPortalController {
             WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(requestBody, wxService.getWxMpConfigStorage(),
                     timestamp, nonce, msgSignature);
             log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
+            log.info("\n消息解密后内容为：\n{} ", inMessage.toString());
             WxMpXmlOutMessage outMessage = this.route(inMessage);
             if (outMessage == null) {
                 return "";
             }
-
             out = outMessage.toEncryptedXml(wxService.getWxMpConfigStorage());
         }
 
@@ -94,11 +101,18 @@ public class WxPortalController {
 
     private WxMpXmlOutMessage route(WxMpXmlMessage message) {
         try {
+//            WxMenu wxMenu = new WxMenu();
+////            WxMenuRule wxMenuRule = new WxMenuRule();
+////            wxMenu.setMatchRule(wxMenuRule);
+//            List<WxMenuButton> buttons = new ArrayList<>();
+//            WxMenuButton wxMenuButton = new WxMenuButton();
+////            wxMenuButton.setType();
+//            wxMenu.setButtons(buttons);
+//            wxService.getMenuService().menuCreate(wxMenu);
             return this.messageRouter.route(message);
         } catch (Exception e) {
-            log.error("路由消息时出现异常！", e);
+            log.info("路由消息时出现异常！", e);
         }
-
         return null;
     }
 

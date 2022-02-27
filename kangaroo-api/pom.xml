@@ -16,6 +16,7 @@
         <module>kangaroo-api-mail</module>
         <module>kangaroo-api-pixiv</module>
         <module>kangaroo-api-limiter</module>
+        <module>kangaroo-api-captcha</module>
     </modules>
 
     <properties>

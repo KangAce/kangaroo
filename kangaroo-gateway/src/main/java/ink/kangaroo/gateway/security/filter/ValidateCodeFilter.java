@@ -24,7 +24,7 @@
 // */
 //@Component
 //public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
-//    private final static String[] VALIDATE_URL = new String[]{"/login", "/auth/register"};
+//    private final static String[] VALIDATE_URL = new String[]{"/auth/login", "/auth/register"};
 //
 //    @Autowired
 //    private ValidateCodeService validateCodeService;

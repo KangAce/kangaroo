@@ -44,18 +44,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.fox.version}</version>
         </dependency>
 
         <!-- Mysql Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ink.kangaroo</groupId>
-            <artifactId>kangaroo-common-core</artifactId>
         </dependency>
         <!-- Kangaroo Common Log -->
         <dependency>

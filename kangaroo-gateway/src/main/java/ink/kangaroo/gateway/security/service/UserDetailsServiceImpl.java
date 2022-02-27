@@ -54,8 +54,8 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
     @Log(title = "gateway", businessType = BusinessType.GRANT, operatorType = OperatorType.MANAGE, isSaveRequestData = true)
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        String encode = passwordEncoder.encode("123456");
-        System.out.println("passwordEncoder:" + encode);
+//        String encode = passwordEncoder.encode("123456");
+//        System.out.println("passwordEncoder:" + encode);
 //        String encode = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("123456");
         R<LoginUser> userInfoR = loginUserR(username);
         SecurityUserDetails securityUserDetails = null;

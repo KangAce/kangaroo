@@ -139,7 +139,9 @@ public class SysUserController extends BaseController {
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(userId);
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", userService.selectUserById(userId));
+        SysUser sysUser = userService.selectUserById(userId);
+        sysUser.setPassword("");
+        ajax.put("user", sysUser);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
         return ajax;

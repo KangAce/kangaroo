@@ -25,6 +25,8 @@
         <module>kangaroo-modules-limiter</module>
         <module>kangaroo-modules-ad-delivery</module>
         <module>kangaroo-modules-douyin</module>
+        <module>kangaroo-modules-captcha</module>
+        <module>kangaroo-modules-gen</module>
     </modules>
 
     <properties>

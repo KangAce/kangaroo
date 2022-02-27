@@ -44,7 +44,7 @@ public class MinioSysFileServiceImpl implements ISysFileService {
                 .contentType(file.getContentType())
                 .build();
         client.putObject(args);
-        return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+        return minioConfig.getBaseUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
     }
 
     @Override

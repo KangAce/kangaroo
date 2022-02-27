@@ -18,6 +18,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Mono;
 
@@ -71,6 +72,8 @@ public class WebfluxSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity httpSecurity) {
+        ServerWebExchangeMatcher requiresLogout = ServerWebExchangeMatchers.pathMatchers(HttpMethod.GET,
+                "/auths/logout");
 //        httpSecurity.authenticationManager().addFilterAfter()
         ;
 //        httpSecurity
@@ -97,24 +100,25 @@ public class WebfluxSecurityConfig {
 //                                .anyExchange().authenticated()
 //                );
 
-        httpSecurity.anonymous().authorities("").and()
-                .oauth2Login((oAuth2LoginSpec) -> {
-                    oAuth2LoginSpec
-//                            .authorizedClientService(new InMemoryReactiveOAuth2AuthorizedClientService(new InMemoryReactiveClientRegistrationRepository()))
-                            //存储认证授权的相关信息 自定义JWT Token认证管理
-                            .securityContextRepository(defaultSecurityContextRepository)
-                            // 登录认证处理
-                            .authenticationManager(reactiveAuthenticationManager())
-                            //登录成功处理 自定义登录成功Handler
-                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
-                            // 登录失败处理 自定义登录失败Handler
-                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
-
-                    ;
-                })
+        httpSecurity
+//                .anonymous().authorities("").and()
+//                .oauth2Login((oAuth2LoginSpec) -> {
+//                    oAuth2LoginSpec
+////                            .authorizedClientService(new InMemoryReactiveOAuth2AuthorizedClientService(new InMemoryReactiveClientRegistrationRepository()))
+//                            //存储认证授权的相关信息 自定义JWT Token认证管理
+//                            .securityContextRepository(defaultSecurityContextRepository)
+//                            // 登录认证处理
+//                            .authenticationManager(reactiveAuthenticationManager())
+//                            //登录成功处理 自定义登录成功Handler
+//                            .authenticationSuccessHandler(defaultAuthenticationSuccessHandler)
+//                            // 登录失败处理 自定义登录失败Handler
+//                            .authenticationFailureHandler(defaultAuthenticationFailureHandler)
+//
+//                    ;
+//                })
                 .formLogin((formLoginSpec) -> {
                     formLoginSpec
-                            .loginPage("/auth/login")
+                            .loginPage("/auths/login")
                             //存储认证授权的相关信息 自定义JWT Token认证管理
                             .securityContextRepository(defaultSecurityContextRepository)
                             // 登录认证处理
@@ -171,7 +175,9 @@ public class WebfluxSecurityConfig {
                 .logout(logoutSpec -> logoutSpec
 //                        .logoutSuccessHandler(defaultLogoutSuccessHandler)
 //                        .logoutHandler(defaultLogoutHandler)
-                        .logoutUrl("/auth/logout"))
+                        .requiresLogout(requiresLogout)
+//                        .logoutUrl("/auths/logout")
+                )
                 // 自定义处理
                 .exceptionHandling((exceptionHandlingSpec -> {
                     exceptionHandlingSpec
@@ -183,7 +189,7 @@ public class WebfluxSecurityConfig {
                 }));
 
         SecurityWebFilterChain chain = httpSecurity.build();
-//        // 设置自定义登录参数转换器
+//        设置自定义登录参数转换器
 //        chain.getWebFilters()
 //                .filter(webFilter -> webFilter instanceof AuthenticationWebFilter)
 //                .subscribe(webFilter -> {

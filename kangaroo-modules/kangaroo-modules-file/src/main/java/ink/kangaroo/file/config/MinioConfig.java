@@ -14,9 +14,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "minio")
 public class MinioConfig {
     /**
-     * 服务地址
+     * 服务地址，eg：内网地址
      */
     private String url;
+    /**
+     * 最终拼接到url上的地址
+     */
+    private String baseUrl;
 
     /**
      * 用户名
@@ -32,6 +36,14 @@ public class MinioConfig {
      * 存储桶名称
      */
     private String bucketName;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public String getUrl() {
         return url;

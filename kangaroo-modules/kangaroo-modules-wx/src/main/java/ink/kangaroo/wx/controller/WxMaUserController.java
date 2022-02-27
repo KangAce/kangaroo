@@ -6,7 +6,6 @@
 //import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import ink.kangaroo.common.core.domain.AuthToken;
-//import ink.kangaroo.common.core.utils.JwtTokenUtil;
 //import ink.kangaroo.common.core.utils.json.JsonUtils;
 //import ink.kangaroo.common.core.web.domain.AjaxResult;
 //import ink.kangaroo.system.api.RemoteUserService;
@@ -50,7 +49,8 @@
 //            log.info(session.getUnionid());
 //            log.info(session.getOpenid());
 //            //向缓存中存入登录信息，以openid为key jwt为value
-//            AuthToken authToken = remoteUserService.loginMaByOpenId(appid, session.getOpenid(), session.getUnionid(), session.getSessionKey(), nickName, avatarUrl);
+////            AuthToken authToken = remoteUserService.loginMaByOpenId(appid, session.getOpenid(), session.getUnionid(), session.getSessionKey(), nickName, avatarUrl);
+//            AuthToken authToken = new AuthToken();
 //            //TODO 可以增加自己的逻辑，关联业务相关数据
 //            authToken.setRefreshToken("no");
 //

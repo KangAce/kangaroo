@@ -1,26 +1,33 @@
 package ink.kangaroo.wx.config;
 
-import ink.kangaroo.wx.config.properties.WxMpProperties;
-import lombok.AllArgsConstructor;
-import me.chanjar.weixin.common.redis.JedisWxRedisOps;
-import me.chanjar.weixin.mp.api.WxMpMaterialService;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
-import me.chanjar.weixin.mp.config.impl.WxMpRedisConfigImpl;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import redis.clients.jedis.JedisPool;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import ink.kangaroo.wx.config.properties.WxMpProperties;
+import ink.kangaroo.wx.domain.WxMpRouter;
+import lombok.AllArgsConstructor;
+import me.chanjar.weixin.common.api.WxConsts;
+import me.chanjar.weixin.common.redis.JedisWxRedisOps;
+import me.chanjar.weixin.mp.api.WxMpMaterialService;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.WxMpMaterialServiceImpl;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
+import me.chanjar.weixin.mp.config.impl.WxMpRedisConfigImpl;
+import redis.clients.jedis.JedisPool;
 
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties(WxMpProperties.class)
-public class WxJavaConfig {
+public class WxMpJavaConfig {
+
     private final WxMpProperties properties;
 
     @Bean
@@ -49,6 +56,7 @@ public class WxJavaConfig {
                     configStorage.setAesKey(a.getAesKey());
                     return configStorage;
                 }).collect(Collectors.toMap(WxMpDefaultConfigImpl::getAppId, a -> a, (o, n) -> o)));
+        service.addConfigStorage("", new WxMpDefaultConfigImpl());
         return service;
     }
 
@@ -57,4 +65,32 @@ public class WxJavaConfig {
         return new WxMpMaterialServiceImpl(wxMpService());
     }
 
+    @Bean
+    public WxMpMessageRouter wxMpMessageRouter() {
+        WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxMpService());
+        List<WxMpRouter> routers = new ArrayList<>();
+        routers.add(WxMpRouter.builder().id(0L).name("asdf").async(false).msgType(WxConsts.XmlMsgType.TEXT).content("康卜文").replyContent("本公众号的作者").build());
+        routers.add(WxMpRouter.builder().id(1L).name("as1df").async(false).msgType(WxConsts.XmlMsgType.TEXT).content("A123").replyContent("asdf").build());
+        routers.add(WxMpRouter.builder().id(2L).name("sdfh").async(false).msgType(WxConsts.XmlMsgType.TEXT).content("小飞机").replyContent("" +
+                        "小飞机链接\n" +
+                        "链接：https://pan.baidu.com/s/1PNMrQOwHr3pksSgW4ER5wg \n" +
+                        "提取码：vl5x"
+        ).build());
+
+        for (WxMpRouter router : routers) {
+            wxMpMessageRouter
+                    .rule()
+                    .async(router.isAsync())
+                    .msgType(router.getMsgType())
+                    .content(router.getContent())
+                    .handler((wxMessage, context, wxMpService, sessionManager) -> WxMpXmlOutMessage.TEXT()
+                            .content(router.getReplyContent())
+                            .fromUser(wxMessage.getToUser())
+                            .toUser(wxMessage.getFromUser())
+                            .build())
+                    .end();
+        }
+
+        return wxMpMessageRouter;
+    }
 }

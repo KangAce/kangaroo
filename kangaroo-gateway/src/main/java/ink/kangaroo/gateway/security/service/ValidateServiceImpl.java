@@ -5,7 +5,6 @@ import ink.kangaroo.common.core.domain.R;
 import ink.kangaroo.common.core.utils.VerifyImageUtil;
 import ink.kangaroo.common.redis.enums.RedisKeyEnum;
 import ink.kangaroo.common.redis.service.RedisService;
-import ink.kangaroo.gateway.security.MobileCodeType;
 import ink.kangaroo.gateway.security.SliderVerificationCodeType;
 import ink.kangaroo.gateway.security.domain.SliderVerificationVo;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.jar.JarEntry;
@@ -38,6 +36,8 @@ public class ValidateServiceImpl implements ValidateService {
     @Resource
     RedisService redisService;
 
+//    @Resource
+//    private CaptchaService captchaService;
 //    @Resource
 //    MqConfig mqConfig;
 //    @Resource
@@ -156,7 +156,7 @@ public class ValidateServiceImpl implements ValidateService {
             String sourceImage = Base64Utils.encodeToString((byte[]) pictureMap.get("oriCopyImage"));
             int X = (int) pictureMap.get("X");
             int Y = (int) pictureMap.get("Y");
-            object.setNewImage( newImage);
+            object.setNewImage(newImage);
             object.setOriCopyImage(sourceImage);
             //object.put("X", X);
             //object.put("X", X);
