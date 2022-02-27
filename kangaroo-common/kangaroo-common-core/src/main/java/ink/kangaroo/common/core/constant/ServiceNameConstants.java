@@ -23,6 +23,11 @@ public class ServiceNameConstants {
     public static final String FILE_SERVICE = "kangaroo-file";
 
     /**
+     * 验证码服务的serviceid
+     */
+    public static final String CAPTCHA_SERVICE = "kangaroo-captcha";
+
+    /**
      * 邮件服务的serviceid
      */
     public static final String MAIL_SERVICE = "kangaroo-mail";

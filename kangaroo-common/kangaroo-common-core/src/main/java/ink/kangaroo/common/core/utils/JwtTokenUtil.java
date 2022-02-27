@@ -76,6 +76,7 @@ public class JwtTokenUtil {
      * @return Claims
      */
     public static Claims parseJwtRsa256(String jwt) {
+        log.info(jwt);
         return Jwts.parser()
                 .setSigningKey(publicKey)
                 .parseClaimsJws(jwt).getBody();
