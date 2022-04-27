@@ -41,7 +41,7 @@ public class SysFile extends BaseEntity {
     private Long fileFolderUrl;
 
     /**
-     * 是否问文件夹
+     * 是否为文件夹
      */
     private Boolean isFolder;
 

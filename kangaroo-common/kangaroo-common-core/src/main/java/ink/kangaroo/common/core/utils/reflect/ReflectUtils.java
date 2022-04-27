@@ -24,6 +24,8 @@ public class ReflectUtils {
 
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
+    private static final String POINT_STRING = ".";
+
     private static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
     /**
@@ -33,7 +35,7 @@ public class ReflectUtils {
     @SuppressWarnings("unchecked")
     public static <E> E invokeGetter(Object obj, String propertyName) {
         Object object = obj;
-        for (String name : StringUtils.split(propertyName, ".")) {
+        for (String name : StringUtils.split(propertyName, POINT_STRING)) {
             String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(name);
             object = invokeMethod(object, getterMethodName, new Class[]{}, new Object[]{});
         }
@@ -46,7 +48,7 @@ public class ReflectUtils {
      */
     public static <E> void invokeSetter(Object obj, String propertyName, E value) {
         Object object = obj;
-        String[] names = StringUtils.split(propertyName, ".");
+        String[] names = StringUtils.split(propertyName, POINT_STRING);
         for (int i = 0; i < names.length; i++) {
             if (i < names.length - 1) {
                 String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(names[i]);

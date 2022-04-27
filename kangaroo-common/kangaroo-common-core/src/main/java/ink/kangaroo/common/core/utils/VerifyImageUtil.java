@@ -1,5 +1,6 @@
 package ink.kangaroo.common.core.utils;
 
+import cn.hutool.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -25,7 +26,8 @@ import java.util.Random;
  */
 @Slf4j
 public class VerifyImageUtil {
-
+    public static void main(String[] args) {
+    }
     private static int ORI_WIDTH = 350;  //源文件宽度
     private static int ORI_HEIGHT = 213;  //源文件高度
     private static int X;  //抠图坐标x

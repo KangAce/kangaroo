@@ -9,15 +9,15 @@ import java.util.Stack;
  */
 public class DecimalUtils {
 
-    private static char[] array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    private static final char[] array = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             .toCharArray();
-    private static String numStr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String numStr = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * 时间戳相关随机字符
      *
      * @param N 要生成随机字符的长度
-     * @return
+     * @return 返回字符串
      */
     public static String timeToStringByCount(int N) {
         long rest = (long) (System.currentTimeMillis() % Math.pow(62, N));

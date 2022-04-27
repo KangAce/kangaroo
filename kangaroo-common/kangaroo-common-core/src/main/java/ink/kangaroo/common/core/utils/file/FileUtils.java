@@ -8,18 +8,97 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 文件处理工具类
- * 
- * @author ruoyi
+ *
+ * @author Kangaroo
  */
-public class FileUtils
-{
-    /** 字符常量：斜杠 {@code '/'} */
+public class FileUtils extends org.apache.commons.io.FileUtils {
+    public static void main(String[] args) {
+//        String s = cutVideo("D://upload/AirDroid/ffmpeg.exe", "D:\\upload\\avatar\\20220304\\db3c013ec8961eb7f0d9ca5b533fafb6\\13\\13.mp4", "D:\\upload\\tmp\\20220305\\5a4035d7f02347fb9f4c69429c642c46.mp4", "00:00:02", "00:00:05");
+//        System.out.println(s);
+//        File file = new File("F:\\video\\b79172577bb24c2fa66017c909ecc878.mp4");
+//        File file = new File("F:\\tools\\111.png");
+//        String md5 = MD5.create().digestHex(file);
+//        System.out.println(md5);
+//        for (int i = 0; i < 10; i++) {
+//            new FileUtils().sout();
+//        }
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(15, 15, 0, TimeUnit.HOURS,
+                new LinkedBlockingQueue<Runnable>(), new ThreadPoolExecutor.DiscardOldestPolicy());
+
+        try {
+
+
+            backupFile("D:\\maven\\repository", "D:\\maven\\repositoryBackup",threadPool);
+            threadPool.shutdown();
+
+//            createParentDirectories(new File(""));
+//            copyDirectory(new File(""),new File(""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sout() {
+        System.out.println(this.getClass().getName());
+    }
+
+    /*****
+     * 剪辑视频
+     * @param vedioEditPath ffmpeg 执行文件路径
+     * @param filePath 操作文件路径
+     * @param outFilePath 输出文件路径
+     * @param startTime 开始时间
+     * @param duration 持续时间
+     * @return 返回生成文件路径，若失败则返回null
+     */
+    public static String cutVideo(String vedioEditPath, String filePath, String outFilePath, String startTime, String duration) {
+
+        System.out.println("开始裁剪");
+        System.out.println(vedioEditPath + filePath + outFilePath + startTime + duration);
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(vedioEditPath, "-ss", startTime, "-t", duration, "-i", filePath, "-vcodec", "copy", "-acodec", "copy", outFilePath);
+
+            Process process = processBuilder.start();
+
+            InputStream stderr = process.getErrorStream();
+            InputStreamReader isr = new InputStreamReader(stderr);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null)
+                System.out.println(line);
+            ;
+            process.waitFor();
+
+            if (br != null)
+                br.close();
+            if (isr != null)
+                isr.close();
+            if (stderr != null)
+                stderr.close();
+            System.out.println("裁剪结束");
+            return outFilePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
+     * 字符常量：斜杠 {@code '/'}
+     */
     public static final char SLASH = '/';
 
-    /** 字符常量：反斜杠 {@code '\\'} */
+    /**
+     * 字符常量：反斜杠 {@code '\\'}
+     */
     public static final char BACKSLASH = '\\';
 
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
@@ -249,9 +328,74 @@ public class FileUtils
      * @param s 需要百分号编码的字符串
      * @return 百分号编码后的字符串
      */
-    public static String percentEncode(String s) throws UnsupportedEncodingException
-    {
+    public static String percentEncode(String s) throws UnsupportedEncodingException {
         String encode = URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
         return encode.replaceAll("\\+", "%20");
+    }
+
+    /**
+     * 全路径复制，若存在则跳过
+     */
+    public static void backupFile(String srcFolderStr, String destFolderStr, ThreadPoolExecutor threadPool) throws IOException {
+        if (srcFolderStr == null) {
+            throw new RuntimeException("srcFolder is null");
+        }
+        if (destFolderStr == null) {
+            throw new RuntimeException("destFolder is null");
+        }
+        File srcFolder = new File(srcFolderStr);
+        if (!srcFolder.exists()) {
+            throw new RuntimeException("destFolder is not exists");
+        }
+
+        if (!srcFolder.isDirectory()) {
+            throw new RuntimeException("destFolder is not exists");
+        }
+        File destFolder = new File(destFolderStr);
+        if (!destFolder.exists()) {
+            destFolder.mkdirs();
+        }
+        if (!destFolder.isDirectory()) {
+            throw new RuntimeException("destFolder is not exists");
+        }
+        backupFile(srcFolder, destFolder,threadPool);
+    }
+
+    /**
+     * 全路径复制，若存在则跳过
+     */
+    public static void backupFile(File srcFolder, File destFolder, ThreadPoolExecutor threadPool) throws IOException {
+        if (srcFolder == null) {
+            throw new RuntimeException("srcFolder is null");
+        }
+        if (destFolder == null) {
+            throw new RuntimeException("destFolder is null");
+        }
+        if (srcFolder.isFile()) {
+            if (destFolder.exists()) {
+                return;
+            }
+            org.apache.commons.io.FileUtils.copyFile(srcFolder, destFolder);
+        }
+        if (srcFolder.isDirectory()) {
+            if (!destFolder.exists()) {
+                destFolder.mkdirs();
+            }
+            File[] files = srcFolder.listFiles();
+            for (File file : files) {
+                //计算目标路径
+                threadPool.execute(() -> {
+                    String absolutePath = srcFolder.getAbsolutePath();
+                    String replace = absolutePath.replace(srcFolder.getAbsolutePath(), destFolder.getAbsolutePath());
+                    replace = replace + "\\" + file.getName();
+                    try {
+                        backupFile(file, new File(replace),threadPool);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+            }
+        }
     }
 }

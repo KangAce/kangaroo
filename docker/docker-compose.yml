@@ -1,5 +1,114 @@
 version: '3.8'
 services:
+  kangaroo-dolores:
+    container_name: kangaroo-dolores
+    image: rapteam/rap2-dolores:latest
+    ports:
+      #冒号前可以自定义前端端口号，冒号后不要动
+      - "3000:38081"
+    networks:
+      - kangaroo-net
+      # backend
+  kangaroo-delos:
+    image: rapteam/rap2-delos:latest
+    container_name: kangaroo-delos
+    ports:
+      # 这里的配置不要改哦
+      - 38080:38080
+    environment:
+      - SERVE_PORT=38080
+      # if you have your own mysql, config it here, and disable the 'mysql' config blow
+      - MYSQL_URL=kangaroo-mysql # links will maintain /etc/hosts, just use 'container_name'
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWD=password
+      - MYSQL_SCHEMA=rap2
+
+      # redis config
+      - REDIS_URL=kangaroo-redis
+      - REDIS_PORT=6379
+      - REDIS_PWD=kangaroo
+
+      # production / development
+      - NODE_ENV=production
+    ###### 'sleep 30 && node scripts/init' will drop the tables
+    ###### RUN ONLY ONCE THEN REMOVE 'sleep 30 && node scripts/init'
+    command: /bin/sh -c 'node dispatch.js'
+    # init the databases
+    # command: sleep 30 && node scripts/init && node dispatch.js
+    # without init
+    # command: node dispatch.js
+    networks:
+      - kangaroo-net
+  kangaroo-onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: "kangaroo-onlyoffice"
+    restart: always
+    environment:
+      REDIS_SERVER_HOST: kangaroo-redis
+      REDIS_SERVER_PORT: 6379
+#      REDIS_SERVER_PASSWORD: 6379
+      TZ: 'Asia/Shanghai'
+    ports:
+      - '10080:80'
+      - '10443:443'
+    volumes:
+      - /data/nfs/onlyoffice/custom:/usr/share/fonts/truetype/custom
+      - /data/nfs/onlyoffice/lib/onlyoffice:/var/lib/onlyoffice
+      - /data/nfs/onlyoffice/postgresql:/var/lib/postgresql
+      - /data/nfs/onlyoffice/rabbitmq:/var/lib/rabbitmq
+      - /data/nfs/onlyoffice/redis:/var/lib/redis
+      - /data/nfs/onlyoffice/log/onlyoffice:/var/log/onlyoffice
+      - /data/nfs/onlyoffice/data:/var/www/onlyoffice/Data
+  kangaroo-gitlab:
+    image: gitlab/gitlab-ce:14.9.1-ce.0
+    container_name: "kangaroo-gitlab"
+    restart: always
+#    hostname: 'gitlab.imore.fun'
+    environment:
+      TZ: 'Asia/Shanghai'
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.imore.fun'
+        nginx['redirect_http_to_https'] = true
+        letsencrypt['enable'] = false
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/7507472_gitlab.imore.fun.pem"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/7507472_gitlab.imore.fun.key"
+        gitlab_rails['gitlab_shell_ssh_port'] = 443
+        gitlab_rails['time_zone'] = 'Asia/Shanghai'
+    ports:
+      - '10004:80'
+      - '10005:22'
+      - '10006:443'
+    volumes:
+      - /data/nfs/gitlab/config:/etc/gitlab
+      - /data/nfs/gitlab/logs:/var/log/gitlab
+      - /data/nfs/gitlab/data:/var/opt/gitlab
+  kangaroo-sonarqube:
+    container_name: kangaroo-sonarqube
+    image: sonarqube:latest
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - /data/nfs/sonarqube/data:/opt/sonarqube/data
+      - /data/nfs/sonarqube/extensions:/opt/sonarqube/extensions
+      - /data/nfs/sonarqube/logs:/opt/sonarqube/logs
+      - /data/nfs/sonarqube/temp:/opt/sonarqube/temp
+    ports:
+      - "10003:9000"
+  kangaroo-zentao:
+    container_name: kangaroo-zentao
+    image: easysoft/zentao
+    mac_address: 02:42:ac:11:00:00
+    ports:
+      - "10001:80"
+      - "10002:3306"
+    networks:
+      - kangaroo-net
+    volumes:
+      - /data/nfs/kangaroo/zentao/zentaopms:/www/zentaopms
+      - /data/nfs/kangaroo/zentao/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
   kangaroo-minio:
     container_name: kangaroo-minio
     image: minio/minio
@@ -70,8 +179,8 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - /opt/jenkins/data:/var/jenkins_home
-      - /etc/sysconfig/docker:/etc/sysconfig/docker
+      - /data/nfs/jenkins/data:/var/jenkins_home
+      - /data/nfs/jenkins/sysconfig/docker:/etc/sysconfig/docker
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
   kangaroo-redis:
