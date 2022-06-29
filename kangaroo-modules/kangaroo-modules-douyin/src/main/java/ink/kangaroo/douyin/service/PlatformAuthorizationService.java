@@ -1,8 +1,8 @@
 package ink.kangaroo.douyin.service;
 
-import ink.kangaroo.douyin.domain.PlatformAuthorization;
+import com.baomidou.mybatisplus.extension.service.IService;
+import ink.kangaroo.douyin.domain.PlatformAuthorizationEntity;
 import ink.kangaroo.system.api.domain.SysDictData;
-import ink.kangaroo.system.api.domain.SysDictType;
 
 import java.util.List;
 
@@ -11,21 +11,21 @@ import java.util.List;
  *
  * @author kangaroo
  */
-public interface PlatformAuthorizationService {
+public interface PlatformAuthorizationService extends IService<PlatformAuthorizationEntity> {
     /**
      * 根据条件分页查询字典类型
      *
      * @param dictType 字典类型信息
      * @return 字典类型集合信息
      */
-    public List<PlatformAuthorization> selectPlatformAuthorizationList(PlatformAuthorization dictType);
+    public List<PlatformAuthorizationEntity> selectPlatformAuthorizationList(PlatformAuthorizationEntity dictType);
 
     /**
      * 根据所有字典类型
      *
      * @return 字典类型集合信息
      */
-    public List<PlatformAuthorization> selectPlatformAuthorizationAll();
+    public List<PlatformAuthorizationEntity> selectPlatformAuthorizationAll();
 
     /**
      * 根据字典类型查询字典数据
@@ -41,7 +41,7 @@ public interface PlatformAuthorizationService {
      * @param dictId 字典类型ID
      * @return 字典类型
      */
-    public PlatformAuthorization selectPlatformAuthorizationById(Long dictId);
+    public PlatformAuthorizationEntity selectPlatformAuthorizationById(Long dictId);
 
     /**
      * 根据字典类型查询信息
@@ -49,7 +49,7 @@ public interface PlatformAuthorizationService {
      * @param dictType 字典类型
      * @return 字典类型
      */
-    public PlatformAuthorization selectDictTypeByType(String dictType);
+    public PlatformAuthorizationEntity selectDictTypeByType(String dictType);
 
     /**
      * 批量删除字典信息
@@ -80,7 +80,7 @@ public interface PlatformAuthorizationService {
      * @param dictType 字典类型信息
      * @return 结果
      */
-    public int insertDictType(PlatformAuthorization dictType);
+    public int insertDictType(PlatformAuthorizationEntity dictType);
 
     /**
      * 修改保存字典类型信息
@@ -88,7 +88,7 @@ public interface PlatformAuthorizationService {
      * @param dictType 字典类型信息
      * @return 结果
      */
-    public int updatePlatformAuthorization(PlatformAuthorization dictType);
+    public int updatePlatformAuthorization(PlatformAuthorizationEntity dictType);
 
     /**
      * 校验字典类型称是否唯一
@@ -96,5 +96,5 @@ public interface PlatformAuthorizationService {
      * @param dictType 字典类型
      * @return 结果
      */
-    public String checkDictTypeUnique(PlatformAuthorization dictType);
+    public String checkDictTypeUnique(PlatformAuthorizationEntity dictType);
 }

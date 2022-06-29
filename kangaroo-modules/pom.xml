@@ -27,6 +27,7 @@
         <module>kangaroo-modules-douyin</module>
         <module>kangaroo-modules-captcha</module>
         <module>kangaroo-modules-gen</module>
+        <module>kangaroo-modules-platform</module>
     </modules>
 
     <properties>

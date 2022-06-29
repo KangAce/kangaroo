@@ -9,14 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>kangaroo-modules-douyin</artifactId>
+    <artifactId>kangaroo-modules-platform</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
-
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -46,26 +45,23 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
+
         <!-- Mysql Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Kangaroo Common DataSource -->
         <dependency>
             <groupId>ink.kangaroo</groupId>
-            <artifactId>dy-java-open-spring-boot-starter</artifactId>
+            <artifactId>kangaroo-common-datasource</artifactId>
         </dependency>
-
-        <!-- Kangaroo Common DataSource -->
-<!--        <dependency>-->
-<!--            <groupId>ink.kangaroo</groupId>-->
-<!--            <artifactId>kangaroo-common-datasource</artifactId>-->
-<!--        </dependency>-->
 
         <!--        &lt;!&ndash; Kangaroo Common DataScope &ndash;&gt;-->
         <!--        <dependency>-->
@@ -90,57 +86,9 @@
             <groupId>ink.kangaroo</groupId>
             <artifactId>kangaroo-common-security</artifactId>
         </dependency>
-
-        <!-- mybatis-plus -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
-        </dependency>
-        <!--添加 代码生成器 依赖-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>${project.artifactId}-${project.version}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.5.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <copy todir="../../docker/kangaroo/modules/douyin/jar"
-                                      file="target/${project.artifactId}-${project.version}.${project.packaging}"/>
-                                <move file="../../docker/kangaroo/modules/douyin/jar/${project.artifactId}-${project.version}.${project.packaging}"
-                                      tofile="../../docker/kangaroo/modules/douyin/jar/${project.artifactId}.${project.packaging}"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

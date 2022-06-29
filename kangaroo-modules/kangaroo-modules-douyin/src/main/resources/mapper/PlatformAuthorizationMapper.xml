@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ink.kangaroo.douyin.mapper.PlatformAuthorizationMapper">
 
-	<resultMap type="ink.kangaroo.douyin.domain.PlatformAuthorization" id="PlatformAuthorizationResult">
+	<resultMap type="ink.kangaroo.douyin.domain.PlatformAuthorizationEntity" id="PlatformAuthorizationResult">
 		<id     property="authId"     column="auth_id"     />
 		<result property="openId"   column="open_id"   />
 		<result property="authName"   column="auth_name"   />
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from platform_authorization
     </sql>
 
-	<select id="selectPlatformAuthorizationList" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorization" resultMap="PlatformAuthorizationResult">
+	<select id="selectPlatformAuthorizationList" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorizationEntity" resultMap="PlatformAuthorizationResult">
 	    <include refid="selectPlatformAuthorizationVo"/>
 		<where>
 		    <if test="authName != null and dictName != ''">
@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
  	</delete>
 
- 	<update id="updatePlatformAuthorization" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorization">
+ 	<update id="updatePlatformAuthorization" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorizationEntity">
  		update platform_authorization
  		<set>
  			<if test="dictName != null and dictName != ''">dict_name = #{dictName},</if>
@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where dict_id = #{dictId}
 	</update>
 
- 	<insert id="insertPlatformAuthorization" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorization">
+ 	<insert id="insertPlatformAuthorization" parameterType="ink.kangaroo.douyin.domain.PlatformAuthorizationEntity">
  		insert into platform_authorization(
  			<if test="authName != null and dictName != ''">dict_name,</if>
  			<if test="authType != null and dictType != ''">dict_type,</if>

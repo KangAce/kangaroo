@@ -38,7 +38,7 @@
         <minio.version>8.3.4</minio.version>
         <okhttp.version>4.9.0</okhttp.version>
         <poi.version>4.1.2</poi.version>
-        <druid.version>1.2.6</druid.version>
+        <druid.version>1.2.11</druid.version>
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
         <lombok.version>1.18.20</lombok.version>
         <fastjson.version>1.2.76</fastjson.version>
@@ -47,8 +47,9 @@
         <wxjava.version>4.2.0</wxjava.version>
         <querydsl.version>5.0.0</querydsl.version>
         <fluent-mybatis.version>1.7.2</fluent-mybatis.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
-        <mybatis-plus-extension.version>3.4.1</mybatis-plus-extension.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mybatis-plus-extension.version>3.5.2</mybatis-plus-extension.version>
+        <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
         <justauth.version>1.16.5</justauth.version>
         <javacpp.version>1.5.4</javacpp.version>
         <javacpp-ffmpeg.version>4.3.1</javacpp-ffmpeg.version>
@@ -465,6 +466,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus-extension.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>

@@ -1,10 +1,10 @@
 package ink.kangaroo.douyin.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ink.kangaroo.common.core.constant.UserConstants;
-import ink.kangaroo.common.core.exception.ServiceException;
 import ink.kangaroo.common.core.utils.StringUtils;
 import ink.kangaroo.common.security.utils.DictUtils;
-import ink.kangaroo.douyin.domain.PlatformAuthorization;
+import ink.kangaroo.douyin.domain.PlatformAuthorizationEntity;
 import ink.kangaroo.douyin.mapper.PlatformAuthorizationMapper;
 import ink.kangaroo.douyin.service.PlatformAuthorizationService;
 import ink.kangaroo.system.api.domain.SysDictData;
@@ -21,9 +21,7 @@ import java.util.List;
  * @author ruoyi
  */
 @Service
-public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationService {
-    @Autowired
-    private PlatformAuthorizationMapper platformAuthorizationMapper;
+public class PlatformAuthorizationServiceImpl extends ServiceImpl<PlatformAuthorizationMapper, PlatformAuthorizationEntity> implements PlatformAuthorizationService {
 
     /**
      * 项目启动时，初始化字典到缓存
@@ -36,12 +34,12 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
     /**
      * 根据条件分页查询字典类型
      *
-     * @param platformAuthorization 字典类型信息
+     * @param platformAuthorizationEntity 字典类型信息
      * @return 字典类型集合信息
      */
     @Override
-    public List<PlatformAuthorization> selectPlatformAuthorizationList(PlatformAuthorization platformAuthorization) {
-        return platformAuthorizationMapper.selectPlatformAuthorizationList(platformAuthorization);
+    public List<PlatformAuthorizationEntity> selectPlatformAuthorizationList(PlatformAuthorizationEntity platformAuthorizationEntity) {
+        return baseMapper.selectPlatformAuthorizationList(platformAuthorizationEntity);
     }
 
     /**
@@ -50,8 +48,8 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      * @return 字典类型集合信息
      */
     @Override
-    public List<PlatformAuthorization> selectPlatformAuthorizationAll() {
-        return platformAuthorizationMapper.selectPlatformAuthorizationAll();
+    public List<PlatformAuthorizationEntity> selectPlatformAuthorizationAll() {
+        return baseMapper.selectPlatformAuthorizationAll();
     }
 
     /**
@@ -81,8 +79,8 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      * @return 字典类型
      */
     @Override
-    public PlatformAuthorization selectPlatformAuthorizationById(Long dictId) {
-        return platformAuthorizationMapper.selectPlatformAuthorizationById(dictId);
+    public PlatformAuthorizationEntity selectPlatformAuthorizationById(Long dictId) {
+        return baseMapper.selectPlatformAuthorizationById(dictId);
     }
 
     /**
@@ -92,8 +90,8 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      * @return 字典类型
      */
     @Override
-    public PlatformAuthorization selectDictTypeByType(String dictType) {
-        return platformAuthorizationMapper.selectPlatformAuthorizationByType(dictType);
+    public PlatformAuthorizationEntity selectDictTypeByType(String dictType) {
+        return baseMapper.selectPlatformAuthorizationByType(dictType);
     }
 
     /**
@@ -105,11 +103,11 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
     @Override
     public void deleteDictTypeByIds(Long[] dictIds) {
         for (Long dictId : dictIds) {
-            PlatformAuthorization dictType = selectPlatformAuthorizationById(dictId);
+            PlatformAuthorizationEntity dictType = selectPlatformAuthorizationById(dictId);
 //            if (dictDataMapper.countDictDataByType(dictType.getAuthType()) > 0) {
 //                throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getAuthName()));
 //            }
-            platformAuthorizationMapper.deletePlatformAuthorizationById(dictId);
+            baseMapper.deletePlatformAuthorizationById(dictId);
 //            DictUtils.removeDictCache(dictType.getAuthType());
         }
     }
@@ -119,8 +117,8 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      */
     @Override
     public void loadingDictCache() {
-        List<PlatformAuthorization> dictTypeList = platformAuthorizationMapper.selectPlatformAuthorizationAll();
-        for (PlatformAuthorization dictType : dictTypeList) {
+        List<PlatformAuthorizationEntity> dictTypeList = baseMapper.selectPlatformAuthorizationAll();
+        for (PlatformAuthorizationEntity dictType : dictTypeList) {
 //            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
 //            DictUtils.setDictCache(dictType.getDictType(), dictDatas);
         }
@@ -150,8 +148,8 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      * @return 结果
      */
     @Override
-    public int insertDictType(PlatformAuthorization dict) {
-        int row = platformAuthorizationMapper.insert(dict);
+    public int insertDictType(PlatformAuthorizationEntity dict) {
+        int row = baseMapper.insert(dict);
 //        if (row > 0) {
 //            DictUtils.setDictCache(dict.getAuthType(), null);
 //        }
@@ -166,10 +164,10 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      */
     @Override
     @Transactional
-    public int updatePlatformAuthorization(PlatformAuthorization dict) {
-        PlatformAuthorization oldDict = platformAuthorizationMapper.selectPlatformAuthorizationById(dict.getAuthId());
+    public int updatePlatformAuthorization(PlatformAuthorizationEntity dict) {
+        PlatformAuthorizationEntity oldDict = baseMapper.selectPlatformAuthorizationById(dict.getAuthId());
 //        dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
-        int row = platformAuthorizationMapper.updatePlatformAuthorization(dict);
+        int row = baseMapper.updatePlatformAuthorization(dict);
         if (row > 0) {
 //            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
 //            DictUtils.setDictCache(dict.getDictType(), dictDatas);
@@ -184,9 +182,9 @@ public class PlatformAuthorizationServiceImpl implements PlatformAuthorizationSe
      * @return 结果
      */
     @Override
-    public String checkDictTypeUnique(PlatformAuthorization dict) {
+    public String checkDictTypeUnique(PlatformAuthorizationEntity dict) {
         Long dictId = StringUtils.isNull(dict.getAuthId()) ? -1L : dict.getAuthId();
-        PlatformAuthorization dictType = platformAuthorizationMapper.checkPlatformAuthorizationUnique(dict.getAuthType());
+        PlatformAuthorizationEntity dictType = baseMapper.checkPlatformAuthorizationUnique(dict.getAuthType());
         if (StringUtils.isNotNull(dictType) && dictType.getAuthId().longValue() != dictId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }

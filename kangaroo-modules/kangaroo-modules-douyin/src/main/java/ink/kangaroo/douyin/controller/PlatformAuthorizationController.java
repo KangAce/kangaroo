@@ -1,23 +1,25 @@
 package ink.kangaroo.douyin.controller;
 
 import ink.kangaroo.common.core.constant.UserConstants;
-import ink.kangaroo.common.core.utils.ExcelUtil;
-import ink.kangaroo.common.core.utils.SecurityUtils;
-import ink.kangaroo.common.core.utils.UrlUtil;
+import ink.kangaroo.common.core.utils.*;
 import ink.kangaroo.common.core.web.controller.BaseController;
 import ink.kangaroo.common.core.web.domain.AjaxResult;
 import ink.kangaroo.common.core.web.page.TableDataInfo;
 import ink.kangaroo.common.log.annotation.Log;
 import ink.kangaroo.common.log.enums.BusinessType;
 import ink.kangaroo.common.security.annotation.PreAuthorize;
-import ink.kangaroo.douyin.domain.PlatformAuthorization;
+import ink.kangaroo.douyin.common.bean.oauth2.DyOAuth2AccessToken;
+import ink.kangaroo.douyin.common.error.DyErrorException;
+import ink.kangaroo.douyin.domain.PlatformAuthorizationEntity;
 import ink.kangaroo.douyin.domain.PlatformType;
+import ink.kangaroo.douyin.mapper.PlatformAuthorizationMapper;
 import ink.kangaroo.douyin.open.api.DyOpenService;
 import ink.kangaroo.douyin.service.PlatformAuthorizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import ink.kangaroo.spring.starter.dyjava.open.properties.DyOpenProperties;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
@@ -34,26 +36,88 @@ import java.util.Map;
 @RequestMapping("/platform/authorization")
 public class PlatformAuthorizationController extends BaseController {
 
-    @Autowired
+    @Resource
     private PlatformAuthorizationService platformAuthorizationService;
-    @Autowired
+    @Resource
     private DyOpenService dyOpenService;
+    @Resource
+    private DyOpenProperties dyOpenProperties;
 
     @PreAuthorize(hasPermi = "system:dict:list")
     @GetMapping("/list")
-    public TableDataInfo list(PlatformAuthorization platformAuthorization) {
+    public TableDataInfo list(PlatformAuthorizationEntity platformAuthorizationEntity) {
         startPage();
-        List<PlatformAuthorization> list = platformAuthorizationService.selectPlatformAuthorizationList(platformAuthorization);
+        List<PlatformAuthorizationEntity> list = platformAuthorizationService.selectPlatformAuthorizationList(platformAuthorizationEntity);
         return getDataTable(list);
     }
 
     @PreAuthorize(hasPermi = "platform:auth:redirect")
     @GetMapping("/redirect")
-    public TableDataInfo redirect(String code, String state) {
+    public String redirect(String code, String state) {
+        if (StringUtils.isNoneBlank() && StringUtils.contains(state, ":")) {
+            String[] split = state.split(":");
+            if (split.length == 2) {
+                String douyinBaseUrl = "https://open.douyin.com/oauth/access_token/";
+                String toutiaoBaseUrl = "https://open.snssdk.com/oauth/access_token/";
+                String xiguaBaseUrl = "https://open-api.ixigua.com/oauth/access_token/";
+                String authName = split[0];
+                String authType = split[1];
+                /**
+                 * client_secret	string	应用唯一标识对应的密钥	<nil>	true
+                 * code	string	授权码	<nil>	true
+                 * grant_type	string	写死"authorization_code"即可	<nil>	true
+                 * client_key	string	应用唯一标识	<nil>	true
+                 */
+                Map<String, String> params = new HashMap<>();
+                params.put("client_key", dyOpenProperties.getAppId());
+                params.put("client_secret", dyOpenProperties.getSecret());
+                params.put("code", code);
+                params.put("grant_type", "authorization_code");
+//                String get = UrlUtil.getParams("get", params);
+                PlatformType byCode = PlatformType.getByCode(Integer.valueOf(authType));
+                String projectUrl = "/";
+                switch (byCode) {
+                    case DOUYIN:
+                        projectUrl = douyinBaseUrl;
+                        break;
+                    case XIGUA:
+                        projectUrl = xiguaBaseUrl;
+                        break;
+                    case TOUTIAO:
+                        projectUrl = toutiaoBaseUrl;
+                        break;
+                    default:
+                        break;
+                }
+                try {
+                    String responseContent = HttpUtils.doPost(projectUrl, params);
+                    DyOAuth2AccessToken dyOAuth2AccessToken = DyOAuth2AccessToken.fromJson(responseContent);
 
+                    if (!"0".equals(dyOAuth2AccessToken.getErrorCode())) {
+                        throw new DyErrorException(dyOAuth2AccessToken.getErrorCode());
+                    }
+                    //开始保存授权信息
+                    PlatformAuthorizationEntity platformAuthorizationEntity = new PlatformAuthorizationEntity();
+                    platformAuthorizationEntity.setAuthName(authName);
+                    platformAuthorizationEntity.setAuthType(authType);
+                    platformAuthorizationEntity.setOpenId(dyOAuth2AccessToken.getOpenId());
+                    platformAuthorizationEntity.setAccessToken(dyOAuth2AccessToken.getAccessToken());
+                    platformAuthorizationEntity.setRefreshToken(dyOAuth2AccessToken.getRefreshToken());
+                    platformAuthorizationEntity.setExpiresIn(dyOAuth2AccessToken.getExpiresIn());
+                    platformAuthorizationEntity.setRefreshExpiresIn(dyOAuth2AccessToken.getRefreshExpiresIn());
+                    platformAuthorizationEntity.setScope(dyOAuth2AccessToken.getScope());
+                    boolean save = platformAuthorizationService.save(platformAuthorizationEntity);
+                    if (save){
+                        return "";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 //        List<PlatformAuthorization> list = platformAuthorizationService.selectPlatformAuthorizationList(platformAuthorization);
-        return getDataTable(Collections.emptyList());
+        return "getDataTable(Collections.emptyList())";
     }
 
     @PreAuthorize(hasPermi = "platform:auth:redirect")
@@ -71,9 +135,9 @@ public class PlatformAuthorizationController extends BaseController {
         Map<String, String> params = new HashMap<>();
         params.put("client_key", "");
         params.put("response_type", "code");
-        params.put("scope", "");
+        params.put("scope", "video.create,'video.delete',video.list,video.data,'video.list',aweme.share,poi.search");
         params.put("optionalScope", "");
-        params.put("redirect_uri", "https://www.imore.fun/douyin/platform/authorization/redirect");
+        params.put("redirect_uri", "https://www.kangaroo.ink/douyin/platform/authorization/redirect");
         params.put("state", authName + ":" + authType);
         String get = UrlUtil.getParams("get", params);
         PlatformType byCode = PlatformType.getByCode(authType);
@@ -100,9 +164,9 @@ public class PlatformAuthorizationController extends BaseController {
     @Log(title = "平台授权", businessType = BusinessType.EXPORT)
     @PreAuthorize(hasPermi = "system:dict:export")
     @PostMapping("/export")
-    public void export(HttpServletResponse response, PlatformAuthorization platformAuthorization) throws IOException {
-        List<PlatformAuthorization> list = platformAuthorizationService.selectPlatformAuthorizationList(platformAuthorization);
-        ExcelUtil<PlatformAuthorization> util = new ExcelUtil<PlatformAuthorization>(PlatformAuthorization.class);
+    public void export(HttpServletResponse response, PlatformAuthorizationEntity platformAuthorizationEntity) throws IOException {
+        List<PlatformAuthorizationEntity> list = platformAuthorizationService.selectPlatformAuthorizationList(platformAuthorizationEntity);
+        ExcelUtil<PlatformAuthorizationEntity> util = new ExcelUtil<PlatformAuthorizationEntity>(PlatformAuthorizationEntity.class);
         util.exportExcel(response, list, "平台授权");
     }
 
@@ -121,7 +185,7 @@ public class PlatformAuthorizationController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:add")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody PlatformAuthorization dict) {
+    public AjaxResult add(@Validated @RequestBody PlatformAuthorizationEntity dict) {
         if (UserConstants.NOT_UNIQUE.equals(platformAuthorizationService.checkDictTypeUnique(dict))) {
             return AjaxResult.fail("新增字典'" + dict.getAuthName() + "'失败，字典类型已存在");
         }
@@ -135,7 +199,7 @@ public class PlatformAuthorizationController extends BaseController {
     @PreAuthorize(hasPermi = "system:dict:edit")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody PlatformAuthorization dict) {
+    public AjaxResult edit(@Validated @RequestBody PlatformAuthorizationEntity dict) {
         if (UserConstants.NOT_UNIQUE.equals(platformAuthorizationService.checkDictTypeUnique(dict))) {
             return AjaxResult.fail("修改字典'" + dict.getAuthName() + "'失败，授权已存在");
         }
@@ -170,7 +234,7 @@ public class PlatformAuthorizationController extends BaseController {
      */
     @GetMapping("/optionselect")
     public AjaxResult optionselect() {
-        List<PlatformAuthorization> dictTypes = platformAuthorizationService.selectPlatformAuthorizationAll();
+        List<PlatformAuthorizationEntity> dictTypes = platformAuthorizationService.selectPlatformAuthorizationAll();
         return AjaxResult.createAjaxResult(dictTypes);
     }
 }

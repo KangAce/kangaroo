@@ -45,7 +45,10 @@
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.qiwenshare</groupId>
+            <artifactId>ufop-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Minio -->
         <dependency>
             <groupId>io.minio</groupId>
